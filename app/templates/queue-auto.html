@@ -1,0 +1,100 @@
+{% extends "base-auto.html" %}
+
+{% block styles %}
+<link href="static/css/queue-auto.css" rel="stylesheet">
+{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block main %}
+<div class="main-queue-auto-container">
+    <div class="left-block">
+        <div class="timeline-container">
+            {% set start_hour = 8 %}
+            {% set end_hour = 17 %}
+            {% set total_intervals = (end_hour - start_hour) * 2 %} {# 2 intervalai per valandą #}
+
+            {% for i in range(total_intervals + 1) %}
+                {% set hour = start_hour + (i // 2) %}
+                {% set is_full_hour = (i % 2 == 0) %}
+                <div class="timeline-item {% if is_full_hour %}hour-mark{% else %}half-hour{% endif %}">
+                    {% if is_full_hour %}
+                        <span class="timeline-hour">{{ "%02d:00"|format(hour) }}</span>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="right-block">
+        <div class="calendar-block">
+            <div class="calendar-header">
+                2026 sausis
+            </div>
+
+            <table class="calendar-table">
+                <thead>
+                    <tr>
+                        <th>Pr</th>
+                        <th>An</th>
+                        <th>Tr</th>
+                        <th>Kt</th>
+                        <th>Pn</th>
+                        <th>Št</th>
+                        <th>Sk</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="empty"></td>
+                        <td class="empty"></td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>4</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>7</td>
+                        <td>8</td>
+                        <td class="selected">9</td>
+                        <td>10</td>
+                        <td>11</td>
+                        <td>12</td>
+                    </tr>
+                    <tr>
+                        <td>13</td>
+                        <td>14</td>
+                        <td>15</td>
+                        <td>16</td>
+                        <td>17</td>
+                        <td>18</td>
+                        <td>19</td>
+                    </tr>
+                    <tr>
+                        <td>20</td>
+                        <td>21</td>
+                        <td>22</td>
+                        <td>23</td>
+                        <td>24</td>
+                        <td>25</td>
+                        <td>26</td>
+                    </tr>
+                    <tr>
+                        <td>27</td>
+                        <td>28</td>
+                        <td>29</td>
+                        <td>30</td>
+                        <td>31</td>
+                        <td class="empty"></td>
+                        <td class="empty"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}{% endblock %}

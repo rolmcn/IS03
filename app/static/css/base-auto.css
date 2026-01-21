@@ -1,0 +1,309 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #222;
+    background-color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    line-height: 1.3;
+    color: #111;
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.25rem; }
+h6 { font-size: 1rem; }
+
+p {
+    margin: 1em 0;
+}
+
+ul, ol {
+    padding-left: 1.5em;
+    margin: 1em 0;
+}
+
+a {
+    color: #1a69b1;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+#loading-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(255,255,255,0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.hidden {
+    display: none;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #ddd;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.main-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  background-color: #1a69b1;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;  /* flex-start;viską išdėsto nuo kairės */
+  padding: 0 5%;
+  max-width: 100%;
+  height: 100px;
+  box-sizing: border-box;
+}
+
+.menu-block {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 5px;
+  margin-left: auto;
+  margin-right: 5%;
+  flex-wrap: wrap;
+}
+
+.menu-block a {
+  text-decoration: none;
+  color: #f0f0f0;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  padding: 4px 15px;
+  border: 1px solid transparent;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.menu-block a:hover {
+  border-color: #f0f0f0;
+}
+
+.menu-block a.active {
+  border-color: #f0f0f0;
+  background-color: #f0f0f0;
+  color: #1a69b1;
+  cursor: default;
+}
+
+.button-block {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 5px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.accessibility-symbols, .logout-symbols{
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 20px 20px;
+  border: 1px solid transparent;
+  border-radius: 0%;
+  vertical-align: middle;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    filter 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.accessibility-symbols {
+  background-image: url("/static/img/settings_accessibility_40dp_F0F0F0_FILL0_wght500_GRAD0_opsz40.svg");
+}
+
+.logout-symbols {
+  background-image: url("/static/img/logout_40dp_F0F0F0_FILL0_wght500_GRAD0_opsz40.svg");
+}
+
+.accessibility-symbols:hover, .logout-symbols:hover {
+  border-color: #f0f0f0;
+}
+
+.info-block {
+  display: flex;
+  align-items: flex-start;
+  font-size: 16px;
+  color: #000000;
+  font-weight: 300;
+  width: 33%;
+}
+
+/* 1 stulpelis – ikonėlė */
+.info-icon-1 {
+  flex: 0 0 auto;
+  margin-right: 8px;
+}
+
+.info-icon-1 img {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+/* 2 stulpelis – naudotojas */
+.info-user {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-right: 8px;
+  border-right: 1px solid #f0f0f0;
+  line-height: 1.2;
+}
+
+.user-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-id {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* 3 stulpelis – ikonėlė */
+.info-icon-2 {
+  flex: 0 0 auto;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.info-icon-2 img {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+/* 4 stulpelis – sistema */
+.info-system {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-left: 0px;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.info-block p {
+  margin: 0;
+}
+
+.info-system-dropdown {
+    position: relative;
+    display: inline-block;
+    font-size: 16px;
+    color: #000000;
+    font-weight: 300;
+}
+
+.dropdown-toggle {
+    background: none;
+    border: none;
+    color: #000000;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: #000000;
+    font-weight: 300;
+}
+
+.dropdown-toggle .arrow {
+    font-size: 16px;
+    transition: transform 0.2s ease;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%; /* po mygtuku */
+    left: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    min-width: 200px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    z-index: 1000;
+}
+
+.dropdown-content p {
+    margin: 0.3em 0;
+}
+
+/* Atidaromas dropdown */
+.info-system-dropdown.open .dropdown-content {
+    display: block;
+}
+
+.info-system-dropdown.open .arrow {
+    transform: rotate(180deg);
+}
+
+/* table settings */
+.table {
+  width: auto;
+  height: auto;
+  font-size: 13px;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  text-align: left;
+  font-size: 13px;
+  overflow: hidden;
+  word-wrap: break-word;
+}
+
+th {
+  background-color: #f4f4f4;
+}
+
+table, th, td {
+  margin: 0;
+  padding: 2px 7px;
+  border-spacing: 0;
+  border-collapse: collapse;
+}

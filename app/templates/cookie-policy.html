@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    <link href="/static/css/cookie-policy.css" rel="stylesheet">
+{% endblock %}
+
+{% block main %}
+<div class="main-cookie-policy-container">
+    <h4>Slapukų nuostatos</h4>
+     <div>
+        {{ cookie_policy_html | safe }}
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+<div class="copyright">
+    <p>&copy; {{ contact.company_name }}</p>
+</div>
+{% endblock %}

@@ -1,0 +1,72 @@
+Paskutinį kartą atnaujinta: 2025 m. birželio 6 d.
+
+Jūsų privatumas mums yra svarbus. Ši privatumo politika paaiškina, kokią informaciją renkame, kaip ją naudojame, saugome ir kokias teises turite Jūs kaip mūsų svetainės ir informacinės sistemos naudotojas.
+Šią privatumo politiką taiko ir duomenų valdytoju yra [company_name] (įmonės kodas - [company_code]).
+
+1. Renkami duomenys
+
+Mes renkame šiuos asmeninius duomenis:
+- vardas;
+- pavardė;
+- el. pašto adresas;
+- telefono numeris;
+- IP adresas, naršyklės informacija, įrenginio tipas, operacinė sistema, prisijungimo data ir laikas.
+Šie duomenys yra renkami tiek per svetainę, tiek per į ją integruotą informacinę sistemą, kai registruojatės ar naudojatės mūsų teikiamomis paslaugomis.
+
+2. Duomenų saugojimas ir apsauga
+
+Jūsų asmeniniai duomenys saugomi trečiųjų šalių serveriuose, užtikrinant aukštą saugumo lygį. Tik įgalioti mūsų darbuotojai arba paslaugų teikėjai turi prieigą prie šių duomenų – tik tiek, kiek būtina jų funkcijoms atlikti.
+Naudojame technines ir organizacines priemones, įskaitant duomenų šifravimą tiek saugojimo metu, tiek perduodant, kad apsaugotume Jūsų duomenis nuo neteisėtos prieigos, pakeitimų, atskleidimo ar sunaikinimo.
+
+3. Slapukai ir sesijų valdymas
+
+Svetainėje naudojami slapukai (angl. cookies), kurie yra būtini techniniam svetainės ir informacinės sistemos veikimui, pavyzdžiui, naudotojo sesijoms valdyti.
+Šiuo metu naudojami tik būtini slapukai. Jei ateityje bus naudojami analitiniai ar rinkodaros slapukai, apie tai pateiksime aiškią informaciją ir paprašysime Jūsų sutikimo.
+Slapukus galite valdyti savo naršyklės nustatymuose. Atkreipiame dėmesį, kad slapukų išjungimas gali paveikti svetainės ar sistemos veikimą.
+
+4. Duomenų naudojimas
+
+Jūsų duomenys naudojami:
+- naudotojų identifikavimui ir prisijungimui prie informacinės sistemos;
+- komunikacijai (pvz., atsakymai į užklausas, naujienlaiškių siuntimas, jei sutikote);
+- svetainės ir paslaugų kokybės bei saugumo gerinimui.
+Duomenys tvarkomi vadovaujantis: sutikimo (pvz., naujienlaiškių siuntimas), sutarties vykdymo (pvz., paskyros valdymas) ir teisėtų interesų (pvz., svetainės administravimas) principais.
+
+5. Vartotojų teisės
+
+Jūs turite teisę:
+- peržiūrėti, redaguoti ir ištrinti savo asmeninius duomenis per informacinę sistemą;
+- atsisakyti naujienlaiškių arba keisti jų prenumeratos nustatymus bet kuriuo metu;
+- reikalauti apriboti ar nutraukti duomenų tvarkymą;
+- atšaukti sutikimą, jei toks buvo duotas;
+- pateikti skundą priežiūros institucijai (Valstybinei duomenų apsaugos inspekcijai).
+Prašymus galite siųsti el. paštu: [email].
+
+6. Duomenų dalijimasis
+
+Jūsų duomenys nėra perduodami tretiesiems asmenims, išskyrus atvejus, kai tai būtina paslaugų teikimui (pvz., debesijos paslaugų teikėjams), su kuriais esame sudarę duomenų tvarkymo sutartis.
+Šie partneriai įsipareigoja laikytis aukščiausių duomenų apsaugos standartų ir nenaudoja Jūsų duomenų kitais tikslais.
+
+7. Duomenų saugojimo terminai
+
+Jūsų asmeniniai duomenys bus saugomi tol, kol reikės užtikrinti tinkamą paslaugų teikimą, arba tol, kol bus reikalingi pagal galiojančius teisės aktus (pvz., buhalterinei apskaitai).
+Kai duomenys nebereikalingi, jie bus saugiai ištrinti arba anonimizuoti.
+
+8. Tarptautinis duomenų perdavimas
+
+Kadangi naudojame trečiųjų šalių debesijos paslaugas, Jūsų duomenys gali būti tvarkomi serveriuose, esančiuose už Europos Sąjungos ribų.
+Užtikriname, kad tokie perdavimai vykdomi laikantis Europos Sąjungos bendrojo duomenų apsaugos reglamento (BDAR) reikalavimų – pasitelkiant standartines sutarčių sąlygas (SCC) arba kitas tinkamas apsaugos priemones.
+
+9. Vaikų duomenų tvarkymas
+
+Mūsų svetainė ir informacinė sistema nėra skirta vaikams iki 16 metų kaip tikslinė auditorija. Mes nesiekiame rinkti vaikų asmens duomenų. Jei pastebėtume, kad buvo pateikta asmens duomenų iš jaunesnių asmenų be tinkamo teisinio pagrindo, jie būtų ištrinti.
+
+10. Privatumo politikos pakeitimai
+
+Privatumo politika gali būti atnaujinama. Apie svarbius pakeitimus informuosime Jus el. paštu arba per svetainę.
+Rekomenduojame periodiškai peržiūrėti šią politiką, kad būtumėte informuoti apie tai, kaip saugomi Jūsų duomenys.
+
+11. Trečiųjų šalių duomenų naudojimas
+
+Neatsakome už trečiųjų šalių pateikiamos informacijos tikslumą, prieinamumą ar atnaujinimo dažnumą. Naudotojas turi į tai atsižvelgti, naudodamas šiuos duomenis savo veikloje.
+

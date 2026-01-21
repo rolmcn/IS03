@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block styles %}
+<link href="/static/css/confirm.css" rel="stylesheet">
+{% endblock %}
+
+{% block main %}
+<div class="main-confirm-container">
+    <p>
+        <strong>Jūsų el. pašto adresas sėkmingai patvirtintas.<br>
+        Prisijungimo ID kodas Jums yra išsiųstas el. paštu.</strong>
+    </p>
+    <p class="close-message" id="close-message">
+        {% if auto_close %}
+            Šis puslapis užsidarys automatiškai po <span class="countdown">{{ countdown }}</span> sekundžių.<br>
+        {% else %}
+            Automatinis šio puslapio uždarymas neįvyks. Prašome puslapį uždaryti rankiniu būdu.
+        {% endif %}
+    </p>
+</div>
+{% endblock %}
+
+{% block footer %}{% endblock %}
+

@@ -1,0 +1,55 @@
+{% extends "base-auto.html" %}
+
+{% block styles %}
+<link href="/static/css/account-auto.css" rel="stylesheet">
+{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block main %}
+<div class="main-account-auto-container">
+
+  <!-- TAB CONTROLS -->
+  <input type="radio" name="tab-control" id="tab1" checked>
+  <input type="radio" name="tab-control" id="tab2">
+  <input type="radio" name="tab-control" id="tab3">
+  <input type="radio" name="tab-control" id="tab4">
+
+  <!-- TAB LABELS -->
+  <ul class="tab-labels">
+    <li><label for="tab1">Pranešimai</label></li>
+    <li><label for="tab2">Statistika</label></li>
+    <li><label for="tab3">Užsakymai</label></li>
+    <li><label for="tab4">Nustatymai</label></li>
+  </ul>
+
+  <!-- TAB CONTENT -->
+  <div class="tab-content">
+
+    <div class="tab-panel" id="panel1">
+      <div>Pranešimas 1</div>
+      <div>Pranešimas 2</div>
+      <div>Pranešimas 3</div>
+    </div>
+
+    <div class="tab-panel" id="panel2">
+      <div>Statistika A</div>
+      <div>Statistika B</div>
+    </div>
+
+    <div class="tab-panel" id="panel3">
+      <div>Užsakymas #123</div>
+      <div>Užsakymas #124</div>
+    </div>
+
+    <div class="tab-panel" id="panel4">
+      <div>Paskyros nustatymas</div>
+      <div>Prieinamumo nustatymas</div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+
+
+{% block footer %}{% endblock %}

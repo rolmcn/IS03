@@ -1,0 +1,29 @@
+Paskutinį kartą atnaujinta: 2025 m. birželio 6 d.
+
+[company_name] siekia užtikrinti, kad ši svetainė ir informacinė sistema būtų kuo prieinamesnė visiems naudotojams, įskaitant žmones su negalia.
+
+1. Prieinamumo standartai
+
+Mūsų svetainė yra sukurta atsižvelgiant į Pasaulinio interneto konsorciumo (W3C) Web Content Accessibility Guidelines (WCAG) 2.1, lygį AA. Tai reiškia, kad stengiamės, jog svetainės turinys būtų suprantamas, naudojamas ir prieinamas kuo platesnei auditorijai.
+
+2. Prieinamumo funkcijos:
+
+- aiški struktūra ir geras kontrastas tarp teksto ir fono spalvų;
+- galimybė naudoti svetainę be pelės, tik su klaviatūra;
+- teksto didinimo galimybės;
+- alternatyvus tekstas vaizdams;
+- pagrindinių puslapių suderinamumas su ekrano skaitytuvais.
+
+Prieinamumo nustatymai pasiekiami per nuorodas "Prieinamumo nustatymai" → [piktograma].
+
+3. Apribojimai
+
+Nepaisant mūsų pastangų, kai kurie puslapiai ar funkcijos gali būti ne visiškai prieinami dėl naudojamų trečiųjų šalių įrankių ar technologinių apribojimų.
+
+4. Jūsų atsiliepimai
+
+Jei susidūrėte su prieinamumo problemomis ar turite pasiūlymų, kaip galėtume pagerinti mūsų svetainę ir informacinę sistemą, prašome susisiekti el. paštu [email].
+
+5. Pakeitimai
+
+Šis dokumentas gali būti atnaujinamas, kad atspindėtų mūsų pastangas gerinti prieinamumą. Rekomenduojame periodiškai jį peržiūrėti.

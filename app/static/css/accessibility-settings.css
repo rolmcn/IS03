@@ -1,0 +1,8 @@
+.main-accessibility-settings-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 120px 5%;
+  min-height: calc(100vh - 100px);
+  box-sizing: border-box;
+}

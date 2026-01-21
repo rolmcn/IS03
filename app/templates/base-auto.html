@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROVIS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="{{ url_for('static', path='css/base-auto.css') }}" rel="stylesheet">
+
+    {% block styles %}{% endblock %}
+</head>
+
+<body class="loading">
+    <div id="loading-overlay">
+        <div class="spinner"></div>
+        <p id="loading-text">Vykdoma…</p>
+    </div>
+
+    <header class="main-header">
+        <div class="header-container">
+            <div class="info-block">
+                <div class="info-icon-1">
+                    <img src="static/img/person_40dp_F0F0F0_FILL0_wght500_GRAD0_opsz40.svg" alt="Naudotojo piktograma - naudotojo duomenys">
+                </div>
+                <div class="info-user">
+                    <p>Rolandas Mučinskas</p>
+                    <p>UAB Ratų pasaulis</p>
+                </div>
+                <div class="info-icon-2">
+                    <img src="static/img/business_center_40dp_F0F0F0_FILL0_wght500_GRAD0_opsz40.svg" alt="Portfelio piktograma - sistemos duomenys">
+                </div>
+                <div class="info-system">
+                    <button class="dropdown-toggle">
+                        VYKLA Auto v1.0
+                        <span class="arrow">&#9662;</span> <!-- mažoji rodyklė žemyn -->
+                    </button>
+                    <span id="clock"></span>
+                </div>
+            </div>
+            <nav class="menu-block">
+                <a href="/queue-auto"
+                    class="{{ 'active' if active_page == 'queue-auto' else '' }}">
+                    Eilė
+                </a>
+                <a href="/works-auto"
+                    class="{{ 'active' if active_page == 'works-auto' else '' }}">
+                    Darbai
+                </a>
+                <a href="/customers-auto"
+                    class="{{ 'active' if active_page == 'customers-auto' else '' }}">
+                    Klientai
+                </a>
+                <a href="/account-auto"
+                    class="{{ 'active' if active_page == 'account-auto' else '' }}">
+                    Paskyra
+                </a>
+            </nav>
+            <div class="button-block">
+                <a
+                        class="accessibility-symbols"
+                        href="/accessibility-settings"
+                        aria-label="Prieinamumo nustatymai"
+                        title="Prieinamumo nustatymai"
+                        translate="no">
+                </a>
+                <a
+                        class="logout-symbols"
+                        href="/logout"
+                        aria-label="Atsijungti"
+                        title="Atsijungti"
+                        translate="no">
+                </a>
+            </div>
+        </div>
+        {% block header %}{% endblock %}
+    </header>
+
+    <main>
+        {% block main %}{% endblock %}
+    </main>
+
+    <footer>
+        {% block footer %}{% endblock %}
+    </footer>
+
+    <script src="/static/js/hide-spinner.js"></script>
+    <script src="/static/js/clock.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+
+{% block styles %}
+<link href="/static/css/index.css" rel="stylesheet">
+{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block main %}
+<div id="home" class="scroll-offset-anchor"></div>
+<div class="main-info-container">
+  <div class="advertising-block">
+    <img src="/static/img/car-service.png" alt="Žaislinis automobilis geltoname fone">
+    <div class="overlay-text">
+      <h1>PROVIS</h1>
+      <p>procesų valdymo informacinė sistema<br>efektyvesniam transporto priemonių serviso darbui</p>
+      <div class="button-block">
+        <a class="navigation-button-1 arrow-1" href="/#products">Plačiau</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="products" class="scroll-offset-anchor"></div>
+<div class="main-products-container">
+  <h4>Informacinė sistema PROVIS</h4>
+  <p>Norint naudotis mūsų siūloma informacine sistema, reikia sukurti paskyrą (→
+    <a href="/login">Prisijungti</a>
+    ) ir įsigyti licenciją/-as.<br>
+    KAINODARA: priklausomai nuo įsigyjamo licencijų kiekio, vienos licencijos kaina svyruoja nuo
+    <b>20 € iki 10 € per mėnesį (be PVM)</b>.
+    SMS pranešimai apmokestinami atskirai pagal faktinį kiekį –
+    <b>vieno SMS kaina 6 ct (be PVM)</b>.
+  </p>
+  <input type="radio" name="tab-control" id="tab1" checked>
+  <ul class="tab-labels">
+      <li><label for="tab1">Transporto priemonių servisams</label></li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-panel" id="panel1">
+      <div class="tab1-column-1">
+        <img src="/static/img/folder_managed_40dp_1A69B1_FILL0_wght500_GRAD0_opsz40.svg" alt="Segtuvo piktograma">
+        <p><b>Lengvai ir saugiai kaupkite informaciją</b></p>
+        <p>
+          <i>
+            Galima kaupti informaciją apie transporto priemones, klientus ir paslaugas. Duomenų paieškai naudojamos filtravimo ir grupavimo funkcijos.<br>
+            Duomenys ir jų kopijos saugomi ES šalyse veikiančiuose duomenų centruose taikant papildomas apsaugos priemones.
+          </i>
+        </p>
+      </div>
+      <div class="tab1-column-2">
+        <img src="/static/img/calendar_add_on_40dp_1A69B1_FILL0_wght500_GRAD0_opsz40.svg" alt="Kalendoriaus piktograma">
+        <p><b>Patogiai planuokite<br> darbus</b></p>
+        <p>
+          <i>
+            Užimtumo grafikai leidžia greitai orientuotis ir planuoti paslaugų rezervacijas. Naujas rezervacijas lengva įtraukti, o automatinis rezervacijų eilės valdymas padeda efektyviau organizuoti serviso darbą.<br>
+            Komunikacijos su klientais palengvinimui yra numatytas SMS pranešimų siuntimas.
+          </i>
+        </p>
+      </div>
+      <div class="tab1-column-3">
+        <img src="/static/img/view_kanban_40dp_1A69B1_FILL0_wght500_GRAD0_opsz40.svg" alt="Kanban piktograma">
+        <p><b>Paprastai valdykite darbo procesus</b></p>
+        <p>
+          <i>
+            Visi dienos darbai matomi viename darbalaukyje pagal jų būsenas.<br>
+            Darbus galima lengvai perkelti iš vieno etapo į kitą, o klientus automatiškai informuoti SMS pranešimų pagalba apie paslaugų teikimo eigą.<br>
+            Visa detali su paslaugos teikimu sisijusi informacija pasiekiama vos vienu paspaudimu.
+          </i>
+        </p>
+      </div>
+      <div class="tab1-column-4">
+        <img src="/static/img/search_insights_40dp_1A69B1_FILL0_wght500_GRAD0_opsz40.svg" alt="Informacijos stebėsenos piktograma">
+        <p><b>Greitai gaukite statistinę informaciją</b></p>
+        <p>
+          <i>
+            Galite matyti statistinę informaciją apie paslaugas, jų trukmę ir serviso ar atskirų darbuotojų veiklos efektyvumą.<br>
+
+          </i>
+        </p>
+      </div>
+      <div class="tab1-column-5">
+        <img src="/static/img/settings_account_box_40dp_1A69B1_FILL0_wght500_GRAD0_opsz40.svg" alt="Nustatymų piktograma">
+        <p><b>Lanksčiai valdykite sistemą</b></p>
+        <p>
+          <i>
+            Informacinės sistemos paskiroje galima tvarkyti informaciją apie pirkėją ir naudotojus, įsigyti reikalingas licencijas, kurti paslaugas ir priskirti joms parametrus bei nustatymus.
+          </i>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="about-us" class="scroll-offset-anchor"></div>
+<div class="main-about-us-container">
+  <h4>Apie mus</h4>
+  <div>
+    {{ about_us_html | safe }}
+  </div>
+  <div class="contact-form-heading">
+    <p><b>Norite perkelti informaciją į skaitmeninę aplinką ir patogiai bei saugiai ją valdyti?</b></p>
+    <h5>Atsiųskite savo kontaktą, mes susisieksime!</h5>
+  </div>
+  <div class="contact-form">
+    <form id="contact-form" action="/#about-us" method="post" class="inline-form" novalidate autocomplete="off">
+      <div class="email-group">
+        <label for="email" class="field-label email-label">Jūsų el. p.</label>
+        <input
+                type="email"
+                id="email"
+                name="email"
+                class="input-email"
+                value="{{ email | default('') }}"
+                autocomplete="off"
+        />
+      </div>
+      <div class="phone-group">
+        <label for="phone" class="field-label phone-label">arba tel.</label>
+        <div class="phone-input-wrapper">
+          <span class="phone-prefix">+370</span>
+          <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  inputmode="numeric"
+                  class="input-phone"
+                  value="{{ phone | default('') }}"
+                  aria-describedby="phoneHelp"
+                  autocomplete="off"
+          />
+        </div>
+      </div>
+      <div class="g-recaptcha" data-sitekey="{{ site_key }}"></div>
+      <div class="submit-wrapper">
+        <input type="submit" name="submit_contact" value="Siųsti" class="submit-button submit-button--small">
+        <img class="contact-form-image" src="/static/img/paper_plane_blue.gif" alt="Popierinio lėktuvėlio animacija">
+      </div>
+      <div id="form-message">
+        {% if error %}
+        <p style="color: #ff6b6b;">{{ error }}</p>
+        {% endif %}
+        {% if success %}
+        <p style="color: #28a745;">{{ success }}</p>
+        {% endif %}
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+<div id="contacts" class="scroll-offset-anchor"></div>
+<footer class="footer-container">
+  <div class="footer-top">
+    <div class="props-block">
+      <h4>{{ contact.company_name }}</h4>
+      <p>Įmonės kodas – {{ contact.company_code }}<br>
+        PVM mokėtojo kodas – {{ contact.vat_code }}<br>
+        Atsiskaitomoji sąskaita: {{ contact.bank_name }}, {{ contact.current_account }}
+      </p>
+      <p>
+        {{ contact.address }}<br>
+        <span class="contact-info">
+          Tel. <a href="tel:{{ contact.phone }}" class="contact-link">{{ contact.phone }}</a>,
+          el. p. <a href="mailto:{{ contact.email }}" class="contact-link">{{ contact.email }}</a>
+        </span>
+      </p>
+    </div>
+    <nav class="link-block">
+      <p>
+        <a href="/privacy-policy">Privatumo politika</a><br>
+        <a href="/cookie-policy">Slapukų nuostatos</a><br>
+        <a href="/accessibility">Prieinamumas</a>
+      </p>
+    </nav>
+  </div>
+</footer>
+<div class="copyright">
+  <p>&copy; {{ contact.company_name }}</p>
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    <link href="/static/css/accessibility-settings.css" rel="stylesheet">
+{% endblock %}
+
+{% block main %}
+<div class="main-accessibility-settings-container">
+    <h4>Prieinamumo nustatymai</h4>
+    <p>Daugiau informacijos apie prieinamumą galite rasti pasirinkę nuorodą → <a href="/accessibility">"Prieinamumas"</a>
+</div>
+{% endblock %}
+
+{% block footer %}
+<div class="copyright">
+    <p>&copy; {{ contact.company_name }}</p>
+</div>
+{% endblock %}
