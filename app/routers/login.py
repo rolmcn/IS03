@@ -1,14 +1,16 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from fastapi import APIRouter, Request, Depends, Query
 from fastapi.responses import HTMLResponse, RedirectResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from pydantic import ValidationError
 from urllib.parse import unquote
+import secrets
 
 from app.config import templates, settings
 from app.database import get_async_session
 from app.models.users import Users
+from app.models.sessions import UserSession
 from app.schemas.auth_schemas import RegistrationData, LoginData
 from app.utils.login_manager import generate_unique_login
 from app.utils.blind_index import generate_login_index
@@ -26,10 +28,6 @@ SITE_KEY = settings.SITE_KEY
 # =========================
 @router.get("/login", response_class=HTMLResponse)
 async def login_page(request: Request):
-    """
-    Rodo prisijungimo / registracijos puslapį.
-    Pasiima flash cookies pranešimams apie registraciją arba tokeno klaidas.
-    """
     register_success_cookie = unquote(request.cookies.get("register_success", "")) if request.cookies.get("register_success") else None
     confirm_error_cookie = unquote(request.cookies.get("confirm_error", "")) if request.cookies.get("confirm_error") else None
 
@@ -48,7 +46,6 @@ async def login_page(request: Request):
         },
     )
 
-    # Ištriname flash cookies po atvaizdavimo
     if register_success_cookie:
         response.delete_cookie("register_success")
     if confirm_error_cookie:
@@ -61,13 +58,9 @@ async def login_page(request: Request):
 # =========================
 @router.post("/login", response_class=HTMLResponse)
 async def login_post(request: Request, session: AsyncSession = Depends(get_async_session)):
-    """
-    Apdoroja login arba registration formų pateikimą.
-    """
     form = await request.form()
     form_dict = dict(form)
 
-    # Rate limiter
     limit_error = check_post_limit(request)
     if limit_error:
         return templates.TemplateResponse(
@@ -107,7 +100,6 @@ async def login_post(request: Request, session: AsyncSession = Depends(get_async
                 },
             )
 
-        print("DEBUG: generate_login_index type:", type(generate_login_index))
         login_index = generate_login_index(data.login_id)
         result = await session.execute(select(Users).where(Users.login_index == login_index))
         user = result.scalar_one_or_none()
@@ -140,12 +132,25 @@ async def login_post(request: Request, session: AsyncSession = Depends(get_async
                 },
             )
 
-        # Sėkmingas prisijungimas → nukreipiame į saugų puslapį
-        return RedirectResponse(
-            url="/account-auto.html",
-            status_code=303
+        # Sukuriame sesiją
+        session_id = secrets.token_urlsafe(32)
+        user_session = UserSession(
+            session_id=session_id,
+            user_id=user.id,
+            expires_at=UserSession.expiry()
         )
+        session.add(user_session)
+        await session.commit()
 
+        response = RedirectResponse(url="/account-auto.html", status_code=303)
+        response.set_cookie(
+            key="session_id",
+            value=session_id,
+            httponly=True,
+            secure=False,
+            samesite="lax"
+        )
+        return response
 
     # =========================
     # REGISTRATION
@@ -221,7 +226,6 @@ async def login_post(request: Request, session: AsyncSession = Depends(get_async
         session.add(new_user)
         await session.commit()
 
-        # Siunčiame patvirtinimo laišką
         await send_registration_confirmation_email(email=data.email, token=token)
 
         return templates.TemplateResponse(
@@ -237,9 +241,7 @@ async def login_post(request: Request, session: AsyncSession = Depends(get_async
             },
         )
 
-    # =========================
     # FALLBACK
-    # =================
     return templates.TemplateResponse(
         "login.html",
         {
@@ -262,13 +264,6 @@ async def confirm_registration(
     token: str = Query(...),
     session: AsyncSession = Depends(get_async_session),
 ):
-    """
-    Patvirtina vartotojo registraciją pagal tokeną.
-    - Jei tokenas galioja → aktyvuoja vartotoją, ištrina tokeną, siunčia sėkmės laišką
-    - Jei tokenas negalioja arba nerastas → siunčia tokeno negaliojimo laišką
-    - Visada atvaizduoja confirm.html su pranešimu vartotojui
-    """
-    # 1. Randame vartotoją, kuris dar nėra aktyvus ir turi tokeną
     result = await session.execute(
         select(Users).where(
             Users.status == "pending",
@@ -282,7 +277,6 @@ async def confirm_registration(
         None,
     )
 
-    # 2. Jei vartotojas nerastas → tokenas neteisingas
     if not user:
         return templates.TemplateResponse(
             "confirm.html",
@@ -296,8 +290,11 @@ async def confirm_registration(
 
     email = decrypt_data(user.email_encrypted)
 
-    # 3. Jei tokenas rastas, bet pasibaigęs
-    if not user.confirmation_token_expires or user.confirmation_token_expires < datetime.utcnow():
+    expires_at = user.confirmation_token_expires
+    if expires_at is not None and expires_at.tzinfo is None:
+        expires_at = expires_at.replace(tzinfo=timezone.utc)
+
+    if expires_at is None or expires_at < datetime.now(timezone.utc):
         await send_confirmation_expired_email(email)
         return templates.TemplateResponse(
             "confirm.html",
@@ -309,7 +306,6 @@ async def confirm_registration(
             },
         )
 
-    # 4. Tokenas galioja → aktyvuojame vartotoją
     user.status = "active"
     user.confirmation_token_hash = None
     user.confirmation_token_expires = None
@@ -319,13 +315,11 @@ async def confirm_registration(
 
     await session.commit()
 
-    # 5. Siunčiame sėkmingos registracijos laišką
     await send_registration_success_email(
         email=email,
         login_id=login_id,
     )
 
-    # 6. Atvaizduojame confirm.html su automatinio uždarymo žinute
     return templates.TemplateResponse(
         "confirm.html",
         {

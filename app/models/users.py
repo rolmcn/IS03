@@ -1,6 +1,8 @@
 from sqlalchemy import Column, Integer, String, DateTime, Boolean
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from app.database import Base
+from app.utils.crypto import decrypt_data
 
 class Users(Base):
     __tablename__ = "users"
@@ -25,3 +27,12 @@ class Users(Base):
 
     confirmation_token_expires = Column(DateTime, nullable=True)
 
+    sessions = relationship("UserSession", back_populates="user")
+
+    @property
+    def first_name(self) -> str:
+        return decrypt_data(self.first_name_encrypted)
+
+    @property
+    def last_name(self) -> str:
+        return decrypt_data(self.last_name_encrypted)
