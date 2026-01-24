@@ -25,7 +25,7 @@ class Users(Base):
     password_hash = Column(String(255), nullable=False)
     confirmation_token_hash = Column(String(64), nullable=True)
 
-    confirmation_token_expires = Column(DateTime, nullable=True)
+    confirmation_token_expires = Column(DateTime(timezone=True), nullable=True)
 
     sessions = relationship("UserSession", back_populates="user")
 

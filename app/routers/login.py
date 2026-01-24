@@ -7,7 +7,7 @@ from pydantic import ValidationError
 from urllib.parse import unquote
 import secrets
 
-from app.config import templates, settings
+from app.config import templates, settings, BASE_URL
 from app.database import get_async_session
 from app.models.users import Users
 from app.models.sessions import UserSession
@@ -124,7 +124,7 @@ async def login_post(request: Request, session: AsyncSession = Depends(get_async
                 {
                     "request": request,
                     "site_key": SITE_KEY,
-                    "login_error": "Vartotojas neaktyvus",
+                    "login_error": "Naudotojas neaktyvus",
                     "login_success": None,
                     "register_error": None,
                     "register_success": None,
@@ -162,6 +162,7 @@ async def login_post(request: Request, session: AsyncSession = Depends(get_async
         password = form.get("password", "").strip()
         recaptcha_response = form.get("g-recaptcha-response")
 
+        # 1️⃣ Pydantic validacija
         try:
             data = RegistrationData(first_name=first_name, last_name=last_name, email=email, password=password)
         except ValidationError as e:
@@ -179,6 +180,7 @@ async def login_post(request: Request, session: AsyncSession = Depends(get_async
                 },
             )
 
+        # 2️⃣ reCAPTCHA tikrinimas
         if not recaptcha_response or not await verify_recaptcha(recaptcha_response):
             return templates.TemplateResponse(
                 "login.html",
@@ -193,6 +195,7 @@ async def login_post(request: Request, session: AsyncSession = Depends(get_async
                 },
             )
 
+        # 3️⃣ Patikriname, ar el. paštas jau nėra užimtas
         email_index = generate_login_index(data.email)
         result = await session.execute(select(Users).where(Users.email_index == email_index))
         if result.scalar_one_or_none():
@@ -209,13 +212,14 @@ async def login_post(request: Request, session: AsyncSession = Depends(get_async
                 },
             )
 
-        token, token_hash, expires_at = generate_confirmation_token()
+        # 4️⃣ Generuojame patvirtinimo tokeną
+        token_part, token_hash, expires_at = generate_confirmation_token()
+
+        # 5️⃣ Sukuriame vartotoją
         new_user = Users(
             first_name_encrypted=encrypt_data(data.first_name),
             last_name_encrypted=encrypt_data(data.last_name),
             email_encrypted=encrypt_data(data.email),
-            mobile_phone_encrypted=None,
-            mobile_phone_index=None,
             email_index=email_index,
             login_index=None,
             password_hash=hash_password(data.password),
@@ -223,11 +227,20 @@ async def login_post(request: Request, session: AsyncSession = Depends(get_async
             confirmation_token_hash=token_hash,
             confirmation_token_expires=expires_at,
         )
+
+        # 6️⃣ Įrašome į DB
         session.add(new_user)
         await session.commit()
+        await session.refresh(new_user)  # dabar turime new_user.id
 
-        await send_registration_confirmation_email(email=data.email, token=token)
+        # 7️⃣ Siunčiame patvirtinimo laišką su tikru user_id ir token
+        await send_registration_confirmation_email(
+            email=data.email,
+            user_id=new_user.id,
+            token=token_part
+        )
 
+        # 8️⃣ Gražiname atsakymą
         return templates.TemplateResponse(
             "login.html",
             {
@@ -264,18 +277,29 @@ async def confirm_registration(
     token: str = Query(...),
     session: AsyncSession = Depends(get_async_session),
 ):
-    result = await session.execute(
-        select(Users).where(
-            Users.status == "pending",
-            Users.confirmation_token_hash.isnot(None),
+    # 1️⃣ Bandome atskirti user_id nuo tokeno
+    try:
+        user_id_str, token_part = token.split(".", 1)
+        user_id = int(user_id_str)
+    except (ValueError, AttributeError):
+        return templates.TemplateResponse(
+            "confirm.html",
+            {
+                "request": request,
+                "auto_close": False,
+                "countdown": 10,
+                "message": (
+                    "Patvirtinimo nuoroda neteisinga.<br>"
+                    "Rekomenduojame paspausti nuorodą, kurią gavote el. paštu."
+                ),
+            },
         )
-    )
-    users = result.scalars().all()
 
-    user = next(
-        (u for u in users if verify_confirmation_token(token, u.confirmation_token_hash)),
-        None,
+    # 2️⃣ Ieškome naudotojo pagal user_id
+    result = await session.execute(
+        select(Users).where(Users.id == user_id)
     )
+    user = result.scalar_one_or_none()
 
     if not user:
         return templates.TemplateResponse(
@@ -284,17 +308,57 @@ async def confirm_registration(
                 "request": request,
                 "auto_close": False,
                 "countdown": 10,
-                "message": "Tokenas neteisingas arba pasibaigęs. Prašome registruotis iš naujo."
+                "message": (
+                    "Patvirtinimo nuoroda negalioja.<br>"
+                    "Prašome registruotis iš naujo."
+                ),
             },
         )
 
     email = decrypt_data(user.email_encrypted)
 
-    expires_at = user.confirmation_token_expires
-    if expires_at is not None and expires_at.tzinfo is None:
-        expires_at = expires_at.replace(tzinfo=timezone.utc)
+    # 3️⃣ Tikriname naudotojo būseną
+    if user.status != "pending":
+        return templates.TemplateResponse(
+            "confirm.html",
+            {
+                "request": request,
+                "auto_close": False,
+                "countdown": 10,
+                "message": (
+                    "Patvirtinimas jau buvo atliktas, registracija buvo užbaigta.<br>"
+                    "Jums el. paštu buvo išsiųstas prisijungimo ID kodas."
+                ),
+            },
+        )
 
-    if expires_at is None or expires_at < datetime.now(timezone.utc):
+    # 4️⃣ Tikriname ar tokenas sutampa (tik pending)
+    if (
+        not user.confirmation_token_hash
+        or not verify_confirmation_token(token_part, user.confirmation_token_hash)
+    ):
+        return templates.TemplateResponse(
+            "confirm.html",
+            {
+                "request": request,
+                "auto_close": False,
+                "countdown": 10,
+                "message": (
+                    "Patvirtinimo nuoroda neteisinga.<br>"
+                    "Rekomenduojame paspausti nuorodą, kurią gavote el. paštu."
+                ),
+            },
+        )
+
+    # 5️⃣ Tikriname tokeno galiojimą
+    expires_at = user.confirmation_token_expires
+    now_utc = datetime.now(timezone.utc)
+
+    if (
+        expires_at is None
+        or (expires_at.tzinfo is None and expires_at.replace(tzinfo=timezone.utc) < now_utc)
+        or (expires_at.tzinfo is not None and expires_at < now_utc)
+    ):
         await send_confirmation_expired_email(email)
         return templates.TemplateResponse(
             "confirm.html",
@@ -302,10 +366,15 @@ async def confirm_registration(
                 "request": request,
                 "auto_close": False,
                 "countdown": 10,
-                "message": "Patvirtinimo nuorodos galiojimo laikas pasibaigė. Prašome registruotis iš naujo."
+                "message": (
+                    "Patvirtinimo nuoroda negalioja. Kviečiame registruotis iš naujo.<br>"
+                    "Jei jau registravotės ir yra pasibaigęs patvirtinimo nuorodos galiojimas, "
+                    "bandykite registruotis iš naujo po 10 min."
+                ),
             },
         )
 
+    # 6️⃣ Sėkmingas patvirtinimas
     user.status = "active"
     user.confirmation_token_hash = None
     user.confirmation_token_expires = None
@@ -326,6 +395,9 @@ async def confirm_registration(
             "request": request,
             "auto_close": True,
             "countdown": 10,
-            "message": f"Jūsų el. pašto adresas sėkmingai patvirtintas. Prisijungimo ID kodas Jums yra išsiųstas el. paštu."
+            "message": (
+                "Jūsų el. pašto adresas sėkmingai patvirtintas.<br>"
+                "Prisijungimo ID kodas Jums yra išsiųstas el. paštu."
+            ),
         },
     )

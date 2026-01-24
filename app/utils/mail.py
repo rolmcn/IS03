@@ -3,6 +3,7 @@ from app.config import conf, settings, CONTACT_INFO, BASE_URL
 
 fm = FastMail(conf)
 
+LOGIN_URL = f"{BASE_URL}/login"  # universalus login puslapio URL
 
 # -------------------------------
 # Contact form laiškas
@@ -26,12 +27,9 @@ async def send_contact_message(email: str | None, phone: str | None):
 # -------------------------------
 # Registracijos patvirtinimo laiškas
 # -------------------------------
-async def send_registration_confirmation_email(email: str, token: str):
-    """
-    Siunčia vartotojui registracijos patvirtinimo laišką su tokenu.
-    """
-
-    confirm_url = f"{BASE_URL}/login/confirm?token={token}"
+async def send_registration_confirmation_email(email: str, user_id: int, token: str):
+    full_token = f"{user_id}.{token}"
+    confirm_url = f"{BASE_URL}/login/confirm?token={full_token}"
 
     message = MessageSchema(
         subject="Prašome patvirtinti savo el. pašto adresą",
@@ -58,8 +56,7 @@ async def send_registration_confirmation_email(email: str, token: str):
         </p>
 
         <hr>
-        
-        
+
         <p>
             <strong>{CONTACT_INFO["company_name"]}</strong> | 
             tel. <a href="tel:{CONTACT_INFO["phone"]}">{CONTACT_INFO["phone"]}</a> | 
@@ -68,14 +65,13 @@ async def send_registration_confirmation_email(email: str, token: str):
         """,
         subtype="html",
     )
-
     await fm.send_message(message)
+
 
 # -------------------------------
 # Sėkmingos registracijos laiškas
 # -------------------------------
 async def send_registration_success_email(email: str, login_id: str):
-    login_url = f"{BASE_URL}/login"
     message = MessageSchema(
         subject="Prisijungimo duomenys",
         recipients=[email],
@@ -89,11 +85,11 @@ async def send_registration_success_email(email: str, login_id: str):
         <p>
             Jūsų prisijungimo ID kodas: <strong>{login_id}</strong>
         </p>
-        
+
         <p>
             Jei nesate atidarę prisijungimo prie informacinės sistemos puslapio, jį galite pasiekti pasirinkę nuorodą
-                <a href="{login_url}" style="text-decoration: underline;">
-                    {login_url}
+                <a href="{LOGIN_URL}" style="text-decoration: underline;">
+                    {LOGIN_URL}
                 </a>
         </p>
 
@@ -116,7 +112,6 @@ async def send_registration_success_email(email: str, login_id: str):
 
         <hr>
 
-
         <p>
             <strong>{CONTACT_INFO["company_name"]}</strong> | 
             tel. <a href="tel:{CONTACT_INFO["phone"]}">{CONTACT_INFO["phone"]}</a> | 
@@ -125,12 +120,11 @@ async def send_registration_success_email(email: str, login_id: str):
         """,
         subtype="html",
     )
-
     await fm.send_message(message)
 
 
 # -------------------------------
-# Tokeno galiojimo pasibaigimo laiškas
+# Patvirtinimo nuorodos galiojimo pasibaigimo laiškas
 # -------------------------------
 async def send_confirmation_expired_email(email: str):
     message = MessageSchema(
@@ -139,17 +133,16 @@ async def send_confirmation_expired_email(email: str):
         body=f"""
         <p>Sveiki,</p>
 
-        <p>
-            Bandėte patvirtinti savo el. pašto adresą, tačiau patvirtinimas neįvyko,
-            nes patvirtinimo nuoroda yra neteisinga arba jos galiojimo laikas pasibaigęs.
-        </p>
+        <p>Patvirtinimo nuoroda negalioja.</p>
 
         <p>
-            Prašome registruotis iš naujo.
+            Kviečiame registruotis iš naujo (registracijos formą rasite pasirinkę šią nuorodą:
+            <a href="{LOGIN_URL}" style="text-decoration: underline;">
+                {LOGIN_URL})
+            </a>
         </p>
 
         <hr>
-
 
         <p>
             <strong>{CONTACT_INFO["company_name"]}</strong> | 
@@ -159,5 +152,4 @@ async def send_confirmation_expired_email(email: str):
         """,
         subtype="html",
     )
-
     await fm.send_message(message)

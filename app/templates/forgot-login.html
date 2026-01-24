@@ -9,7 +9,28 @@
     <div class="login-column">
         <h4>Pakeisti prisijungimo duomenis?</h4>
         <div class="login-block-left">
-
+            <form method="POST" action="/forgot-login">
+                <div class="form-field">
+                    <label for="email">Įveskite savo el. pašto adresą</label>
+                    <input type="email" id="email" name="email" class="input-field" value="{{ form_data.get('email', '') }}">
+                </div>
+                <div class="form-field">
+                    <label for="password">Įveskite naują prisijungimo slaptažodį</label>
+                    <input type="password" id="password" name="password" class="input-field">
+                </div>
+                <div class="g-recaptcha" data-sitekey="{{ site_key }}"></div>
+                <div>
+                    <input type="submit" name="submit_forgot_login" value="Siųsti" class="submit-button">
+                </div>
+                <div id="login-form-message">
+                     {% if login_error %}
+                     <p style="color: #ff6b6b;">{{ login_error }}</p>
+                     {% endif %}
+                     {% if login_success %}
+                     <p style="color: #28a745;">{{ login_success }}</p>
+                     {% endif %}
+                </div>
+            </form>
         </div>
     </div>
 </div>

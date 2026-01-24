@@ -21,17 +21,18 @@
                 <div>
                     <input type="submit" name="submit_login" value="Prisijungti" class="submit-button">
                 </div>
-                <div>
-                    <a href="/forgot-login">Pamiršote prisijungimo duomenis?</a>
-                </div>
-                 <div id="login-form-message">
+                <div id="login-form-message">
                      {% if login_error %}
                      <p style="color: #ff6b6b;">{{ login_error }}</p>
                      {% endif %}
                      {% if login_success %}
                      <p style="color: #28a745;">{{ login_success }}</p>
                      {% endif %}
-                 </div>
+                </div>
+                <br>
+                <div>
+                    <a href="/forgot-login">Pamiršote prisijungimo duomenis?</a>
+                </div>
             </form>
         </div>
     </div>

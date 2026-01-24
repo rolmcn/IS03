@@ -2,7 +2,7 @@
 <html lang="lt">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PROVIS</title>
+    <title>EIGVA</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="{{ url_for('static', path='css/base-auto.css') }}" rel="stylesheet">
 
@@ -19,18 +19,18 @@
         <div class="header-container">
             <div class="info-block">
                 <div class="info-icon-1">
-                    <img src="static/img/person_40dp_F0F0F0_FILL0_wght500_GRAD0_opsz40.svg" alt="Naudotojo piktograma - naudotojo duomenys">
+                    <img src="/static/img/person_40dp_F0F0F0_FILL0_wght500_GRAD0_opsz40.svg" alt="Naudotojo piktograma - naudotojo duomenys">
                 </div>
                 <div class="info-user">
                     <p>{{ current_user.first_name }} {{ current_user.last_name }}</p>
                     <p>UAB Ratų pasaulis</p>
                 </div>
                 <div class="info-icon-2">
-                    <img src="static/img/business_center_40dp_F0F0F0_FILL0_wght500_GRAD0_opsz40.svg" alt="Portfelio piktograma - sistemos duomenys">
+                    <img src="/static/img/business_center_40dp_F0F0F0_FILL0_wght500_GRAD0_opsz40.svg" alt="Portfelio piktograma - sistemos duomenys">
                 </div>
                 <div class="info-system">
                     <button class="dropdown-toggle">
-                        VYKLA Auto v1.0
+                        EIGVA Auto v1.0
                         <span class="arrow">&#9662;</span> <!-- mažoji rodyklė žemyn -->
                     </button>
                     <span id="clock"></span>
