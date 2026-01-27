@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block styles %}
-<link href="static/css/forgot-login.css" rel="stylesheet">
+<link href="/static/css/forgot-login.css" rel="stylesheet">
 {% endblock %}
 
 {% block main %}
@@ -22,12 +22,12 @@
                 <div>
                     <input type="submit" name="submit_forgot_login" value="Siųsti" class="submit-button">
                 </div>
-                <div id="login-form-message">
-                     {% if login_error %}
-                     <p style="color: #ff6b6b;">{{ login_error }}</p>
+                <div id="forgot-login-form-message">
+                     {% if forgot_login_error %}
+                     <p style="color: #ff6b6b;">{{ forgot_login_error }}</p>
                      {% endif %}
-                     {% if login_success %}
-                     <p style="color: #28a745;">{{ login_success }}</p>
+                     {% if forgot_login_success %}
+                     <p style="color: #28a745;">{{ forgot_login_success }}</p>
                      {% endif %}
                 </div>
             </form>

@@ -2,14 +2,19 @@ from datetime import datetime, timezone
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.users import Users
-from app.utils.mail import send_confirmation_expired_email
+from app.utils.mail import send_confirmation_expired_email, send_reset_confirmation_expired_email
 from app.utils.crypto import decrypt_data
 
-async def cleanup_expired_pending_users(session: AsyncSession):
-    """Ištrina pending vartotojus, kurių tokenai pasibaigę, ir siunčia laiškus."""
+async def cleanup_expired_tokens(session: AsyncSession):
+    """
+    Ištrina pasibaigusius registracijos tokenus ir išvalo pasibaigusius slaptažodžio reset tokenus.
+
+    - Registracijos pending vartotojai: ištrinami
+    - Reset (slaptažodžio keitimas) tokenai: tik išvalomi, statusas lieka
+    """
     now_utc = datetime.now(timezone.utc)
 
-    # 1️⃣ Surandame visus pasibaigusius pending vartotojus
+    # 1️⃣ Registracijos pending vartotojai (trinami)
     result = await session.execute(
         select(Users).where(
             Users.status == "pending",
@@ -17,17 +22,36 @@ async def cleanup_expired_pending_users(session: AsyncSession):
             Users.confirmation_token_expires < now_utc
         )
     )
-    expired_users = result.scalars().all()
+    expired_pending_users = result.scalars().all()
 
-    # 2️⃣ Išsaugome el. paštus laiškams prieš trynimą
-    emails = []
-    for user in expired_users:
-        emails.append(decrypt_data(user.email_encrypted))
+    pending_emails = []
+    for user in expired_pending_users:
+        pending_emails.append(decrypt_data(user.email_encrypted))
         await session.delete(user)
 
-    # 3️⃣ Commit - dabar vartotojai DB jau ištrinti
+    # 2️⃣ Reset token pasibaigę (netrinami, tik išvalomi)
+    result = await session.execute(
+        select(Users).where(
+            Users.reset_confirmation_token_expires != None,
+            Users.reset_confirmation_token_expires < now_utc
+        )
+    )
+    expired_resets = result.scalars().all()
+
+    reset_emails = []
+    for user in expired_resets:
+        reset_emails.append(decrypt_data(user.email_encrypted))
+        user.reset_password_hash = None
+        user.reset_confirmation_token_hash = None
+        user.reset_confirmation_token_expires = None
+
+    # 3️⃣ Commit pokyčius DB
     await session.commit()
 
-    # 4️⃣ Siunčiame laiškus apie pasibaigusį tokeną
-    for email in emails:
+    # 4️⃣ Siunčiame laiškus apie pasibaigusį registracijos tokeną
+    for email in pending_emails:
         await send_confirmation_expired_email(email)
+
+    # 5️⃣ Siunčiame laiškus apie pasibaigusį reset tokeną
+    for email in reset_emails:
+        await send_reset_confirmation_expired_email(email)

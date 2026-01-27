@@ -23,9 +23,13 @@ class Users(Base):
     login_index = Column(String(64), unique=True, index=True, nullable=True)
 
     password_hash = Column(String(255), nullable=False)
-    confirmation_token_hash = Column(String(64), nullable=True)
+    reset_password_hash = Column(String(255), nullable=True)
 
+    confirmation_token_hash = Column(String(64), nullable=True)
     confirmation_token_expires = Column(DateTime(timezone=True), nullable=True)
+
+    reset_confirmation_token_hash = Column(String(64), nullable=True)
+    reset_confirmation_token_expires = Column(DateTime(timezone=True), nullable=True)
 
     sessions = relationship("UserSession", back_populates="user")
 

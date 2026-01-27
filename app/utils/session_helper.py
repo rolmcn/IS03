@@ -1,5 +1,5 @@
 from contextlib import asynccontextmanager
-from app.database import AsyncSessionLocal  # tavo async_sessionmaker
+from app.database import AsyncSessionLocal
 
 @asynccontextmanager
 async def session_context():

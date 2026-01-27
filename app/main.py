@@ -17,8 +17,8 @@ from app.routers import (
 )
 
 from app.utils.rate_limiter import check_post_limit
-from app.utils.cleanup import cleanup_expired_pending_users
-from app.utils.session_helper import session_context  # <- naujas helper
+from app.utils.cleanup import cleanup_expired_tokens
+from app.utils.session_helper import session_context
 
 # =========================================================
 # Background task – periodinis pending paskyrų valymas
@@ -33,7 +33,7 @@ async def periodic_cleanup(stop_event: asyncio.Event):
     while not stop_event.is_set():
         try:
             async with session_context() as session:
-                await cleanup_expired_pending_users(session)
+                await cleanup_expired_tokens(session)
         except Exception as e:
             print(f"[cleanup task] klaida: {e}")
 
@@ -53,7 +53,7 @@ async def lifespan(_app: FastAPI):
     # ---------- STARTUP: vienkartinis valymas iš karto ----------
     try:
         async with session_context() as session:
-            await cleanup_expired_pending_users(session)
+            await cleanup_expired_tokens(session)
     except Exception as e:
         print(f"[startup cleanup] klaida: {e}")
 

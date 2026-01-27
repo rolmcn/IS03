@@ -1,13 +1,15 @@
 from datetime import datetime, timezone
 from fastapi import APIRouter, Request, Depends, Query
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.responses import HTMLResponse, RedirectResponse, Response
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+from sqlalchemy.exc import SQLAlchemyError
 from pydantic import ValidationError
 from urllib.parse import unquote
 import secrets
+import smtplib
 
-from app.config import templates, settings, BASE_URL
+from app.config import templates, settings
 from app.database import get_async_session
 from app.models.users import Users
 from app.models.sessions import UserSession
@@ -18,7 +20,8 @@ from app.utils.crypto import encrypt_data, decrypt_data, hash_password, verify_p
 from app.utils.recaptcha import verify_recaptcha
 from app.utils.rate_limiter import check_post_limit
 from app.utils.token import generate_confirmation_token, verify_confirmation_token
-from app.utils.mail import send_registration_confirmation_email, send_registration_success_email, send_confirmation_expired_email
+from app.utils.mail import send_registration_confirmation_email, send_registration_success_email
+from app.utils.logger import logger
 
 router = APIRouter()
 SITE_KEY = settings.SITE_KEY
@@ -139,8 +142,12 @@ async def login_post(request: Request, session: AsyncSession = Depends(get_async
             user_id=user.id,
             expires_at=UserSession.expiry()
         )
-        session.add(user_session)
-        await session.commit()
+        try:
+            session.add(user_session)
+            await session.commit()
+        except SQLAlchemyError:
+            logger.exception(f"Failed to create session for user {user.id}")
+            return Response(status_code=500)
 
         response = RedirectResponse(url="/account-auto.html", status_code=303)
         response.set_cookie(
@@ -229,16 +236,23 @@ async def login_post(request: Request, session: AsyncSession = Depends(get_async
         )
 
         # 6️⃣ Įrašome į DB
-        session.add(new_user)
-        await session.commit()
-        await session.refresh(new_user)  # dabar turime new_user.id
+        try:
+            session.add(new_user)
+            await session.commit()
+            await session.refresh(new_user)
+        except SQLAlchemyError:
+            logger.exception("Failed to create new user")
+            return Response(status_code=500)
 
-        # 7️⃣ Siunčiame patvirtinimo laišką su tikru user_id ir token
-        await send_registration_confirmation_email(
-            email=data.email,
-            user_id=new_user.id,
-            token=token_part
-        )
+        # 7️⃣ Siunčiame patvirtinimo laišką
+        try:
+            await send_registration_confirmation_email(
+                email=data.email,
+                user_id=new_user.id,
+                token=token_part
+            )
+        except (smtplib.SMTPException, ConnectionError, TimeoutError):
+            logger.exception(f"Failed to send registration confirmation email to {data.email}")
 
         # 8️⃣ Gražiname atsakymą
         return templates.TemplateResponse(
@@ -277,117 +291,64 @@ async def confirm_registration(
     token: str = Query(...),
     session: AsyncSession = Depends(get_async_session),
 ):
-    # 1️⃣ Bandome atskirti user_id nuo tokeno
+    # 1️⃣ Token formato patikrinimas
     try:
         user_id_str, token_part = token.split(".", 1)
         user_id = int(user_id_str)
     except (ValueError, AttributeError):
-        return templates.TemplateResponse(
-            "confirm.html",
-            {
-                "request": request,
-                "auto_close": False,
-                "countdown": 10,
-                "message": (
-                    "Patvirtinimo nuoroda neteisinga.<br>"
-                    "Rekomenduojame paspausti nuorodą, kurią gavote el. paštu."
-                ),
-            },
-        )
+        return Response(status_code=404)
 
-    # 2️⃣ Ieškome naudotojo pagal user_id
-    result = await session.execute(
-        select(Users).where(Users.id == user_id)
-    )
+    # 2️⃣ Naudotojo paieška
+    result = await session.execute(select(Users).where(Users.id == user_id))
     user = result.scalar_one_or_none()
-
     if not user:
-        return templates.TemplateResponse(
-            "confirm.html",
-            {
-                "request": request,
-                "auto_close": False,
-                "countdown": 10,
-                "message": (
-                    "Patvirtinimo nuoroda negalioja.<br>"
-                    "Prašome registruotis iš naujo."
-                ),
-            },
-        )
+        return Response(status_code=404)
 
-    email = decrypt_data(user.email_encrypted)
+    # 3️⃣ Tikriname statusą
+    if user.status != "pending" or not user.confirmation_token_hash:
+        return Response(status_code=204)
 
-    # 3️⃣ Tikriname naudotojo būseną
-    if user.status != "pending":
-        return templates.TemplateResponse(
-            "confirm.html",
-            {
-                "request": request,
-                "auto_close": False,
-                "countdown": 10,
-                "message": (
-                    "Patvirtinimas jau buvo atliktas, registracija buvo užbaigta.<br>"
-                    "Jums el. paštu buvo išsiųstas prisijungimo ID kodas."
-                ),
-            },
-        )
-
-    # 4️⃣ Tikriname ar tokenas sutampa (tik pending)
-    if (
-        not user.confirmation_token_hash
-        or not verify_confirmation_token(token_part, user.confirmation_token_hash)
-    ):
-        return templates.TemplateResponse(
-            "confirm.html",
-            {
-                "request": request,
-                "auto_close": False,
-                "countdown": 10,
-                "message": (
-                    "Patvirtinimo nuoroda neteisinga.<br>"
-                    "Rekomenduojame paspausti nuorodą, kurią gavote el. paštu."
-                ),
-            },
-        )
+    # 4️⃣ Tikriname tokeno atitikimą
+    if not verify_confirmation_token(token_part, user.confirmation_token_hash):
+        return Response(status_code=204)
 
     # 5️⃣ Tikriname tokeno galiojimą
     expires_at = user.confirmation_token_expires
     now_utc = datetime.now(timezone.utc)
-
     if (
         expires_at is None
         or (expires_at.tzinfo is None and expires_at.replace(tzinfo=timezone.utc) < now_utc)
         or (expires_at.tzinfo is not None and expires_at < now_utc)
     ):
-        await send_confirmation_expired_email(email)
-        return templates.TemplateResponse(
-            "confirm.html",
-            {
-                "request": request,
-                "auto_close": False,
-                "countdown": 10,
-                "message": (
-                    "Patvirtinimo nuoroda negalioja. Kviečiame registruotis iš naujo.<br>"
-                    "Jei jau registravotės ir yra pasibaigęs patvirtinimo nuorodos galiojimas, "
-                    "bandykite registruotis iš naujo po 10 min."
-                ),
-            },
-        )
+        return Response(status_code=410)
 
     # 6️⃣ Sėkmingas patvirtinimas
+    try:
+        email = decrypt_data(user.email_encrypted)
+    except (ValueError, TypeError):
+        logger.exception(f"Email decryption failed for user {user.id}")
+        return Response(status_code=500)
+
     user.status = "active"
     user.confirmation_token_hash = None
     user.confirmation_token_expires = None
 
-    login_id, login_index = await generate_unique_login(session)
-    user.login_index = login_index
+    try:
+        login_id, login_index = await generate_unique_login(session)
+        user.login_index = login_index
+        await session.commit()
+    except SQLAlchemyError:
+        logger.exception(f"Failed to activate user {user.id}")
+        return Response(status_code=500)
 
-    await session.commit()
-
-    await send_registration_success_email(
-        email=email,
-        login_id=login_id,
-    )
+    # Siunčiame sėkmės el. laišką
+    try:
+        await send_registration_success_email(
+            email=email,
+            login_id=login_id,
+        )
+    except (smtplib.SMTPException, ConnectionError, TimeoutError):
+        logger.exception(f"Failed to send registration success email to {email}")
 
     return templates.TemplateResponse(
         "confirm.html",

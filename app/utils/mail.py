@@ -3,7 +3,8 @@ from app.config import conf, settings, CONTACT_INFO, BASE_URL
 
 fm = FastMail(conf)
 
-LOGIN_URL = f"{BASE_URL}/login"  # universalus login puslapio URL
+LOGIN_URL = f"{BASE_URL}/login"
+FORGOT_LOGIN_URL = f"{BASE_URL}/forgot-login"
 
 # -------------------------------
 # Contact form laiškas
@@ -69,6 +70,52 @@ async def send_registration_confirmation_email(email: str, user_id: int, token: 
 
 
 # -------------------------------
+# Prisijungimo duomenų keitimo patvirtinimo laiškas
+# -------------------------------
+async def send_reset_confirmation_email(email: str, user_id: int, token: str):
+    full_token = f"{user_id}.{token}"
+    confirm_url = f"{BASE_URL}/forgot-login/confirm?token={full_token}"
+
+    message = MessageSchema(
+        subject="Prisijungimo duomenų keitimo patvirtinimas",
+        recipients=[email],
+        body=f"""
+        <p>Sveiki,</p>
+
+        <p>
+            Gavome prašymą pakeisti Jūsų prisijungimo duomenis.
+            Norėdami patvirtinti šį veiksmą, paspauskite žemiau esančią nuorodą.
+        </p>
+        
+        <p> <strong>Patvirtinimo nuoroda:</strong>
+            <a href="{confirm_url}" style="text-decoration: underline;">
+                {confirm_url}
+            </a>
+        </p>
+        
+        <p>
+            Patvirtinus prisijungimo duomenų keitimą: atnaujinsime Jūsų slaptažodį, 
+            atsiųsime naują prisijungimo ID kodą.
+        </p>
+       
+        <p>
+            Jei per <strong>24 valandas</strong> neatliksite patvirtinimo,
+            prisijungimo duomenų keitimo procesas bus nutrauktas.
+        </p>
+
+        <hr>
+
+        <p>
+            <strong>{CONTACT_INFO["company_name"]}</strong> | 
+            tel. <a href="tel:{CONTACT_INFO["phone"]}">{CONTACT_INFO["phone"]}</a> | 
+            el. paštas <a href="mailto:{CONTACT_INFO["email"]}">{CONTACT_INFO["email"]}</a>
+        </p>
+        """,
+        subtype="html",
+    )
+    await fm.send_message(message)
+
+# -------------------------------
 # Sėkmingos registracijos laiškas
 # -------------------------------
 async def send_registration_success_email(email: str, login_id: str):
@@ -124,7 +171,62 @@ async def send_registration_success_email(email: str, login_id: str):
 
 
 # -------------------------------
-# Patvirtinimo nuorodos galiojimo pasibaigimo laiškas
+# Sėkmingo reset laiškas
+# -------------------------------
+async def send_reset_login_success_email(email: str, login_id: str):
+    message = MessageSchema(
+        subject="Atnaujinti prisijungimo duomenys",
+        recipients=[email],
+        body=f"""
+        <p>Sveiki,</p>
+
+        <p>
+            Jūsų prisijungimo duomenų atnaujinimas sėkmingai užbaigtas, galite jungtis prie informacinės sistemos.
+        </p>
+
+        <p>
+            Jūsų prisijungimo ID kodas: <strong>{login_id}</strong>
+        </p>
+
+        <p>
+            Jei nesate atidarę prisijungimo prie informacinės sistemos puslapio, jį galite pasiekti pasirinkę nuorodą
+                <a href="{LOGIN_URL}" style="text-decoration: underline;">
+                    {LOGIN_URL}
+                </a>
+        </p>
+
+        <p style="margin: 0; font-size: 14px; line-height: 1.4;">
+            <span style="
+                display: inline-block;
+                width: 16px;
+                height: 16px;
+                line-height: 16px;
+                text-align: center;
+                border: 2px solid red;
+                border-radius: 50%;
+                color: black;
+                font-weight: bold;
+                font-size: 12px;
+                margin-right: 6px;
+            ">!</span>
+            Niekam neatskleiskite savo prisijungimo duomenų.
+        </p>
+
+        <hr>
+
+        <p>
+            <strong>{CONTACT_INFO["company_name"]}</strong> | 
+            tel. <a href="tel:{CONTACT_INFO["phone"]}">{CONTACT_INFO["phone"]}</a> | 
+            el. paštas <a href="mailto:{CONTACT_INFO["email"]}">{CONTACT_INFO["email"]}</a>
+        </p>
+        """,
+        subtype="html",
+    )
+    await fm.send_message(message)
+
+
+# -------------------------------
+# Registracijos patvirtinimo nuorodos galiojimo pasibaigimo laiškas
 # -------------------------------
 async def send_confirmation_expired_email(email: str):
     message = MessageSchema(
@@ -139,6 +241,38 @@ async def send_confirmation_expired_email(email: str):
             Kviečiame registruotis iš naujo (registracijos formą rasite pasirinkę šią nuorodą:
             <a href="{LOGIN_URL}" style="text-decoration: underline;">
                 {LOGIN_URL})
+            </a>
+        </p>
+
+        <hr>
+
+        <p>
+            <strong>{CONTACT_INFO["company_name"]}</strong> | 
+            tel. <a href="tel:{CONTACT_INFO["phone"]}">{CONTACT_INFO["phone"]}</a> | 
+            el. paštas <a href="mailto:{CONTACT_INFO["email"]}">{CONTACT_INFO["email"]}</a>
+        </p>
+        """,
+        subtype="html",
+    )
+    await fm.send_message(message)
+
+
+# -------------------------------
+# Reset patvirtinimo nuorodos galiojimo pasibaigimo laiškas
+# -------------------------------
+async def send_reset_confirmation_expired_email(email: str):
+    message = MessageSchema(
+        subject="Patvirtinimo nuoroda negalioja",
+        recipients=[email],
+        body=f"""
+        <p>Sveiki,</p>
+
+        <p>Patvirtinimo nuoroda negalioja.</p>
+
+        <p>
+            Esant poreikiui prisijungimo duomenis galite pakeisti pasirinkę šią nuorodą:
+            <a href="{FORGOT_LOGIN_URL}" style="text-decoration: underline;">
+                {FORGOT_LOGIN_URL}
             </a>
         </p>
 
