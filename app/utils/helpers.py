@@ -42,4 +42,3 @@ def replace_placeholders(text: str, contact: dict) -> str:
         text = text.replace(placeholder, html)
 
     return text
-

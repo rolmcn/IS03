@@ -13,7 +13,7 @@ from app.models.users import Users
 from app.schemas.auth_schemas import ForgotLoginData
 from app.utils.crypto import hash_password, decrypt_data
 from app.utils.recaptcha import verify_recaptcha
-from app.utils.rate_limiter import check_post_limit
+from app.utils.rate_limiter import check_post_limit, register_post_attempt, reset_attempts
 from app.utils.token import generate_confirmation_token, verify_confirmation_token
 from app.utils.mail import send_reset_confirmation_email, send_reset_login_success_email
 from app.utils.login_manager import generate_unique_login
@@ -68,6 +68,7 @@ async def forgot_login_post(request: Request, session: AsyncSession = Depends(ge
     try:
         ForgotLoginData(email=email, password=password)  # tik validacija
     except ValidationError as e:
+        register_post_attempt(request)
         msg = e.errors()[0]["msg"].replace("Value error, ", "")
         return templates.TemplateResponse(
             "forgot-login.html",
@@ -82,6 +83,7 @@ async def forgot_login_post(request: Request, session: AsyncSession = Depends(ge
 
     # 3️⃣ reCAPTCHA tikrinimas
     if not recaptcha_response or not await verify_recaptcha(recaptcha_response):
+        register_post_attempt(request)
         return templates.TemplateResponse(
             "forgot-login.html",
             {
@@ -114,6 +116,7 @@ async def forgot_login_post(request: Request, session: AsyncSession = Depends(ge
     user = result.scalar_one_or_none()
 
     if not user:
+        register_post_attempt(request)
         return response  # jei vartotojas nerastas, nieko daugiau nedarome
 
     # 6️⃣ Sukuriame reset token ir įrašome į DB
@@ -125,6 +128,7 @@ async def forgot_login_post(request: Request, session: AsyncSession = Depends(ge
 
     try:
         await session.commit()
+        reset_attempts(request)
     except SQLAlchemyError:
         logger.exception(f"Failed to save reset token for user {user.id}")
 

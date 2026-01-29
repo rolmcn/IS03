@@ -18,7 +18,7 @@ from app.utils.login_manager import generate_unique_login
 from app.utils.blind_index import generate_login_index
 from app.utils.crypto import encrypt_data, decrypt_data, hash_password, verify_password
 from app.utils.recaptcha import verify_recaptcha
-from app.utils.rate_limiter import check_post_limit
+from app.utils.rate_limiter import check_post_limit, register_post_attempt, reset_attempts
 from app.utils.token import generate_confirmation_token, verify_confirmation_token
 from app.utils.mail import send_registration_confirmation_email, send_registration_success_email
 from app.utils.logger import logger
@@ -64,25 +64,24 @@ async def login_post(request: Request, session: AsyncSession = Depends(get_async
     form = await request.form()
     form_dict = dict(form)
 
-    limit_error = check_post_limit(request)
-    if limit_error:
-        return templates.TemplateResponse(
-            "login.html",
-            {
-                "request": request,
-                "site_key": SITE_KEY,
-                "login_error": limit_error,
-                "login_success": None,
-                "register_error": None,
-                "register_success": None,
-                "form_data": form_dict,
-            },
-        )
-
     # =========================
     # LOGIN
     # =========================
     if "submit_login" in form:
+        limit_error = check_post_limit(request)
+        if limit_error:
+            return templates.TemplateResponse(
+                "login.html",
+                {
+                    "request": request,
+                    "site_key": SITE_KEY,
+                    "login_error": limit_error.body.decode(),
+                    "login_success": None,
+                    "register_error": None,
+                    "register_success": None,
+                    "form_data": form_dict,
+                },
+            )
         login_id = form.get("login_id", "").strip()
         password = form.get("password", "").strip()
 
@@ -108,6 +107,7 @@ async def login_post(request: Request, session: AsyncSession = Depends(get_async
         user = result.scalar_one_or_none()
 
         if not user or not verify_password(data.password, user.password_hash):
+            register_post_attempt(request)
             return templates.TemplateResponse(
                 "login.html",
                 {
@@ -122,6 +122,7 @@ async def login_post(request: Request, session: AsyncSession = Depends(get_async
             )
 
         if user.status != "active":
+            register_post_attempt(request)
             return templates.TemplateResponse(
                 "login.html",
                 {
@@ -149,12 +150,13 @@ async def login_post(request: Request, session: AsyncSession = Depends(get_async
             logger.exception(f"Failed to create session for user {user.id}")
             return Response(status_code=500)
 
+        reset_attempts(request)
         response = RedirectResponse(url="/account-auto.html", status_code=303)
         response.set_cookie(
             key="session_id",
             value=session_id,
             httponly=True,
-            secure=False,
+            secure=False, # perėjus prie https nustatyti True
             samesite="lax"
         )
         return response

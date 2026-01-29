@@ -32,6 +32,7 @@ class Users(Base):
     reset_confirmation_token_expires = Column(DateTime(timezone=True), nullable=True)
 
     sessions = relationship("UserSession", back_populates="user")
+    messages = relationship("Message", back_populates="user")
 
     @property
     def first_name(self) -> str:
