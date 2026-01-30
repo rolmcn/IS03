@@ -1,7 +1,8 @@
 from fastapi_mail import FastMail, MessageSchema
-from app.config import conf, settings, CONTACT_INFO, BASE_URL
+from app.config import contact_conf, notification_conf, settings, CONTACT_INFO, BASE_URL
 
-fm = FastMail(conf)
+fm_contact = FastMail(contact_conf)
+fm_notification = FastMail(notification_conf)
 
 LOGIN_URL = f"{BASE_URL}/login"
 FORGOT_LOGIN_URL = f"{BASE_URL}/forgot-login"
@@ -12,7 +13,7 @@ FORGOT_LOGIN_URL = f"{BASE_URL}/forgot-login"
 async def send_contact_message(email: str | None, phone: str | None):
     message = MessageSchema(
         subject="PRANEŠIMAS IŠ SVETAINĖS",
-        recipients=[settings.MAIL_FROM],
+        recipients=[settings.CONTACT_MAIL_FROM],
         body=f"""
         <p><strong>SUSISIEKTI (contact-form)</strong></p>
 
@@ -22,7 +23,7 @@ async def send_contact_message(email: str | None, phone: str | None):
         """,
         subtype="html",
     )
-    await fm.send_message(message)
+    await fm_contact.send_message(message)
 
 
 # -------------------------------
@@ -66,7 +67,7 @@ async def send_registration_confirmation_email(email: str, user_id: int, token: 
         """,
         subtype="html",
     )
-    await fm.send_message(message)
+    await fm_notification.send_message(message)
 
 
 # -------------------------------
@@ -113,7 +114,7 @@ async def send_reset_confirmation_email(email: str, user_id: int, token: str):
         """,
         subtype="html",
     )
-    await fm.send_message(message)
+    await fm_notification.send_message(message)
 
 # -------------------------------
 # Sėkmingos registracijos laiškas
@@ -167,7 +168,7 @@ async def send_registration_success_email(email: str, login_id: str):
         """,
         subtype="html",
     )
-    await fm.send_message(message)
+    await fm_notification.send_message(message)
 
 
 # -------------------------------
@@ -222,7 +223,7 @@ async def send_reset_login_success_email(email: str, login_id: str):
         """,
         subtype="html",
     )
-    await fm.send_message(message)
+    await fm_notification.send_message(message)
 
 
 # -------------------------------
@@ -254,7 +255,7 @@ async def send_confirmation_expired_email(email: str):
         """,
         subtype="html",
     )
-    await fm.send_message(message)
+    await fm_notification.send_message(message)
 
 
 # -------------------------------
@@ -286,4 +287,4 @@ async def send_reset_confirmation_expired_email(email: str):
         """,
         subtype="html",
     )
-    await fm.send_message(message)
+    await fm_notification.send_message(message)

@@ -26,11 +26,39 @@
   <!-- TAB CONTENT -->
   <div class="tab-content">
 
-    <div class="tab-panel" id="panel1">
-      <div>Pranešimas 1</div>
-      <div>Pranešimas 2</div>
-      <div>Pranešimas 3</div>
+    <div class="account-messages">
+
+  <h2>Pranešimai</h2>
+
+  {% if messages %}
+    <div class="messages-list">
+      {% for msg in messages %}
+        <div class="message-item {% if msg.msg_read %}read{% else %}unread{% endif %}">
+
+          <div class="message-header">
+            <span class="message-title">
+              {{ msg.msg_title or "Pranešimas" }}
+            </span>
+
+            <span class="message-meta">
+              {{ msg.msg_created_at.strftime("%Y-%m-%d %H:%M") }}
+              · {{ msg.msg_type }}
+            </span>
+          </div>
+
+          <div class="message-content">
+            {{ msg.msg_content }}
+          </div>
+
+        </div>
+      {% endfor %}
     </div>
+  {% else %}
+    <p class="no-messages">Pranešimų nėra.</p>
+  {% endif %}
+
+</div>
+
 
     <div class="tab-panel" id="panel2">
       <div>Statistika A</div>

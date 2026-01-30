@@ -26,7 +26,6 @@ def encrypt_data(plain_text: str) -> str:
     aesgcm = AESGCM(SECRET_KEY)
     nonce = os.urandom(12)  # 12 baitų nonce
     ct = aesgcm.encrypt(nonce, plain_text.encode("utf-8"), None)
-    # Saugo nonce + cipher text kartu Base64 formatu
     return base64.b64encode(nonce + ct).decode("utf-8")
 
 def decrypt_data(cipher_text_b64: str) -> str:
@@ -39,16 +38,11 @@ def decrypt_data(cipher_text_b64: str) -> str:
 # Slaptažodžių hash / patikrinimas
 # -------------------------------
 def hash_password(password: str) -> str:
-    """Sugeneruoja bcrypt hash iš slaptažodžio"""
-    password_bytes = password.encode("utf-8")
-    if len(password_bytes) > 72:
-        # bcrypt palaiko tik 72 baitus
-        password_bytes = password_bytes[:72]
-    return pwd_context.hash(password_bytes.decode("utf-8", errors="ignore"))
+    """Sugeneruoja bcrypt hash iš slaptažodžio (iki 72 baitų)"""
+    password_bytes = password.encode("utf-8")[:72]  # trunkinam iki 72 baitų
+    return pwd_context.hash(password_bytes)
 
 def verify_password(password: str, hashed: str) -> bool:
-    """Patikrina slaptažodį pagal hash"""
-    password_bytes = password.encode("utf-8")
-    if len(password_bytes) > 72:
-        password_bytes = password_bytes[:72]
-    return pwd_context.verify(password_bytes.decode("utf-8", errors="ignore"), hashed)
+    """Patikrina slaptažodį pagal hash (iki 72 baitų)"""
+    password_bytes = password.encode("utf-8")[:72]
+    return pwd_context.verify(password_bytes, hashed)
