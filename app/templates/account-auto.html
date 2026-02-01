@@ -26,58 +26,63 @@
   <!-- TAB CONTENT -->
   <div class="tab-content">
 
-    <div class="account-messages">
+    <!-- ========================= -->
+    <!-- PRANEŠIMAI -->
+    <!-- ========================= -->
+    <div class="tab-panel" id="panel1">
+      <div class="account-messages">
 
-  <h2>Pranešimai</h2>
-
-  {% if messages %}
-    <div class="messages-list">
-      {% for msg in messages %}
-        <div class="message-item {% if msg.msg_read %}read{% else %}unread{% endif %}">
-
-          <div class="message-header">
-            <span class="message-title">
-              {{ msg.msg_title or "Pranešimas" }}
-            </span>
-
-            <span class="message-meta">
-              {{ msg.msg_created_at.strftime("%Y-%m-%d %H:%M") }}
-              · {{ msg.msg_type }}
-            </span>
+        {% if messages %}
+          <div class="messages-list">
+            {% for msg in messages %}
+              <div
+                class="message-card {% if not msg.msg_read %}unread{% endif %}"
+                data-message-id="{{ msg.id }}"
+                data-read="{{ 'true' if msg.msg_read else 'false' }}"
+              >
+                <div class="message-row">
+                  <div class="message-title">
+                    {{ msg.msg_title or "Pranešimas" }}
+                  </div>
+                  <div class="message-date">
+                    {{ msg.msg_created_at.strftime("%Y-%m-%d %H:%M") }}
+                  </div>
+                  <div class="message-toggle" aria-hidden="true">
+                    ▼
+                  </div>
+                </div>
+                <div class="message-body">
+                  {% set clean_text = msg.msg_content.replace('\\n','\n') %}
+                  {% for paragraph in clean_text.split('\n\n') %}
+                    <p>{{ paragraph | replace('\n', '<br>') | safe }}</p>
+                  {% endfor %}
+                </div>
+              </div>
+            {% endfor %}
           </div>
-
-          <div class="message-content">
-            {{ msg.msg_content }}
-          </div>
-
-        </div>
-      {% endfor %}
+        {% else %}
+          <p class="no-messages">Pranešimų nėra.</p>
+        {% endif %}
+      </div>
     </div>
-  {% else %}
-    <p class="no-messages">Pranešimų nėra.</p>
-  {% endif %}
 
-</div>
-
-
+    <!-- ========================= -->
+    <!-- KITI -->
+    <!-- ========================= -->
     <div class="tab-panel" id="panel2">
-      <div>Statistika A</div>
-      <div>Statistika B</div>
+      Statistika
     </div>
 
     <div class="tab-panel" id="panel3">
-      <div>Užsakymas #123</div>
-      <div>Užsakymas #124</div>
+      Užsakymai
     </div>
 
     <div class="tab-panel" id="panel4">
-      <div>Paskyros nustatymas</div>
-      <div>Prieinamumo nustatymas</div>
+      Nustatymai
     </div>
 
   </div>
 </div>
 {% endblock %}
-
 
 {% block footer %}{% endblock %}

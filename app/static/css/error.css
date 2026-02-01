@@ -1,0 +1,15 @@
+.main-error-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 120px 5% 50px 5%;
+  box-sizing: border-box;
+  align-items: stretch;
+  min-height: calc(100vh - 120px);
+}
+
+.countdown {
+  font-weight: bold;
+  color: red;
+  display: inline-block;
+}

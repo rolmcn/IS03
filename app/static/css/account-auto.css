@@ -6,6 +6,7 @@
   padding: 120px 5%;
   min-height: calc(100vh - 100px);
   box-sizing: border-box;
+  font-family: "Inter", sans-serif;
 }
 
 /* === RADIO (paslėpti) === */
@@ -25,9 +26,7 @@
   margin: 0;
 }
 
-.tab-labels li {
-  margin: 0;
-}
+.tab-labels li { margin: 0; }
 
 .tab-labels label {
   display: block;
@@ -42,9 +41,7 @@
   transition: background-color 0.25s ease;
 }
 
-.tab-labels label:hover {
-  background-color: #eaf2fb;
-}
+.tab-labels label:hover { background-color: #eaf2fb; }
 
 /* === AKTYVAUS TAB STILIUS === */
 #tab1:checked ~ .tab-labels label[for="tab1"],
@@ -57,29 +54,117 @@
 }
 
 /* === TURINIO KONTEINERIS === */
-.tab-content {
-  flex: 1 1 auto;
-  padding-top: 10px;
-}
+.tab-content { flex: 1 1 auto; padding-top: 10px; }
 
-/* === VISI PANELIAI PASLĖPTI PAGAL NUTYLĖJIMĄ === */
-.tab-panel {
-  display: none;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 1rem;
-}
+/* === PANELIAI === */
+.tab-panel { display: none; }
 
-/* === RODOMAS TIK AKTYVUS PANELIS === */
+/* Rodo tik aktyvų panelį */
 #tab1:checked ~ .tab-content #panel1,
 #tab2:checked ~ .tab-content #panel2,
 #tab3:checked ~ .tab-content #panel3,
 #tab4:checked ~ .tab-content #panel4 {
-  display: grid;
+  display: block;
 }
 
-/* === PANELIO ELEMENTAI === */
-.tab-panel > div {
-  border: 1px dotted #ffffff;
-  padding: 1.5rem;
-  background-color: #f0f0f0;
+/* === PRANEŠIMŲ SĄRAŠAS === */
+.messages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  position: relative;
+}
+
+/* === PRANEŠIMO KORTELĖ === */
+.message-card {
+  width: 100%;
+  background-color: transparent; /* kortelė neturi fono */
+  border-radius: 0px;
+  border: 1px solid #dcdcdc;
+  padding: 5px 10px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.3s ease,
+    border-color 0.25s ease;
+}
+
+.message-card:hover {
+  background-color: transparent;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Neskaitytas pranešimas */
+.message-card.unread {
+  background-color: transparent;
+  border-left: 5px solid #1a69b1;
+}
+
+/* === VIENA EILUTĖ: tema | data | toggle === */
+.message-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Tema (antraštė) */
+.message-title {
+  font-size: 16px;
+  font-weight: 400;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background-color: transparent;
+  padding: 5px 10px;
+  border-radius: 4px;
+  transition: font-size 0.25s ease;
+}
+
+/* Paryškintas neskaitytas */
+.message-card.unread .message-title {
+  font-weight: 700;
+  color: #333;
+}
+
+/* Atidarius kortelę padidinti šriftą */
+.message-card.open .message-title {
+  font-size: 1.5rem; /* atitinka h4 */
+  font-weight: 400;
+  color: #1a69b1;
+}
+
+/* Data */
+.message-date {
+  font-size: 16px;
+  color: #333;
+  white-space: nowrap;
+  background-color: transparent;
+  padding: 5px 10px;
+  border-radius: 4px;
+  text-align: right;
+}
+
+/* Toggle indikatorius */
+.message-toggle {
+  font-size: 16px;
+  color: #333;
+  user-select: none;
+}
+
+/* Atidaryta kortelė */
+.message-card.open .message-body {
+  display: block;
+  margin-top: 6px;
+}
+
+.message-body {
+  display: none;
+  font-size: 16px;
+  color: #333;
+  line-height: 1.5;
+  padding: 5px 10px;
 }

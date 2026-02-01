@@ -5,6 +5,7 @@
     <title>EIGVA</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="{{ url_for('static', path='css/base-auto.css') }}" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token }}">
 
     {% block styles %}{% endblock %}
 </head>
@@ -84,6 +85,8 @@
 
     <script src="/static/js/hide-spinner.js"></script>
     <script src="/static/js/clock.js"></script>
+    <script src="/static/js/message-show.js"></script>
+
 
 </body>
 </html>

@@ -29,7 +29,7 @@ class Message(Base):
 
     msg_type = Column(String(50), nullable=False)   # sms, email, system
     msg_status = Column(String(50), default="sent") # sent, failed, read
-    msg_read = Column(Boolean, default=False)
+    msg_read = Column(DateTime(timezone=True), nullable=True, default=None)
 
     msg_created_at = Column(
         DateTime(timezone=True),

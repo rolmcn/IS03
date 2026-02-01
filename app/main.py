@@ -19,6 +19,7 @@ from app.routers import (
 from app.utils.rate_limiter import check_post_limit
 from app.utils.cleanup import cleanup_expired_tokens
 from app.utils.session_helper import session_context
+from app.error import setup_error_handlers
 
 # =========================================================
 # Background task – periodinis pending paskyrų valymas
@@ -71,7 +72,7 @@ async def lifespan(_app: FastAPI):
 # FastAPI app
 # =========================================================
 app = FastAPI(lifespan=lifespan)
-
+setup_error_handlers(app)
 # =========================================================
 # Static files
 # =========================================================

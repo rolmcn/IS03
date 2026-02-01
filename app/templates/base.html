@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skaitmeninimo paslaugos | EFF Energy</title>
+    <title>
+        {% if error_code and error_title %}
+            {{ error_code }} – {{ error_title }}
+        {% else %}
+            Skaitmeninimo paslaugos | EFF Energy
+        {% endif %}
+    </title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="/static/css/base.css" rel="stylesheet">
 
@@ -60,6 +66,7 @@
     <script src="/static/js/flash-message.js"></script>
     <script src="/static/js/token-confirm.js"></script>
     <script src="/static/js/page-auto-close.js"></script>
+    <script src="/static/js/page-auto-redirect.js"></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script>
       function resetRecaptcha() {
