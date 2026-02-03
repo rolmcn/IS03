@@ -151,7 +151,7 @@ async def login_post(request: Request, session: AsyncSession = Depends(get_async
             return Response(status_code=500)
 
         reset_attempts(request)
-        response = RedirectResponse(url="/account-auto.html", status_code=303)
+        response = RedirectResponse(url="/account-auto", status_code=303)
         response.set_cookie(
             key="session_id",
             value=session_id,

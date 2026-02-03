@@ -14,6 +14,7 @@ from app.routers import (
     customers_auto,
     account_auto,
     forgot_login,
+    manual_auto,
 )
 
 from app.utils.rate_limiter import check_post_limit
@@ -91,6 +92,7 @@ app.include_router(works_auto.router)
 app.include_router(customers_auto.router)
 app.include_router(account_auto.router)
 app.include_router(forgot_login.router)
+app.include_router(manual_auto.router)
 
 # =========================================================
 # Global POST rate limiter

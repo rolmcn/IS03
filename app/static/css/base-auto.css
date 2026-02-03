@@ -110,6 +110,7 @@ a:hover {
 
 .menu-block a:hover {
   border-color: #f0f0f0;
+  background-color: rgba(240,240,240,0.15);
 }
 
 .menu-block a.active {
@@ -127,7 +128,7 @@ a:hover {
   flex-wrap: wrap;
 }
 
-.accessibility-symbols, .logout-symbols{
+.question-mark-symbol, .accessibility-symbol, .logout-symbol{
   width: 32px;
   height: 32px;
   display: inline-flex;
@@ -147,16 +148,21 @@ a:hover {
     border-color 0.3s ease;
 }
 
-.accessibility-symbols {
+.question-mark-symbol {
+  background-image: url("/static/img/question_mark_40dp_F0F0F0_FILL0_wght500_GRAD0_opsz40.svg");
+}
+
+.accessibility-symbol {
   background-image: url("/static/img/settings_accessibility_40dp_F0F0F0_FILL0_wght500_GRAD0_opsz40.svg");
 }
 
-.logout-symbols {
+.logout-symbol {
   background-image: url("/static/img/logout_40dp_F0F0F0_FILL0_wght500_GRAD0_opsz40.svg");
 }
 
-.accessibility-symbols:hover, .logout-symbols:hover {
+.question-mark-symbol:hover, .accessibility-symbol:hover, .logout-symbol:hover {
   border-color: #f0f0f0;
+  background-color: rgba(240,240,240,0.15);
 }
 
 .info-block {
@@ -186,8 +192,9 @@ a:hover {
   flex-direction: column;
   gap: 4px;
   padding-right: 8px;
-  border-right: 1px solid #f0f0f0;
+  border-right: 1px solid #333;
   line-height: 1.2;
+  color: #333;
 }
 
 .user-name {
@@ -222,6 +229,7 @@ a:hover {
   margin-left: 0px;
   white-space: nowrap;
   line-height: 1.2;
+  color: #333;
 }
 
 .info-block p {
@@ -232,14 +240,14 @@ a:hover {
     position: relative;
     display: inline-block;
     font-size: 16px;
-    color: #000000;
+    color: #333;
     font-weight: 300;
 }
 
 .dropdown-toggle {
     background: none;
     border: none;
-    color: #000000;
+    color: #333;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -247,7 +255,6 @@ a:hover {
     padding: 0;
     font-family: 'Roboto', sans-serif;
     font-size: 16px;
-    color: #000000;
     font-weight: 300;
 }
 
@@ -259,7 +266,7 @@ a:hover {
 .dropdown-content {
     display: none;
     position: absolute;
-    top: 100%; /* po mygtuku */
+    top: 100%;
     left: 0;
     background-color: #fff;
     border: 1px solid #ccc;

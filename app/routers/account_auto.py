@@ -19,7 +19,7 @@ logger = logging.getLogger("account_auto")
 CurrentUser = Annotated[Users, Depends(get_current_user)]
 
 
-@router.get("/account-auto.html", response_class=HTMLResponse)
+@router.get("/account-auto", response_class=HTMLResponse)
 async def account_auto_page(
     request: Request,
     current_user: CurrentUser,

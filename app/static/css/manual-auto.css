@@ -1,0 +1,68 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* Pagrindinis konteineris */
+.main-manual-auto-container {
+  display: flex;
+  gap: 20px;
+  margin-top: 120px; /* header aukštis */
+  padding: 0 5% 2% 5%;
+  height: calc(100vh - 120px);
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+/* Kairė: medis */
+.manual-nav {
+  width: 260px;
+  border-right: 1px solid #ccc;
+  padding: 10px 10px 10px 0;
+  position: sticky;
+  top: 120px;
+  height: calc(100vh - 120px);
+  overflow-y: auto;
+}
+
+.manual-nav ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.manual-nav li ul {
+  padding-left: 15px;
+  display: none;
+}
+
+.manual-nav li.expanded > ul {
+  display: block;
+}
+
+.manual-nav a {
+  text-decoration: none;
+  color: #1a69b1;
+}
+
+.manual-nav a:hover {
+  text-decoration: underline;
+}
+
+.manual-nav a.active {
+  font-weight: 600;
+  color: #004a80;
+}
+
+/* Dešinė: turinys */
+.manual-content {
+  flex: 1;
+  padding: 10px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.manual-content article {
+  scroll-margin-top: 10px;
+}
