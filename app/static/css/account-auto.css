@@ -47,7 +47,9 @@
 #tab1:checked ~ .tab-labels label[for="tab1"],
 #tab2:checked ~ .tab-labels label[for="tab2"],
 #tab3:checked ~ .tab-labels label[for="tab3"],
-#tab4:checked ~ .tab-labels label[for="tab4"] {
+#tab4:checked ~ .tab-labels label[for="tab4"],
+#tab5:checked ~ .tab-labels label[for="tab5"],
+#tab6:checked ~ .tab-labels label[for="tab6"] {
   background: #1a69b1;
   color: #ffffff;
   border-bottom: 1px solid #ffffff;
@@ -63,7 +65,9 @@
 #tab1:checked ~ .tab-content #panel1,
 #tab2:checked ~ .tab-content #panel2,
 #tab3:checked ~ .tab-content #panel3,
-#tab4:checked ~ .tab-content #panel4 {
+#tab4:checked ~ .tab-content #panel4,
+#tab5:checked ~ .tab-content #panel5,
+#tab6:checked ~ .tab-content #panel6 {
   display: block;
 }
 
@@ -167,4 +171,97 @@
   color: #333;
   line-height: 1.5;
   padding: 5px 10px;
+}
+
+.role-row {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.arrow-2 {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 16px;
+}
+
+.arrow-2::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  width: 20px;
+  height: 1px;
+  background: #333;
+  transform: translateY(-50%);
+}
+
+.arrow-2::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  width: 8px;
+  height: 8px;
+  border-top: 1px solid #333;
+  border-right: 1px solid #333;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.form-field {
+    display: flex;
+    align-items: center; /* viskas vertikaliai centre */
+    gap: 10px;           /* tarpai tarp elementų */
+    margin-bottom: 12px;
+}
+
+.form-field label {
+    width: 90px;         /* fiksuotas label plotis */
+    margin-bottom: 0;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.input-field {
+    flex: none;          /* nepertempia input */
+    width: 300px;        /* fiksuotas plotis */
+    height: 28px;        /* fiksuotas aukštis */
+    padding: 0 5px;
+    border: 1px solid #ccc;
+    border-radius: 0;
+    box-sizing: border-box;
+    font-size: 16px;
+    color: #000;
+    outline: none;
+}
+
+.input-field:hover {
+    border-color: #1a69b1;
+}
+
+.verified-on-symbol {
+    flex: none;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0px;
+    background-image: url("/static/img/verified_40dp_1A69B1_FILL0_wght500_GRAD0_opsz40.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 20px 20px;
+}
+
+.users-block {
+    display: flex;
+    gap: 20px;
+}
+
+.users-block-left,
+.users-block-right {
+    flex: 1;
+    min-width: 0;
+    box-sizing: border-box;
 }

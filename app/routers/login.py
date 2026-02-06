@@ -13,6 +13,7 @@ from app.config import templates, settings
 from app.database import get_async_session
 from app.models.users import Users
 from app.models.sessions import UserSession
+from app.models.message import Message, MessageEventType
 from app.schemas.auth_schemas import RegistrationData, LoginData
 from app.utils.login_manager import generate_unique_login
 from app.utils.blind_index import generate_login_index
@@ -22,9 +23,11 @@ from app.utils.rate_limiter import check_post_limit, register_post_attempt, rese
 from app.utils.token import generate_confirmation_token, verify_confirmation_token
 from app.utils.mail import send_registration_confirmation_email, send_registration_success_email
 from app.utils.logger import logger
+from app.utils.system_messages import SystemMessages
 
 router = APIRouter()
 SITE_KEY = settings.SITE_KEY
+
 
 # =========================
 # GET /login
@@ -56,6 +59,7 @@ async def login_page(request: Request):
 
     return response
 
+
 # =========================
 # POST /login
 # =========================
@@ -68,6 +72,8 @@ async def login_post(request: Request, session: AsyncSession = Depends(get_async
     # LOGIN
     # =========================
     if "submit_login" in form:
+
+        # 1️⃣ POST limit tikrinimas
         limit_error = check_post_limit(request)
         if limit_error:
             return templates.TemplateResponse(
@@ -82,9 +88,11 @@ async def login_post(request: Request, session: AsyncSession = Depends(get_async
                     "form_data": form_dict,
                 },
             )
+
         login_id = form.get("login_id", "").strip()
         password = form.get("password", "").strip()
 
+        # 2️⃣ Pydantic validacija
         try:
             data = LoginData(login_id=login_id, password=password)
         except ValidationError as e:
@@ -102,10 +110,12 @@ async def login_post(request: Request, session: AsyncSession = Depends(get_async
                 },
             )
 
+        # 3️⃣ Naudotojo paieška
         login_index = generate_login_index(data.login_id)
         result = await session.execute(select(Users).where(Users.login_index == login_index))
         user = result.scalar_one_or_none()
 
+        # 4️⃣ Slaptažodžio tikrinimas
         if not user or not verify_password(data.password, user.password_hash):
             register_post_attempt(request)
             return templates.TemplateResponse(
@@ -121,6 +131,7 @@ async def login_post(request: Request, session: AsyncSession = Depends(get_async
                 },
             )
 
+        # 5️⃣ Statuso tikrinimas
         if user.status != "active":
             register_post_attempt(request)
             return templates.TemplateResponse(
@@ -136,13 +147,14 @@ async def login_post(request: Request, session: AsyncSession = Depends(get_async
                 },
             )
 
-        # Sukuriame sesiją
+        # 6️⃣ Sukuriame sesiją
         session_id = secrets.token_urlsafe(32)
         user_session = UserSession(
             session_id=session_id,
             user_id=user.id,
-            expires_at=UserSession.expiry()
+            expires_at=UserSession.expiry(),
         )
+
         try:
             session.add(user_session)
             await session.commit()
@@ -150,14 +162,17 @@ async def login_post(request: Request, session: AsyncSession = Depends(get_async
             logger.exception(f"Failed to create session for user {user.id}")
             return Response(status_code=500)
 
+        # 7️⃣ Reset login bandymus
         reset_attempts(request)
+
+        # 8️⃣ Nukreipiame į paskyrą
         response = RedirectResponse(url="/account-auto", status_code=303)
         response.set_cookie(
             key="session_id",
             value=session_id,
             httponly=True,
-            secure=False, # perėjus prie https nustatyti True
-            samesite="lax"
+            secure=False,
+            samesite="lax",
         )
         return response
 
@@ -165,6 +180,7 @@ async def login_post(request: Request, session: AsyncSession = Depends(get_async
     # REGISTRATION
     # =========================
     elif "submit_register" in form:
+
         first_name = form.get("first_name", "").strip()
         last_name = form.get("last_name", "").strip()
         email = form.get("email", "").strip()
@@ -204,7 +220,7 @@ async def login_post(request: Request, session: AsyncSession = Depends(get_async
                 },
             )
 
-        # 3️⃣ Patikriname, ar el. paštas jau nėra užimtas
+        # 3️⃣ El. pašto unikalumo tikrinimas
         email_index = generate_login_index(data.email)
         result = await session.execute(select(Users).where(Users.email_index == email_index))
         if result.scalar_one_or_none():
@@ -224,7 +240,7 @@ async def login_post(request: Request, session: AsyncSession = Depends(get_async
         # 4️⃣ Generuojame patvirtinimo tokeną
         token_part, token_hash, expires_at = generate_confirmation_token()
 
-        # 5️⃣ Sukuriame vartotoją
+        # 5️⃣ Sukuriame naudotoją
         new_user = Users(
             first_name_encrypted=encrypt_data(data.first_name),
             last_name_encrypted=encrypt_data(data.last_name),
@@ -235,6 +251,7 @@ async def login_post(request: Request, session: AsyncSession = Depends(get_async
             status="pending",
             confirmation_token_hash=token_hash,
             confirmation_token_expires=expires_at,
+            super_user=True,
         )
 
         # 6️⃣ Įrašome į DB
@@ -256,7 +273,7 @@ async def login_post(request: Request, session: AsyncSession = Depends(get_async
         except (smtplib.SMTPException, ConnectionError, TimeoutError):
             logger.exception(f"Failed to send registration confirmation email to {data.email}")
 
-        # 8️⃣ Gražiname atsakymą
+        # 8️⃣ Grąžiname atsakymą
         return templates.TemplateResponse(
             "login.html",
             {
@@ -284,6 +301,7 @@ async def login_post(request: Request, session: AsyncSession = Depends(get_async
         },
     )
 
+
 # =========================
 # GET /login/confirm
 # =========================
@@ -293,6 +311,7 @@ async def confirm_registration(
     token: str = Query(...),
     session: AsyncSession = Depends(get_async_session),
 ):
+
     # 1️⃣ Token formato patikrinimas
     try:
         user_id_str, token_part = token.split(".", 1)
@@ -306,25 +325,21 @@ async def confirm_registration(
     if not user:
         return Response(status_code=404)
 
-    # 3️⃣ Tikriname statusą
+    # 3️⃣ Statuso tikrinimas
     if user.status != "pending" or not user.confirmation_token_hash:
         return Response(status_code=204)
 
-    # 4️⃣ Tikriname tokeno atitikimą
+    # 4️⃣ Token tikrinimas
     if not verify_confirmation_token(token_part, user.confirmation_token_hash):
         return Response(status_code=204)
 
-    # 5️⃣ Tikriname tokeno galiojimą
+    # 5️⃣ Token galiojimo tikrinimas
     expires_at = user.confirmation_token_expires
     now_utc = datetime.now(timezone.utc)
-    if (
-        expires_at is None
-        or (expires_at.tzinfo is None and expires_at.replace(tzinfo=timezone.utc) < now_utc)
-        or (expires_at.tzinfo is not None and expires_at < now_utc)
-    ):
+    if expires_at is None or expires_at < now_utc:
         return Response(status_code=410)
 
-    # 6️⃣ Sėkmingas patvirtinimas
+    # 6️⃣ Aktyvuojame naudotoją
     try:
         email = decrypt_data(user.email_encrypted)
     except (ValueError, TypeError):
@@ -334,6 +349,7 @@ async def confirm_registration(
     user.status = "active"
     user.confirmation_token_hash = None
     user.confirmation_token_expires = None
+    user.email_verified_at = datetime.now(timezone.utc)
 
     try:
         login_id, login_index = await generate_unique_login(session)
@@ -343,7 +359,30 @@ async def confirm_registration(
         logger.exception(f"Failed to activate user {user.id}")
         return Response(status_code=500)
 
-    # Siunčiame sėkmės el. laišką
+    # 7️⃣ Sukuriame FIRST_LOGIN sisteminį pranešimą
+    if user.super_user:
+        message_content = SystemMessages.super_user_first_login_message(user)
+    else:
+        message_content = SystemMessages.user_first_login_message(user)
+
+    message = Message(
+        user_id=user.id,
+        msg_title="Sveikiname prisijungus",
+        msg_content=message_content,
+        msg_type="system",
+        msg_status="sent",
+        msg_read=None,
+        msg_event_type=MessageEventType.FIRST_LOGIN.value,
+        msg_created_at=datetime.now(timezone.utc),
+    )
+
+    try:
+        session.add(message)
+        await session.commit()
+    except SQLAlchemyError:
+        logger.exception(f"Failed to create first login message for user {user.id}")
+
+    # 8️⃣ Siunčiame sėkmės el. laišką
     try:
         await send_registration_success_email(
             email=email,

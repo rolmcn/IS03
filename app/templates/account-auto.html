@@ -14,13 +14,17 @@
   <input type="radio" name="tab-control" id="tab2">
   <input type="radio" name="tab-control" id="tab3">
   <input type="radio" name="tab-control" id="tab4">
+  <input type="radio" name="tab-control" id="tab5">
+  <input type="radio" name="tab-control" id="tab6">
 
   <!-- TAB LABELS -->
   <ul class="tab-labels">
     <li><label for="tab1">Pranešimai</label></li>
     <li><label for="tab2">Statistika</label></li>
     <li><label for="tab3">Užsakymai</label></li>
-    <li><label for="tab4">Nustatymai</label></li>
+    <li><label for="tab4">Mokėtojas</label></li>
+    <li><label for="tab5">Naudotojas</label></li>
+    <li><label for="tab6">Nustatymai</label></li>
   </ul>
 
   <!-- TAB CONTENT -->
@@ -78,6 +82,53 @@
     </div>
 
     <div class="tab-panel" id="panel4">
+      Mokėtojas
+    </div>
+
+    <div class="tab-panel" id="panel5">
+        <div class="users-block">
+          <div class="users-block-left">
+            <h6>Jūsų duomenys</h6>
+            <hr>
+            <p class="role-row">
+                Jūsų rolė
+                <span class="arrow-2"></span>
+                {% if current_user.super_user %}
+                    SUPER NAUDOTOJAS (SN)
+                {% else %}
+                    NAUDOTOJAS (N)
+                {% endif %}
+            </p>
+            <br>
+            <form method="POST" action="">
+                    <div class="form-field">
+                        <label for="first_name">Vardas</label>
+                        <input type="text" id="first_name" name="first_name" class="input-field" value="{{ current_user.first_name }}">
+                    </div>
+                    <div class="form-field">
+                        <label for="last_name">Pavardė</label>
+                        <input type="text" id="last_name" name="last_name" class="input-field" value="{{ current_user.last_name }}">
+                    </div>
+                    <div class="form-field">
+                        <label for="mobile_phone">Mob. tel.</label>
+                        <input type="text" id="mobile_phone" name="mobile_phone" class="input-field" value="{{ current_user.mobile_phone }}">
+                    </div>
+                    <div class="form-field">
+                        <label for="email">El. paštas</label>
+                        <input type="text" id="email" name="email" class="input-field" value="{{ current_user.email }}">
+                        {% if current_user.email_verified_at %}<span class="verified-on-symbol" aria-label="Patvirtinta sistemoje" title="Patvirtinta sistemoje" translate="no"></span>{% endif %}
+                    </div>
+            </form>
+          </div>
+          <div class="users-block-right">
+              <h6>Naudotojų sąrašas</h6>
+              <hr>
+              <!-- TODO: pridedamas turinys vėliau -->
+          </div>
+        </div>
+    </div>
+
+    <div class="tab-panel" id="panel6">
       Nustatymai
     </div>
 

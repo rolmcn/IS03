@@ -6,8 +6,10 @@ from enum import Enum as PyEnum
 from app.database import Base
 
 
-class MessageEventType(str, PyEnum):
+class MessageEventType(str, PyEnum): # <-- papildžius įtraukti į db
     REGISTRATION = "registration"
+    POST_REGISTRATION = "post_registration"
+    FIRST_LOGIN = "first_login"
     USER_DATA_CHANGE = "user_data_change"
     BUYER_DATA_CHANGE = "buyer_data_change"
 
