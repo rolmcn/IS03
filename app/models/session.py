@@ -12,7 +12,7 @@ class UserSession(Base):
     expires_at = Column(DateTime(timezone=True), nullable=False)
 
     user = relationship(
-        "Users",
+        "User",
         back_populates="sessions"
     )
 

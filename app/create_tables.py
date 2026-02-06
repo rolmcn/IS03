@@ -1,6 +1,6 @@
 import asyncio
 from app.database import engine, Base
-from app.models.users import Users  # svarbu importuoti visus modelius, kad Base juos „žinotų“
+from app.models.user import User  # svarbu importuoti visus modelius, kad Base juos „žinotų“
 
 async def main():
     async with engine.begin() as conn:

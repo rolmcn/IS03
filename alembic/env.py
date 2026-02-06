@@ -4,7 +4,7 @@ from alembic import context
 
 # importuojame Base ir modelius
 from app.database import Base
-from app.models.users import Users  # importuoti visus modelius, kuriuos norime migruoti
+from app.models.user import User  # importuoti visus modelius, kuriuos norime migruoti
 
 # Alembic Config objektas
 config = context.config

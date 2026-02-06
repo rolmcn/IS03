@@ -1,10 +1,10 @@
 from app.config import CONTACT_INFO
-from app.models import Users
+from app.models import User
 
 class SystemMessages:
 
     @staticmethod
-    def super_user_first_login_message(user: Users) -> str:
+    def super_user_first_login_message(user: User) -> str:
         return (
             "Sveikiname prisijungus prie informacinės sistemos EIGVA! 🎉<br><br>"
             "Jums yra priskirtos 'Super naudotojo' teisės.<br>"
@@ -21,7 +21,7 @@ class SystemMessages:
         )
 
     @staticmethod
-    def user_first_login_message(user: Users) -> str:
+    def user_first_login_message(user: User) -> str:
         return (
             "Sveikiname prisijungus prie informacinės sistemos EIGVA! 🎉<br><br>"
             "Naudotojo vadovą rasite meniu 'Žinynas'.<br>"

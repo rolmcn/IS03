@@ -1,3 +1,4 @@
-from .users import Users
+from .user import User
 from .message import Message
-from app.models.sessions import UserSession
+from .payer import Payer
+from app.models.session import UserSession

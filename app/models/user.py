@@ -5,7 +5,7 @@ from app.database import Base
 from app.utils.crypto import decrypt_data
 from app.models.user_payer_association import user_payer_association
 
-class Users(Base):
+class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, autoincrement=True)

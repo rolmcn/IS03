@@ -41,7 +41,7 @@ class Message(Base):
 
     msg_event_type = Column(String(50), nullable=False)
 
-    user = relationship("Users", back_populates="messages")
+    user = relationship("User", back_populates="messages")
 
     def __repr__(self):
         return (

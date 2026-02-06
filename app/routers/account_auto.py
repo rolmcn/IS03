@@ -9,14 +9,14 @@ from sqlalchemy.exc import SQLAlchemyError
 import logging
 
 from app.config import templates
-from app.models.users import Users
+from app.models.user import User
 from app.models.message import Message
 from app.utils.auth import get_async_session, get_current_user
 
 router = APIRouter()
 logger = logging.getLogger("account_auto")
 
-CurrentUser = Annotated[Users, Depends(get_current_user)]
+CurrentUser = Annotated[User, Depends(get_current_user)]
 
 
 @router.get("/account-auto", response_class=HTMLResponse)

@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.models.users import Users
+from app.models.user import User
 from app.utils.mail import send_confirmation_expired_email, send_reset_confirmation_expired_email
 from app.utils.crypto import decrypt_data
 
@@ -16,10 +16,10 @@ async def cleanup_expired_tokens(session: AsyncSession):
 
     # 1️⃣ Registracijos pending vartotojai (trinami)
     result = await session.execute(
-        select(Users).where(
-            Users.status == "pending",
-            Users.confirmation_token_expires != None,
-            Users.confirmation_token_expires < now_utc
+        select(User).where(
+            User.status == "pending",
+            User.confirmation_token_expires != None,
+            User.confirmation_token_expires < now_utc
         )
     )
     expired_pending_users = result.scalars().all()
@@ -31,9 +31,9 @@ async def cleanup_expired_tokens(session: AsyncSession):
 
     # 2️⃣ Reset token pasibaigę (netrinami, tik išvalomi)
     result = await session.execute(
-        select(Users).where(
-            Users.reset_confirmation_token_expires != None,
-            Users.reset_confirmation_token_expires < now_utc
+        select(User).where(
+            User.reset_confirmation_token_expires != None,
+            User.reset_confirmation_token_expires < now_utc
         )
     )
     expired_resets = result.scalars().all()

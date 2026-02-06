@@ -11,8 +11,8 @@ import smtplib
 
 from app.config import templates, settings
 from app.database import get_async_session
-from app.models.users import Users
-from app.models.sessions import UserSession
+from app.models.user import User
+from app.models.session import UserSession
 from app.models.message import Message, MessageEventType
 from app.schemas.auth_schemas import RegistrationData, LoginData
 from app.utils.login_manager import generate_unique_login
@@ -112,7 +112,7 @@ async def login_post(request: Request, session: AsyncSession = Depends(get_async
 
         # 3️⃣ Naudotojo paieška
         login_index = generate_login_index(data.login_id)
-        result = await session.execute(select(Users).where(Users.login_index == login_index))
+        result = await session.execute(select(User).where(User.login_index == login_index))
         user = result.scalar_one_or_none()
 
         # 4️⃣ Slaptažodžio tikrinimas
@@ -222,7 +222,7 @@ async def login_post(request: Request, session: AsyncSession = Depends(get_async
 
         # 3️⃣ El. pašto unikalumo tikrinimas
         email_index = generate_login_index(data.email)
-        result = await session.execute(select(Users).where(Users.email_index == email_index))
+        result = await session.execute(select(User).where(User.email_index == email_index))
         if result.scalar_one_or_none():
             return templates.TemplateResponse(
                 "login.html",
@@ -241,7 +241,7 @@ async def login_post(request: Request, session: AsyncSession = Depends(get_async
         token_part, token_hash, expires_at = generate_confirmation_token()
 
         # 5️⃣ Sukuriame naudotoją
-        new_user = Users(
+        new_user = User(
             first_name_encrypted=encrypt_data(data.first_name),
             last_name_encrypted=encrypt_data(data.last_name),
             email_encrypted=encrypt_data(data.email),
@@ -320,7 +320,7 @@ async def confirm_registration(
         return Response(status_code=404)
 
     # 2️⃣ Naudotojo paieška
-    result = await session.execute(select(Users).where(Users.id == user_id))
+    result = await session.execute(select(User).where(User.id == user_id))
     user = result.scalar_one_or_none()
     if not user:
         return Response(status_code=404)

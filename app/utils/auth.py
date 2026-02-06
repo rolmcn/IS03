@@ -4,14 +4,14 @@ from sqlalchemy import select, delete
 from datetime import datetime, timezone
 
 from app.database import get_async_session
-from app.models.sessions import UserSession
-from app.models.users import Users
+from app.models.session import UserSession
+from app.models.user import User
 
 
 async def get_current_user(
     request: Request,
     session: AsyncSession = Depends(get_async_session),
-) -> Users:
+) -> User:
     """
     Grąžina prisijungusį vartotoją pagal session_id cookie.
     Jei sesija negalioja – grąžina 401.
@@ -43,7 +43,7 @@ async def get_current_user(
         )
 
     # 4. Gauname vartotoją
-    user = await session.get(Users, user_session.user_id)
+    user = await session.get(User, user_session.user_id)
     if not user or user.status != "active":
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import delete
 
 from app.database import get_async_session
-from app.models.sessions import UserSession
+from app.models.session import UserSession
 
 router = APIRouter()
 

@@ -9,7 +9,7 @@ import smtplib
 
 from app.config import templates, settings
 from app.database import get_async_session
-from app.models.users import Users
+from app.models.user import User
 from app.schemas.auth_schemas import ForgotLoginData
 from app.utils.crypto import hash_password, decrypt_data
 from app.utils.recaptcha import verify_recaptcha
@@ -112,7 +112,7 @@ async def forgot_login_post(request: Request, session: AsyncSession = Depends(ge
 
     # 5️⃣ Surandame vartotoją pagal email ir statusą active
     email_index = generate_login_index(email)
-    result = await session.execute(select(Users).where(Users.email_index == email_index, Users.status == "active"))
+    result = await session.execute(select(User).where(User.email_index == email_index, User.status == "active"))
     user = result.scalar_one_or_none()
 
     if not user:
@@ -161,7 +161,7 @@ async def forgot_login_confirm(
         return Response(status_code=404)
 
     # 2️⃣ Surandame vartotoją pagal user_id
-    result = await session.execute(select(Users).where(Users.id == user_id))
+    result = await session.execute(select(User).where(User.id == user_id))
     user = result.scalar_one_or_none()
     if not user or user.status != "active" or not user.reset_confirmation_token_hash:
         return Response(status_code=204)
