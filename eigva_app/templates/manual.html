@@ -1,0 +1,116 @@
+{% extends "base-dashboard.html" %}
+
+{% block styles %}
+<link href="/static/css/manual.css" rel="stylesheet">
+{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block main %}
+<main class="main-manual-auto-container">
+  <!-- Kairė: temų medis / navigacija -->
+  <nav class="manual-nav">
+    <div class="manual-nav-title">
+      <h4>Greitosios nuorodos</h4>
+    </div>
+    <ul>
+      <li>
+        <a href="#prisijungimas">Prisijungimas</a>
+        <ul>
+          <li><a href="#prisijungimo-duomenys">Prisijungimo duomenys</a></li>
+          <li><a href="#prisijungimo-duomenu-keitimas">Prisijungimo duomenų keitimas</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#paskyra">Paskyra</a>
+        <ul>
+          <li><a href="#paskyra-pranesimai">Pranešimai</a></li>
+          <li><a href="#paskyra-statistika">Statistika</a></li>
+          <li><a href="#paskyra-uzsakymai">Užsakymai</a></li>
+          <li><a href="#paskyra-nustatymai">Nustatymai</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Dešinė: turinys -->
+  <section class="manual-content" id="manualContent">
+    <div class="manual-content-title">
+      <h4>Naudotojo vadovas</h4>
+    </div>
+
+    <article id="prisijungimas">
+      <h6>Prisijungimas</h6>
+      <p>
+        Prisijungimo prie EIGVA puslapis pasiekiamas adresu
+        <a href="http://127.0.0.1:8001/login" target="_blank">http://127.0.0.1:8001/login</a> <br>
+        Prisijungiant pildoma forma "Prisijungti prie paskyros" - įvedamas prisijungimo ID kodas, slaptažodis, spaudžiamas mygtukas "Prisijungti". <br>
+        Sėkmingo prisijungimo atveju atidaromas EIGVA puslapis "Paskyra" su aktyviu skirtuku "Pranešimai".
+      </p>
+    </article>
+
+    <article id="prisijungimo-duomenys">
+      <h6>Prisijungimo duomenys</h6>
+      <p>
+        Prisijungimo duomenys - EIGVA naudotojui suteiktas unikalus prisijungimo ID kodas (sudarytas iš 6 skaičių) ir prisijungimo slaptažodis.<br>
+        Prisijungimo ID kodas naudotojui yra suteikiamas registruojantis, išsiunčiamas patvirtintu el. pašto adresu.<br>
+        Prisijungimo slaptažodį sukuria/nurodo naudotojas.<br>
+        Prisijungimo duomenys yra užkoduoti, juos gali pakeisti naujais tik naudotojas.<br><br>
+        Niekam neatskleiskite savo prisijungimo duomenų. Jei prisijungimo duomenis sužinojo tretieji asmenys, nedelsdami pasikeiskite juos.
+      </p>
+    </article>
+
+    <article id="prisijungimo-duomenu-keitimas">
+      <h6>Prisijungimo duomenų keitimas</h6>
+      <p>
+        Prisijungimo duomenų keitimo puslapis pasiekiamas adresu
+        <a href="http://127.0.0.1:8001/forgot-login" target="_blank">http://127.0.0.1:8001/forgot-login</a><br>
+        Norint pakeisti prisijungimo duomenis pildoma forma "Pakeisti prisijungimo duomenis?" - aktyvus naudotojas turi įvesti savo el. pašto adresą (patvirtintą informacinėje sistemoje EIGVA) ir prisijungimo slaptažodį (rekomenduojame sukurti/nurodyti naują slaptažodį), pažymi "Aš ne robotas" lauką, spaudžia mygtuką "Siųsti".<br>
+        Esant sėkmingam prisijungimo duomenų keitimo inicijavimui, naudotojui el. paštu yra išsiunčiamas patvirtinimo pranešimas. Atlikus patvirtinimą įvykdomas prisijungimo duomenų atnaujinimas, naujas prisijungimo ID kodas atsiunčiamas atskiru el. pašto pranešimu.
+      </p>
+    </article>
+
+    <article id="paskyra">
+      <h6>Paskyra</h6>
+      <p>
+        Meniu "Paskyra" pateikiama naudotojui skirta informacija, informacijos valdymas ir matymas yra ribojamas atsižvelgiant į naudotojui priskirtą rolę. Išskiriami naudotojai ir super naudotojai.
+      </p>
+    </article>
+
+    <article id="paskyra-pranesimai">
+      <h6>Pranešimai</h6>
+      <p>
+        Šiame skirtuke yra pateikiamas individualių ir bendrų pranešimų sąrašas.<br>
+        Pranešimai yra rikiuojami nuo naujausio iki seniausio žemyn, neskaityti (paryškinti) pranešimai iškeliami į viršų.
+        Rodomi paskutiniai 50 pranešimų.
+      </p>
+    </article>
+
+    <article id="paskyra-statistika">
+      <h6>Statistika</h6>
+      <p>
+        ...
+      </p>
+    </article>
+
+    <article id="paskyra-uzsakymai">
+      <h6>Užsakymai</h6>
+      <p>
+        ...
+      </p>
+    </article>
+
+    <article id="paskyra-nustatymai">
+      <h6>Nustatymai</h6>
+      <p>
+        ...
+      </p>
+    </article>
+
+  </section>
+</main>
+
+<script src="/static/js/manual.js"></script>
+{% endblock %}
+
+{% block footer %}{% endblock %}

@@ -1,0 +1,377 @@
+/* === PAGRINDINIS KONTEINERIS === */
+.main-account-auto-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 120px 5%;
+  min-height: calc(100vh - 100px);
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+/* === RADIO (paslėpti) === */
+.main-account-auto-container input[type="radio"] {
+  display: none;
+  appearance: none;
+}
+
+/* === TAB ANTRAŠTĖS === */
+.tab-labels {
+  list-style: none;
+  display: flex;
+  gap: 5px;
+  background: #fff;
+  border-bottom: 1px solid #ccc;
+  padding: 0;
+  margin: 0;
+}
+
+.tab-labels li { margin: 0; }
+
+.tab-labels label {
+  display: block;
+  padding: 6px 18px;
+  background: #f5f5f5;
+  color: #333;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-bottom: none;
+  border-radius: 15px 0 0 0;
+  font-weight: 400;
+  transition: background-color 0.25s ease;
+}
+
+.tab-labels label:hover { background-color: #eaf2fb; }
+
+/* === AKTYVAUS TAB STILIUS === */
+#tab1:checked ~ .tab-labels label[for="tab1"],
+#tab2:checked ~ .tab-labels label[for="tab2"],
+#tab3:checked ~ .tab-labels label[for="tab3"],
+#tab4:checked ~ .tab-labels label[for="tab4"],
+#tab5:checked ~ .tab-labels label[for="tab5"],
+#tab6:checked ~ .tab-labels label[for="tab6"] {
+  background: #1a69b1;
+  color: #ffffff;
+  border-bottom: 1px solid #ffffff;
+}
+
+/* === TURINIO KONTEINERIS === */
+.tab-content { flex: 1 1 auto; padding-top: 10px; }
+
+/* === PANELIAI === */
+.tab-panel { display: none; }
+
+/* Rodo tik aktyvų panelį */
+#tab1:checked ~ .tab-content #panel1,
+#tab2:checked ~ .tab-content #panel2,
+#tab3:checked ~ .tab-content #panel3,
+#tab4:checked ~ .tab-content #panel4,
+#tab5:checked ~ .tab-content #panel5,
+#tab6:checked ~ .tab-content #panel6 {
+  display: block;
+}
+
+/* === PRANEŠIMŲ SĄRAŠAS === */
+.messages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  position: relative;
+}
+
+/* === PRANEŠIMO KORTELĖ === */
+.message-card {
+  width: 100%;
+  background-color: transparent;
+  border-radius: 0px;
+  border: 1px solid #dcdcdc;
+  padding: 5px 10px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.3s ease,
+    border-color 0.25s ease;
+}
+
+.message-card:hover {
+  background-color: transparent;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.message-card.unread {
+  background-color: transparent;
+  border-left: 5px solid #1a69b1;
+}
+
+.message-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 5px;
+}
+
+.message-title {
+  font-size: 16px;
+  font-weight: 400;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background-color: transparent;
+  padding: 5px 10px;
+  border-radius: 4px;
+  transition: font-size 0.25s ease;
+}
+
+.message-card.unread .message-title {
+  font-weight: 700;
+  color: #333;
+}
+
+.message-card.open .message-title {
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: #1a69b1;
+}
+
+.message-date {
+  font-size: 16px;
+  color: #333;
+  white-space: nowrap;
+  background-color: transparent;
+  padding: 5px 10px;
+  border-radius: 4px;
+  text-align: right;
+}
+
+.message-toggle {
+  font-size: 16px;
+  color: #333;
+  user-select: none;
+}
+
+.message-card.open .message-body {
+  display: block;
+  margin-top: 6px;
+}
+
+.message-body {
+  display: none;
+  font-size: 16px;
+  color: #333;
+  line-height: 1.5;
+  padding: 5px 10px;
+}
+
+.role-row {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.arrow-2 {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 16px;
+}
+
+.arrow-2::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  width: 20px;
+  height: 1px;
+  background: #333;
+  transform: translateY(-50%);
+}
+
+.arrow-2::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  width: 8px;
+  height: 8px;
+  border-top: 1px solid #333;
+  border-right: 1px solid #333;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.form-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.form-field label {
+  width: 90px;
+  margin-bottom: 0;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.input-field {
+  flex: none;
+  width: 300px;
+  height: 28px;
+  padding: 0 5px;
+  border: 1px solid #ccc;
+  border-radius: 0;
+  box-sizing: border-box;
+  font-size: 16px;
+  color: #000;
+  outline: none;
+}
+
+.input-field:hover {
+  border-color: #1a69b1;
+}
+
+.verified-on-symbol {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0px;
+  background-image: url("/static/img/verified_40dp_1A69B1_FILL0_wght500_GRAD0_opsz40.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 20px 20px;
+}
+
+.users-block {
+  display: flex;
+  gap: 20px;
+}
+
+.users-block-left,
+.users-block-right {
+  flex: 1;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* === MOKĖTOJAI KONTAINERIS === */
+.payers-block {
+    display: flex;
+    gap: 20px; /* tarpas tarp kairės ir dešinės pusės */
+    width: 100%;
+    height: calc(100vh - 200px); /* aukštis: visas ekranas minus header + tabs */
+    box-sizing: border-box;
+}
+
+/* Kairė pusė: Mokėtojų sąrašas */
+.payers-block-left {
+    flex: 0 0 40%; /* fiksuotas plotis ~40% */
+    min-width: 250px; /* minimalus plotis */
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+/* Dešinė pusė: Formos laukai */
+.payers-block-right {
+    flex: 1 1 60%; /* likęs plotis */
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* tarpas tarp mygtukų ir formos blokų */
+    box-sizing: border-box;
+}
+
+/* === HEADER + HR LYGIAVIMAS === */
+.payers-block-headers {
+    display: flex;
+    justify-content: space-between; /* kairė / dešinė atskirta */
+    align-items: center; /* center pagal aukštį */
+    border-bottom: 2px solid #1a69b1; /* linija tarp header ir turinio */
+    padding-bottom: 4px; /* tarpas tarp teksto ir linijos */
+    margin-bottom: 8px;  /* tarpas iki sąrašo / formos */
+}
+
+/* Kairės stulpelių pavadinimai */
+.header-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto; /* stulpelių plotis: pavadinimas, aktyvus, pasirinktas */
+    gap: 5px; /* tarpas tarp stulpelių */
+    font-weight: 700;
+}
+
+/* Mokėtojų sąrašas scroll */
+.payers-block-left .payers-list {
+    flex: 1 1 auto; /* užima likusį aukštį */
+    overflow-y: auto; /* scroll, jei turinys per aukštas */
+    padding-right: 5px; /* tarpas scroll juostai */
+    margin-top: 4px; /* tarpas tarp header linijos ir sąrašo */
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* tarpas tarp eilučių */
+}
+
+/* Mokėtojų sąrašo eilutės */
+.payers-list-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto; /* stulpeliai sutampa su header-row */
+    padding: 4px 8px; /* tarpas: viršus/apačia ir kairė/dešinė */
+    border-bottom: 1px solid #ccc;
+}
+
+/* Sąrašo header eilutė */
+.payers-list-row.headers {
+    font-weight: 700;
+    border-bottom: 2px solid #1a69b1;
+}
+
+/* === DEŠINĖ PUSĖ - MYGTUKAI + FORMA === */
+
+/* Mygtukai viršuje - ne scrollinami */
+.payers-block-right .payers-actions {
+    flex: 0 0 auto; /* neauga vertikaliai */
+    display: flex;
+    gap: 10px; /* tarpas tarp mygtukų */
+}
+
+/* Formos laukai - scroll jei reikia */
+.payers-block-right .payer-form {
+    flex: 1 1 auto; /* užima likusį aukštį */
+    overflow-y: auto; /* scroll jei per aukšta forma */
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* tarpas tarp form-field eilučių */
+    padding-right: 5px; /* vieta scroll juostai */
+}
+
+/* Label + input horizontaliai, viena eilutė */
+.payers-block .payer-form .form-field {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* tarpas tarp label ir input */
+}
+
+/* Label fiksuotas plotis, pilnas tekstas */
+.payers-block .payer-form .form-field label {
+    width: 200px; /* fiksuotas plotis */
+    flex-shrink: 0;
+    white-space: nowrap; /* viena eilutė */
+    overflow: visible;
+}
+
+/* Input fiksuotas plotis */
+.payers-block .payer-form .form-field .input-field {
+    width: 300px; /* fiksuotas plotis */
+    flex-shrink: 0;
+    flex-grow: 0;
+    box-sizing: border-box;
+}
+
+/* Checkbox inputai */
+.payers-block .payer-form .form-field input[type="checkbox"] {
+    width: auto;
+    margin-left: 0;
+}

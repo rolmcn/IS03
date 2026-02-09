@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EIGVA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="{{ url_for('static', path='css/base-dashboard.css') }}" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+
+    {% block styles %}{% endblock %}
+</head>
+
+<body class="loading">
+    <div id="loading-overlay">
+        <div class="spinner"></div>
+        <p id="loading-text">Vykdoma…</p>
+    </div>
+
+    <header class="main-header">
+        <div class="header-container">
+            <div class="info-block">
+                <div class="info-icon-1">
+                    <img src="/static/img/person_40dp_F0F0F0_FILL0_wght500_GRAD0_opsz40.svg" alt="Naudotojo piktograma - naudotojo duomenys">
+                </div>
+                <div class="info-user">
+                    <p><strong>{{ current_user.first_name }} {{ current_user.last_name }}</strong></p>
+                    <p>UAB Ratų pasaulis</p>
+                </div>
+                <div class="info-icon-2">
+                    <img src="/static/img/business_center_40dp_F0F0F0_FILL0_wght500_GRAD0_opsz40.svg" alt="Portfelio piktograma - sistemos duomenys">
+                </div>
+                <div class="info-system">
+                    <button class="dropdown-toggle">
+                        EIGVA Auto v1.0
+                        <span class="arrow">&#9662;</span> <!-- mažoji rodyklė žemyn -->
+                    </button>
+                    <span id="clock"></span>
+                </div>
+            </div>
+            <nav class="menu-block">
+                <a href="/queue"
+                    class="{{ 'active' if active_page == 'queue' else '' }}">
+                    Eilė
+                </a>
+                <a href="/works"
+                    class="{{ 'active' if active_page == 'works' else '' }}">
+                    Darbai
+                </a>
+                <a href="/customers"
+                    class="{{ 'active' if active_page == 'customers' else '' }}">
+                    Klientai
+                </a>
+                <a href="/account"
+                    class="{{ 'active' if active_page == 'account' else '' }}">
+                    Paskyra
+                </a>
+            </nav>
+            <div class="button-block">
+                <a
+                        class="question-mark-symbol"
+                        href="/manual"
+                        aria-label="Žinynas"
+                        title="Žinynas"
+                        translate="no">
+                </a>
+                <a
+                        class="accessibility-symbol"
+                        href="/accessibility-settings"
+                        aria-label="Prieinamumo nustatymai"
+                        title="Prieinamumo nustatymai"
+                        translate="no">
+                </a>
+                <a
+                        class="logout-symbol"
+                        href="/logout"
+                        aria-label="Atsijungti"
+                        title="Atsijungti"
+                        translate="no">
+                </a>
+            </div>
+        </div>
+        {% block header %}{% endblock %}
+    </header>
+
+    <main>
+        {% block main %}{% endblock %}
+    </main>
+
+    <footer>
+        {% block footer %}{% endblock %}
+    </footer>
+
+    <script src="/static/js/clock.js"></script>
+    <script src="/static/js/flash-message.js"></script>
+    <script src="/static/js/hide-spinner.js"></script>
+    <script src="/static/js/manual.js"></script>
+    <script src="/static/js/message-show.js"></script>
+    <script src="/static/js/page-auto-close.js"></script>
+    <script src="/static/js/page-auto-redirect.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="/static/js/reset-recaptcha.js"></script>
+    <script src="/static/js/token-confirm.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,214 @@
+{% extends "base-dashboard.html" %}
+
+{% block styles %}
+<link href="/static/css/account.css" rel="stylesheet">
+{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block main %}
+<div class="main-account-auto-container">
+
+  <!-- TAB CONTROLS -->
+  <input type="radio" name="tab-control" id="tab1" checked>
+  <input type="radio" name="tab-control" id="tab2">
+  <input type="radio" name="tab-control" id="tab3">
+  <input type="radio" name="tab-control" id="tab4">
+  <input type="radio" name="tab-control" id="tab5">
+  <input type="radio" name="tab-control" id="tab6">
+
+  <!-- TAB LABELS -->
+  <ul class="tab-labels">
+    <li><label for="tab1">Pranešimai</label></li>
+    <li><label for="tab2">Statistika</label></li>
+    <li><label for="tab3">Užsakymai</label></li>
+    <li><label for="tab4">Mokėtojai</label></li>
+    <li><label for="tab5">Naudotojai</label></li>
+    <li><label for="tab6">Nustatymai</label></li>
+  </ul>
+
+  <!-- TAB CONTENT -->
+  <div class="tab-content">
+
+    <!-- PRANEŠIMAI -->
+    <div class="tab-panel" id="panel1">
+      <div class="account-messages">
+        {% if messages %}
+          <div class="messages-list">
+            {% for msg in messages %}
+              <div class="message-card {% if not msg.msg_read %}unread{% endif %}" data-message-id="{{ msg.id }}" data-read="{{ 'true' if msg.msg_read else 'false' }}">
+                <div class="message-row">
+                  <div class="message-title">{{ msg.msg_title or "Pranešimas" }}</div>
+                  <div class="message-date">{{ msg.msg_created_at.strftime("%Y-%m-%d %H:%M") }}</div>
+                  <div class="message-toggle" aria-hidden="true">▼</div>
+                </div>
+                <div class="message-body">
+                  {% set clean_text = msg.msg_content.replace('\\n','\n') %}
+                  {% for paragraph in clean_text.split('\n\n') %}
+                    <p>{{ paragraph | replace('\n', '<br>') | safe }}</p>
+                  {% endfor %}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="no-messages">Pranešimų nėra.</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- STATISTIKA -->
+    <div class="tab-panel" id="panel2">Statistika</div>
+
+    <!-- UŽSAKYMAI -->
+    <div class="tab-panel" id="panel3">Užsakymai</div>
+
+    <!-- MOKĖTOJAI -->
+    <div class="tab-panel" id="panel4">
+      <div class="payers-block">
+
+        <!-- Kairė: Mokėtojų sąrašas + antraštė -->
+        <div class="payers-block-left">
+          <div class="payers-block-header">
+            <div class="header-row">
+              <span class="col-name">Pavadinimas</span>
+              <span class="col-active">Aktyvus</span>
+              <span class="col-default">Pasirinktas</span>
+            </div>
+            <hr>
+          </div>
+          <div class="payers-list">
+            {% for payer in payers %}
+            <div class="payers-list-row" data-payer-id="{{ payer.id }}">
+              <span class="col-name">{{ payer.full_name_encrypted }}</span>
+              <span class="col-active">{% if payer.status == 'active' %}✓{% endif %}</span>
+              <span class="col-default">{% if payer.is_default %}★{% endif %}</span>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Dešinė: Formos laukai + veiksmai -->
+        <div class="payers-block-right">
+          <div class="payers-right-header">
+            <div class="payers-actions">
+              <button type="button" id="add-new-payer" class="btn">+ Pridėti naują</button>
+              <button type="button" id="delete-payer" class="btn">Ištrinti</button>
+              <button type="button" id="save-payer" class="btn" disabled>Išsaugoti</button>
+            </div>
+            <hr>
+          </div>
+          <div class="payer-form">
+            <form id="payer-form">
+              <div class="form-field">
+                <label for="payer_full_name">Pavadinimas</label>
+                <input type="text" id="payer_full_name" name="full_name" class="input-field">
+              </div>
+              <div class="form-field">
+                <label for="payer_identification_code">Identifikacinis kodas</label>
+                <input type="text" id="payer_identification_code" name="identification_code" class="input-field">
+              </div>
+              <div class="form-field">
+                <label for="payer_vat_code">PVM mokėtojo kodas</label>
+                <input type="text" id="payer_vat_code" name="vat_code" class="input-field">
+              </div>
+              <div class="form-field">
+                <label for="payer_street">Gatvė</label>
+                <input type="text" id="payer_street" name="street" class="input-field">
+              </div>
+              <div class="form-field">
+                <label for="payer_house_number">Namo nr.</label>
+                <input type="text" id="payer_house_number" name="house_number" class="input-field">
+              </div>
+              <div class="form-field">
+                <label for="payer_apartment_number">Buto nr.</label>
+                <input type="text" id="payer_apartment_number" name="apartment_number" class="input-field">
+              </div>
+              <div class="form-field">
+                <label for="payer_postal_code">Pašto kodas</label>
+                <input type="text" id="payer_postal_code" name="postal_code" class="input-field">
+              </div>
+              <div class="form-field">
+                <label for="payer_settlement">Gyvenvietė</label>
+                <input type="text" id="payer_settlement" name="settlement" class="input-field">
+              </div>
+              <div class="form-field">
+                <label for="payer_municipality">Savivaldybė</label>
+                <input type="text" id="payer_municipality" name="municipality" class="input-field">
+              </div>
+              <div class="form-field">
+                <label for="payer_country">Šalis</label>
+                <input type="text" id="payer_country" name="country" class="input-field" value="Lietuva">
+              </div>
+              <div class="form-field">
+                <label for="payer_mobile_phone">Mob. tel.</label>
+                <input type="text" id="payer_mobile_phone" name="mobile_phone" class="input-field">
+              </div>
+              <div class="form-field">
+                <label for="payer_email">El. paštas</label>
+                <input type="text" id="payer_email" name="email" class="input-field">
+              </div>
+              <div class="form-field">
+                <label for="payer_status">Aktyvus</label>
+                <input type="checkbox" id="payer_status" name="status">
+              </div>
+              <div class="form-field">
+                <label for="payer_default">Pasirinktas</label>
+                <input type="checkbox" id="payer_default" name="default">
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- NAUDOTOJAI -->
+    <div class="tab-panel" id="panel5">
+      <div class="users-block">
+        <div class="users-block-left">
+          <h6>Jūsų duomenys</h6>
+          <hr>
+          <p class="role-row">
+              Jūsų rolė
+              <span class="arrow-2"></span>
+              {% if current_user.super_user %}SUPER NAUDOTOJAS (SN){% else %}NAUDOTOJAS (N){% endif %}
+          </p>
+          <br>
+          <form method="POST" action="">
+              <div class="form-field">
+                  <label for="user_first_name">Vardas</label>
+                  <input type="text" id="user_first_name" name="first_name" class="input-field" value="{{ current_user.first_name }}">
+              </div>
+              <div class="form-field">
+                  <label for="user_last_name">Pavardė</label>
+                  <input type="text" id="user_last_name" name="last_name" class="input-field" value="{{ current_user.last_name }}">
+              </div>
+              <div class="form-field">
+                  <label for="user_mobile_phone">Mob. tel.</label>
+                  <input type="text" id="user_mobile_phone" name="mobile_phone" class="input-field" value="{{ current_user.mobile_phone }}">
+              </div>
+              <div class="form-field">
+                  <label for="user_email">El. paštas</label>
+                  <input type="text" id="user_email" name="email" class="input-field" value="{{ current_user.email }}">
+                  {% if current_user.email_verified_at %}<span class="verified-on-symbol" aria-label="Patvirtinta sistemoje" title="Patvirtinta sistemoje" translate="no"></span>{% endif %}
+              </div>
+          </form>
+        </div>
+        <div class="users-block-right">
+            <h6>Naudotojų sąrašas</h6>
+            <hr>
+            <!-- TODO: pridedamas turinys vėliau -->
+        </div>
+      </div>
+    </div>
+
+    <!-- NUSTATYMAI -->
+    <div class="tab-panel" id="panel6">Nustatymai</div>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}{% endblock %}

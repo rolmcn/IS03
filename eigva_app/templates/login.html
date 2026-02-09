@@ -1,0 +1,80 @@
+{% extends "base-public.html" %}
+
+{% block styles %}
+<link href="/static/css/login.css" rel="stylesheet">
+{% endblock %}
+
+{% block main %}
+<div class="main-login-container">
+    <div class="login-column">
+        <h4>Prisijungti prie paskyros</h4>
+        <div class="login-block-left">
+            <form method="POST" action="/login">
+                <div class="form-field">
+                    <label for="login_id">Prisijungimo ID</label>
+                    <input type="text" id="login_id" name="login_id" class="input-field">
+                </div>
+                <div class="form-field">
+                    <label for="password">Prisijungimo slaptažodis</label>
+                    <input type="password" id="password" name="password" class="input-field">
+                </div>
+                <div>
+                    <input type="submit" name="submit_login" value="Prisijungti" class="submit-button">
+                </div>
+                <div id="login-form-message">
+                     {% if login_error %}
+                     <p style="color: #ff6b6b;">{{ login_error }}</p>
+                     {% endif %}
+                     {% if login_success %}
+                     <p style="color: #28a745;">{{ login_success }}</p>
+                     {% endif %}
+                </div>
+                <br>
+                <div>
+                    <a href="/forgot-login">Pamiršote prisijungimo duomenis?</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="login-column">
+        <h4>Registruotis ir sukurti paskyrą</h4>
+        <div class="login-block-right">
+            <form method="POST" action="/login">
+                <div class="form-field">
+                    <label for="first_name">Vardas</label>
+                    <input type="text" id="first_name" name="first_name" class="input-field" value="{{ form_data.get('first_name', '') }}">
+                </div>
+                <div class="form-field">
+                    <label for="last_name">Pavardė</label>
+                    <input type="text" id="last_name" name="last_name" class="input-field" value="{{ form_data.get('last_name', '') }}">
+                </div>
+                <div class="form-field">
+                    <label for="email">El. paštas</label>
+                    <input type="email" id="email" name="email" class="input-field" value="{{ form_data.get('email', '') }}">
+                </div>
+                <div class="form-field">
+                    <label for="password_reg">Prisijungimo slaptažodis</label>
+                    <input type="password" id="password_reg" name="password" class="input-field">
+                </div>
+                <div class="g-recaptcha" data-sitekey="{{ site_key }}"></div>
+                <div>
+                    <input type="submit" name="submit_register" value="Registruotis" class="submit-button">
+                </div>
+                <div id="register-form-message">
+                    {% if register_error %}
+                        <p style="color: #ff6b6b;">{{ register_error }}</p>
+                    {% elif register_success %}
+                        <p style="color: #28a745;">{{ register_success }}</p>
+                    {% elif register_success_cookie %}
+                        <p style="color: #28a745;">{{ register_success_cookie }}</p>
+                    {% elif confirm_error_cookie %}
+                        <p style="color: #ff6b6b;">{{ confirm_error_cookie }}</p>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}{% endblock %}
