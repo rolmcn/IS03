@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Request, Depends
 from fastapi.responses import HTMLResponse
-from eigva_app.utils.auth import get_current_user
+from eigva_app.core.security.auth import get_current_user
 from eigva_app.config import templates
 
 router = APIRouter()

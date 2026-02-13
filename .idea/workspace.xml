@@ -2,133 +2,46 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1b811d73-dc43-409c-b561-b049d05c74e5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/eigva_app/static/css/account.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eigva_app/templates/account.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/IS0200.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/project.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/alembic.ini" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/alembic/README" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/alembic/env.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/alembic/script.py.mako" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/create_tables.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/database.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/error.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/error.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/models/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/contact.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/schemas/contact_schemas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/message.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/models/message.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/payer.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/models/payer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/session.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/models/session.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/models/user.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/user_payer_association.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/models/user_payer_association.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routers/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/routers/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routers/accessibility_settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/routers/accessibility_settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routers/account_auto.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/routers/account.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routers/customers_auto.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/routers/customers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routers/forgot_login.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/routers/forgot_login.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routers/index.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routers/info_pages.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routers/login.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/routers/login.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routers/logout.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/routers/logout.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routers/manual_auto.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/routers/manual.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routers/queue_auto.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/routers/queue.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routers/works_auto.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/routers/works.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/schemas/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/schemas/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/schemas/auth_schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/schemas/auth_schemas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/css/accessibility-settings.css" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/static/css/accessibility-settings.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/css/accessibility.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/css/account-auto.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/css/base-auto.css" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/static/css/base.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/css/base.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/css/confirm.css" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/static/css/confirm.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/css/cookie-policy.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/css/customers-auto.css" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/static/css/customers.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/css/error.css" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/static/css/error.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/css/forgot-login.css" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/static/css/forgot.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/css/index.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/css/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/static/css/login.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/css/manual-auto.css" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/static/css/manual.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/css/privacy-policy.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/css/queue-auto.css" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/static/css/queue.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/css/works-auto.css" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/static/css/works.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/img/business_center_40dp_F0F0F0_FILL0_wght500_GRAD0_opsz40.svg" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/static/img/business_center_40dp_F0F0F0_FILL0_wght500_GRAD0_opsz40.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/img/calendar_add_on_40dp_1A69B1_FILL0_wght500_GRAD0_opsz40.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/img/car-service.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/img/folder_managed_40dp_1A69B1_FILL0_wght500_GRAD0_opsz40.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/img/login_40dp_1A69B1_FILL0_wght500_GRAD0_opsz40.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/img/logo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/img/logout_40dp_F0F0F0_FILL0_wght500_GRAD0_opsz40.svg" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/static/img/logout_40dp_F0F0F0_FILL0_wght500_GRAD0_opsz40.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/img/paper_plane_blue.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/img/paper_plane_yellow.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/img/person_40dp_F0F0F0_FILL0_wght500_GRAD0_opsz40.svg" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/static/img/person_40dp_F0F0F0_FILL0_wght500_GRAD0_opsz40.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/img/question_mark_40dp_F0F0F0_FILL0_wght500_GRAD0_opsz40.svg" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/static/img/question_mark_40dp_F0F0F0_FILL0_wght500_GRAD0_opsz40.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/img/search_insights_40dp_1A69B1_FILL0_wght500_GRAD0_opsz40.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/img/settings_accessibility_40dp_1A69B1_FILL0_wght500_GRAD0_opsz40.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/img/settings_accessibility_40dp_F0F0F0_FILL0_wght500_GRAD0_opsz40.svg" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/static/img/settings_accessibility_40dp_F0F0F0_FILL0_wght500_GRAD0_opsz40.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/img/settings_account_box_40dp_1A69B1_FILL0_wght500_GRAD0_opsz40.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/img/verified_40dp_1A69B1_FILL0_wght500_GRAD0_opsz40.svg" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/static/img/verified_40dp_1A69B1_FILL0_wght500_GRAD0_opsz40.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/img/view_kanban_40dp_1A69B1_FILL0_wght500_GRAD0_opsz40.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/js/clock.js" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/static/js/clock.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/js/flash-message.js" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/static/js/flash-message.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/js/hide-spinner.js" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/static/js/hide-spinner.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/js/manual.js" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/static/js/manual.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/js/message-show.js" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/static/js/message-show.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/js/page-auto-close.js" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/static/js/page-auto-close.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/js/page-auto-redirect.js" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/static/js/page-auto-redirect.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/js/stay-at-about-us.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/js/token-confirm.js" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/static/js/token-confirm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/accessibility-settings.html" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/templates/accessibility-settings.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/accessibility.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/account-auto.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/base-auto.html" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/base.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/confirm.html" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/templates/confirm.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/cookie-policy.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/customers-auto.html" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/templates/customers.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/error.html" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/templates/error.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/forgot-login.html" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/templates/forgot-login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/templates/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/manual-auto.html" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/templates/manual.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/privacy-policy.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/queue-auto.html" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/templates/queue.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/works-auto.html" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/templates/works.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/utils/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/utils/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/utils/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/utils/auth.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/utils/blind_index.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/utils/blind_index.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/utils/choices_municipalities.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/utils/choices_municipalities.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/utils/cleanup.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/utils/cleanup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/utils/crypto.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/utils/crypto.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/utils/helpers.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/utils/logger.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/utils/logger.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/utils/login_id.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/utils/login_id.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/utils/login_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/utils/login_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/utils/mail.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/utils/mail.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/utils/rate_limiter.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/utils/rate_limiter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/utils/recaptcha.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/utils/recaptcha.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/utils/session_helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/utils/session_helper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/utils/system_messages.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/utils/system_messages.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/utils/token.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/utils/token.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logs/app_errors.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/logs/app_errors.log.2026-01-25" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_index.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/texts/about-us.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/texts/accessibility.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/texts/cookie-policy.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/texts/privacy-policy.txt" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/eigva_app/core/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/eigva_app/core/security/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/eigva_app/services/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/eigva_app/services/account_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/eigva_app/services/forgot_login_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/eigva_app/services/login_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/eigva_app/services/logout_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/models/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/models/user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/routers/account.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/routers/account.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/routers/forgot_login.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/routers/forgot_login.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/routers/login.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/routers/login.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/routers/logout.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/routers/logout.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/routers/manual.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/routers/manual.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/static/js/message-show.js" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/static/js/message-show.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/utils/auth.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/utils/blind_index.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/utils/cleanup.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/utils/cleanup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/utils/crypto.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/utils/logger.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/utils/login_id.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/utils/login_manager.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/utils/mail.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/utils/rate_limiter.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/utils/recaptcha.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/utils/session_helper.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/utils/token.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -153,19 +66,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Python/IS0300&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Python/IS0300/eigva_app/services",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Python\IS0300\eigva_app\services" />
+      <recent name="C:\Python\IS0300\eigva_app\core" />
+      <recent name="C:\Python\IS0300\eigva_app\core\security" />
+      <recent name="C:\Python\IS0300" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Python\IS0300\eigva_app" />
       <recent name="C:\Python\IS0300\eigva_app\schemas" />
     </key>
   </component>

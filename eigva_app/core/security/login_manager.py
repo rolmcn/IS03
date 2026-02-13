@@ -2,8 +2,8 @@ import asyncio
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from eigva_app.models import User
-from eigva_app.utils.login_id import generate_login_id
-from eigva_app.utils.blind_index import generate_login_index
+from eigva_app.core.security.login_id import generate_login_id
+from eigva_app.core.security.blind_index import generate_login_index
 
 
 async def generate_unique_login(session: AsyncSession) -> tuple[str, str]:

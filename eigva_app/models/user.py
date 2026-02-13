@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String, DateTime, Boolean
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from eigva_app.database import Base
-from eigva_app.utils.crypto import decrypt_data
+from eigva_app.core.security.crypto import decrypt_data
 from eigva_app.models.user_payer_association import user_payer_association
 
 class User(Base):

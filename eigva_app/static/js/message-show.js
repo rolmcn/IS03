@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (isOpen && card.classList.contains("unread")) {
         const messageId = card.dataset.messageId;
         try {
-          const res = await fetch(`/account-auto/mark_read/${messageId}`, {
+          const res = await fetch(`/account/mark_read/${messageId}`, {
             method: "POST"
           });
           const data = await res.json();

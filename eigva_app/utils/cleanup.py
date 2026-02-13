@@ -2,8 +2,8 @@ from datetime import datetime, timezone
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from eigva_app.models.user import User
-from eigva_app.utils.mail import send_confirmation_expired_email, send_reset_confirmation_expired_email
-from eigva_app.utils.crypto import decrypt_data
+from eigva_app.core.communication.mail import send_confirmation_expired_email, send_reset_confirmation_expired_email
+from eigva_app.core.security.crypto import decrypt_data
 
 async def cleanup_expired_tokens(session: AsyncSession):
     """

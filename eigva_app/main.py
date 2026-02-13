@@ -16,9 +16,9 @@ from eigva_app.routers import (
     manual,
 )
 
-from eigva_app.utils.rate_limiter import check_post_limit
+from eigva_app.core.rate_limiting.rate_limiter import check_post_limit
 from eigva_app.utils.cleanup import cleanup_expired_tokens
-from eigva_app.utils.session_helper import session_context
+from eigva_app.core.security.session_helper import session_context
 from eigva_app.error import setup_error_handlers
 
 # =========================================================

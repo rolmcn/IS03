@@ -1,13 +1,11 @@
 from fastapi import APIRouter, Request, Depends
 from fastapi.responses import RedirectResponse
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import delete
 
 from eigva_app.database import get_async_session
-from eigva_app.models.session import UserSession
+from eigva_app.services.logout_service import logout_user
 
 router = APIRouter()
-
 
 @router.get("/logout")
 async def logout(
@@ -17,16 +15,12 @@ async def logout(
     session_id = request.cookies.get("session_id")
 
     if session_id:
-        await session.execute(
-            delete(UserSession).where(UserSession.session_id == session_id)
-        )
-        await session.commit()
+        await logout_user(session, session_id)
 
     response = RedirectResponse(
         url="/login",
         status_code=303,
     )
-
     response.delete_cookie("session_id")
 
     return response
