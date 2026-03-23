@@ -1,9 +1,8 @@
-from sqlalchemy import Column, Integer, String, DateTime, Boolean
+from sqlalchemy import Column, Integer, String, DateTime, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from eigva_app.database import Base
 from eigva_app.core.security.crypto import decrypt_data
-from eigva_app.models.user_payer_association import user_payer_association
 
 class User(Base):
     __tablename__ = "users"
@@ -34,16 +33,12 @@ class User(Base):
     reset_confirmation_token_hash = Column(String(64), nullable=True)
     reset_confirmation_token_expires = Column(DateTime(timezone=True), nullable=True)
 
-    # Relations
-    sessions = relationship("UserSession", back_populates="user")
-    messages = relationship("Message", back_populates="user")
+    payer_id = Column(Integer, ForeignKey("payers.id"), nullable=True, index=True)
 
-    # Many-to-many with Payer
-    payers = relationship(
-        "Payer",
-        secondary=user_payer_association,
-        back_populates="users"
-    )
+    # Relations
+    sessions = relationship("UserSession", back_populates="user", cascade="all, delete-orphan", lazy="selectin")
+    messages = relationship("Message", back_populates="user", cascade="all, delete-orphan", lazy="selectin")
+    payer = relationship("Payer", back_populates="users", lazy="selectin")
 
     # Decrypt properties
     @property
@@ -62,4 +57,4 @@ class User(Base):
     def mobile_phone(self) -> str | None:
         if self.mobile_phone_encrypted:
             return decrypt_data(self.mobile_phone_encrypted)
-        return ""
+        return None

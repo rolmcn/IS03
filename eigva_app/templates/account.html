@@ -10,8 +10,8 @@
 <div class="main-account-auto-container">
 
   <!-- TAB CONTROLS -->
-  <input type="radio" name="tab-control" id="tab1" checked>
-  <input type="radio" name="tab-control" id="tab2">
+  <input type="radio" name="tab-control" id="tab1" {% if active_tab !='tab2' %}checked{% endif %}>
+  <input type="radio" name="tab-control" id="tab2" {% if active_tab =='tab2' %}checked{% endif %}>
   <input type="radio" name="tab-control" id="tab3">
   <input type="radio" name="tab-control" id="tab4">
   <input type="radio" name="tab-control" id="tab5">
@@ -20,9 +20,9 @@
   <!-- TAB LABELS -->
   <ul class="tab-labels">
     <li><label for="tab1">Pranešimai</label></li>
-    <li><label for="tab2">Statistika</label></li>
-    <li><label for="tab3">Užsakymai</label></li>
-    <li><label for="tab4">Mokėtojai</label></li>
+    <li><label for="tab2">Mokėtojas</label></li>
+    <li><label for="tab3">Licencijos</label></li>
+    <li><label for="tab4">Grupės</label></li>
     <li><label for="tab5">Naudotojai</label></li>
     <li><label for="tab6">Nustatymai</label></li>
   </ul>
@@ -57,112 +57,176 @@
       </div>
     </div>
 
-    <!-- STATISTIKA -->
-    <div class="tab-panel" id="panel2">Statistika</div>
+    <!-- MOKĖTOJAS -->
+    <div class="tab-panel" id="panel2">
+      <div class="payer-block">
 
-    <!-- UŽSAKYMAI -->
-    <div class="tab-panel" id="panel3">Užsakymai</div>
-
-    <!-- MOKĖTOJAI -->
-    <div class="tab-panel" id="panel4">
-      <div class="payers-block">
-
-        <!-- Kairė: Mokėtojų sąrašas + antraštė -->
-        <div class="payers-block-left">
-          <div class="payers-block-header">
-            <div class="header-row">
-              <span class="col-name">Pavadinimas</span>
-              <span class="col-active">Aktyvus</span>
-              <span class="col-default">Pasirinktas</span>
-            </div>
-            <hr>
-          </div>
-          <div class="payers-list">
-            {% for payer in payers %}
-            <div class="payers-list-row" data-payer-id="{{ payer.id }}">
-              <span class="col-name">{{ payer.full_name_encrypted }}</span>
-              <span class="col-active">{% if payer.status == 'active' %}✓{% endif %}</span>
-              <span class="col-default">{% if payer.is_default %}★{% endif %}</span>
-            </div>
-            {% endfor %}
-          </div>
+        <!-- VIENINGAS STATUS PRANEŠIMAS -->
+        <div id="status-message" class="status-message">
+          <p id="status-message-text"></p>
         </div>
 
-        <!-- Dešinė: Formos laukai + veiksmai -->
-        <div class="payers-block-right">
-          <div class="payers-right-header">
-            <div class="payers-actions">
-              <button type="button" id="add-new-payer" class="btn">+ Pridėti naują</button>
-              <button type="button" id="delete-payer" class="btn">Ištrinti</button>
-              <button type="button" id="save-payer" class="btn" disabled>Išsaugoti</button>
-            </div>
+        <!-- SUBMIT MYGTUKAS -->
+        <button id="submit-button" class="submit-button" type="submit" form="payer-form" disabled>Išsaugoti</button>
+
+        <!-- FORM -->
+        <form id="payer-form" method="POST" action="/account/save_payer">
+          <div class="payer-block-left">
+            <h6>Rekvizitai</h6>
             <hr>
-          </div>
-          <div class="payer-form">
-            <form id="payer-form">
-              <div class="form-field">
-                <label for="payer_full_name">Pavadinimas</label>
-                <input type="text" id="payer_full_name" name="full_name" class="input-field">
-              </div>
-              <div class="form-field">
-                <label for="payer_identification_code">Identifikacinis kodas</label>
-                <input type="text" id="payer_identification_code" name="identification_code" class="input-field">
-              </div>
-              <div class="form-field">
-                <label for="payer_vat_code">PVM mokėtojo kodas</label>
-                <input type="text" id="payer_vat_code" name="vat_code" class="input-field">
-              </div>
-              <div class="form-field">
-                <label for="payer_street">Gatvė</label>
-                <input type="text" id="payer_street" name="street" class="input-field">
-              </div>
-              <div class="form-field">
-                <label for="payer_house_number">Namo nr.</label>
-                <input type="text" id="payer_house_number" name="house_number" class="input-field">
-              </div>
-              <div class="form-field">
-                <label for="payer_apartment_number">Buto nr.</label>
-                <input type="text" id="payer_apartment_number" name="apartment_number" class="input-field">
-              </div>
-              <div class="form-field">
-                <label for="payer_postal_code">Pašto kodas</label>
-                <input type="text" id="payer_postal_code" name="postal_code" class="input-field">
-              </div>
-              <div class="form-field">
-                <label for="payer_settlement">Gyvenvietė</label>
-                <input type="text" id="payer_settlement" name="settlement" class="input-field">
-              </div>
-              <div class="form-field">
-                <label for="payer_municipality">Savivaldybė</label>
-                <input type="text" id="payer_municipality" name="municipality" class="input-field">
-              </div>
-              <div class="form-field">
-                <label for="payer_country">Šalis</label>
-                <input type="text" id="payer_country" name="country" class="input-field" value="Lietuva">
-              </div>
-              <div class="form-field">
-                <label for="payer_mobile_phone">Mob. tel.</label>
-                <input type="text" id="payer_mobile_phone" name="mobile_phone" class="input-field">
-              </div>
-              <div class="form-field">
-                <label for="payer_email">El. paštas</label>
-                <input type="text" id="payer_email" name="email" class="input-field">
-              </div>
-              <div class="form-field">
-                <label for="payer_status">Aktyvus</label>
-                <input type="checkbox" id="payer_status" name="status">
-              </div>
-              <div class="form-field">
-                <label for="payer_default">Pasirinktas</label>
-                <input type="checkbox" id="payer_default" name="default">
-              </div>
-            </form>
-          </div>
-        </div>
+            <!-- Subjektas -->
+            <div class="form-field">
+              <label for="payer_type" class="required-field">Subjektas</label>
+              <select id="payer_type" name="payer_type" class="input-field">
+                <option value="" disabled {% if not current_payer.payer_type %}selected{% endif %}></option>
+                <option value="legal" {% if current_payer.payer_type=="legal" %}selected{% endif %}>Juridinis asmuo</option>
+                <option value="physical" {% if current_payer.payer_type=="physical" %}selected{% endif %}>Fizinis asmuo</option>
+              </select>
+              <span class="release-alert-symbol" aria-label="Nustatant subjekto tipą išvalomi formos laukai" title="Nustatant subjekto tipą išvalomi formos laukai"></span>
+              {% if field_errors and field_errors.payer_type %}
+                <span class="field-error">{{ field_errors.payer_type }}</span>
+              {% endif %}
+            </div>
 
-      </div>
-    </div>
+            <!-- Full Name -->
+            <div class="form-field">
+              <label for="full_name" class="required-field">Pavadinimas</label>
+              <input type="text" id="full_name" name="full_name" class="input-field"
+                     value="{{ current_payer.full_name or '' }}" readonly>
+              <span class="update-disabled-symbol" aria-label="Keitimas negalimas" title="Keitimas negalimas"></span>
+              {% if field_errors and field_errors.full_name %}
+                <span class="field-error">{{ field_errors.full_name }}</span>
+              {% endif %}
+            </div>
 
+            <!-- Identification code -->
+            <div class="form-field">
+              <label for="identification_code" class="required-field">Įmonės kodas</label>
+              <input type="text" id="identification_code" name="identification_code" class="input-field" maxlength="9"
+                     value="{{ current_payer.identification_code or '' }}">
+              {% if field_errors and field_errors.identification_code %}
+                <span class="field-error">{{ field_errors.identification_code }}</span>
+              {% endif %}
+            </div>
+
+            <!-- VAT status -->
+            <div class="form-field">
+              <label for="vat_status" class="required-field">PVM mokėtojas</label>
+              <select id="vat_status" name="vat_status" class="input-field">
+                <option value="" disabled {% if not current_payer.vat_status %}selected{% endif %}></option>
+                <option value="yes" {% if current_payer.vat_status=="yes" %}selected{% endif %}>Taip</option>
+                <option value="no" {% if current_payer.vat_status=="no" %}selected{% endif %}>Ne</option>
+              </select>
+              {% if field_errors and field_errors.vat_status %}
+                <span class="field-error">{{ field_errors.vat_status }}</span>
+              {% endif %}
+            </div>
+
+            <!-- VAT code -->
+            <div class="form-field">
+              <label for="vat_code" class="required-field">PVM kodas</label>
+              <div class="input-with-vat-prefix">
+                <span class="prefix">LT</span>
+                <input type="text" id="vat_code" name="vat_code" class="input-field" maxlength="12"
+                       value="{{ current_payer.vat_code or '' }}">
+              </div>
+              {% if field_errors and field_errors.vat_code %}
+                <span class="field-error">{{ field_errors.vat_code }}</span>
+              {% endif %}
+            </div>
+
+          </div> <!-- .payer-block-left -->
+
+          <div class="payer-block-right">
+            <h6>Kontaktai</h6>
+            <hr>
+
+            <!-- Mobile -->
+            <div class="form-field">
+              <label for="mobile_phone">Mob. tel.</label>
+              <div class="input-with-phone-prefix">
+                <span class="prefix">+370</span>
+                <input type="text" id="mobile_phone" name="mobile_phone" class="input-field" maxlength="8"
+                       value="{{ current_payer.mobile_phone or '' }}">
+              </div>
+              {% if field_errors and field_errors.mobile_phone %}
+                <span class="field-error">{{ field_errors.mobile_phone }}</span>
+              {% endif %}
+            </div>
+
+            <!-- Email -->
+            <div class="form-field">
+              <label for="email" class="required-field">El. paštas</label>
+              <input type="text" id="email" name="email" class="input-field"
+                     value="{{ current_payer.email or '' }}">
+              {% if field_errors and field_errors.email %}
+                <span class="field-error">{{ field_errors.email }}</span>
+              {% endif %}
+            </div>
+
+            <!-- Address -->
+            <p class="address-label">Adresas:</p>
+            <div class="address-block">
+              <div class="form-field">
+                <label for="street" class="required-field">Gatvė</label>
+                <input type="text" id="street" name="street" class="input-field" value="{{ current_payer.street or '' }}">
+                {% if field_errors and field_errors.street %}
+                  <span class="field-error">{{ field_errors.street }}</span>
+                {% endif %}
+              </div>
+              <div class="form-field">
+                <label for="house_number" class="required-field">Namo nr.</label>
+                <input type="text" id="house_number" name="house_number" class="input-field" maxlength="9" value="{{ current_payer.house_number or '' }}">
+                {% if field_errors and field_errors.house_number %}
+                  <span class="field-error">{{ field_errors.house_number }}</span>
+                {% endif %}
+              </div>
+              <div class="form-field">
+                <label for="apartment_number">Buto nr.</label>
+                <input type="text" id="apartment_number" name="apartment_number" class="input-field" maxlength="3" value="{{ current_payer.apartment_number or '' }}">
+                {% if field_errors and field_errors.apartment_number %}
+                  <span class="field-error">{{ field_errors.apartment_number }}</span>
+                {% endif %}
+              </div>
+              <div class="form-field">
+                <label for="postal_code" class="required-field">Pašto kodas</label>
+                <input type="text" id="postal_code" name="postal_code" class="input-field" maxlength="5" value="{{ current_payer.postal_code or '' }}">
+                {% if field_errors and field_errors.postal_code %}
+                  <span class="field-error">{{ field_errors.postal_code }}</span>
+                {% endif %}
+              </div>
+              <div class="form-field">
+                <label for="settlement" class="required-field">Gyvenvietė</label>
+                <input type="text" id="settlement" name="settlement" class="input-field" maxlength="25" value="{{ current_payer.settlement or '' }}">
+                {% if field_errors and field_errors.settlement %}
+                  <span class="field-error">{{ field_errors.settlement }}</span>
+                {% endif %}
+              </div>
+              <div class="form-field">
+                <label for="municipality" class="required-field">Savivaldybė</label>
+                <select id="municipality" name="municipality" class="input-field">
+                  {% for value, label in MUNICIPALITIES %}
+                    <option value="{{ value }}" {% if current_payer.municipality==value %}selected{% endif %}>{{ label }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="form-field">
+                <label for="country">Šalis</label>
+                <input type="text" id="country" name="country" class="input-field" value="{{ current_payer.country or '' }}" disabled>
+                <span class="update-disabled-symbol" aria-label="Keitimas negalimas" title="Keitimas negalimas"></span>
+              </div>
+            </div> <!-- .address-block -->
+          </div> <!-- .payer-block-right -->
+
+        </form>
+      </div> <!-- .payer-block -->
+    </div> <!-- #panel2 -->
+
+    <!-- LICENCIJOS -->
+    <div class="tab-panel" id="panel3">Licencijos</div>
+
+    <!-- GRUPĖS -->
+    <div class="tab-panel" id="panel4">Grupės</div>
 
     <!-- NAUDOTOJAI -->
     <div class="tab-panel" id="panel5">

@@ -3,6 +3,7 @@ import base64
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 from passlib.context import CryptContext
 from eigva_app.config import settings
+import hashlib
 
 # -------------------------------
 # Gauti secret key iš .env
@@ -46,3 +47,20 @@ def verify_password(password: str, hashed: str) -> bool:
     """Patikrina slaptažodį pagal hash (iki 72 baitų)"""
     password_bytes = password.encode("utf-8")[:72]
     return pwd_context.verify(password_bytes, hashed)
+
+# -------------------------------
+# Deterministiniai hash'ai dubliatų tikrinimui
+# -------------------------------
+
+def hash_vat_code(vat_code: str) -> str:
+    """Sugeneruoja deterministinį hash PVM kodui dubliatų tikrinimui"""
+    return hashlib.sha256(vat_code.encode("utf-8")).hexdigest()
+
+def hash_identification_code(ident_code: str) -> str:
+    """Sugeneruoja deterministinį hash juridinio asmens kodui"""
+    return hashlib.sha256(ident_code.encode("utf-8")).hexdigest()
+
+def hash_full_name_email(full_name: str, email: str) -> str:
+    """Sugeneruoja deterministinį hash fizinio asmens vardui + el. paštui"""
+    combined = f"{full_name.strip().lower()}|{email.strip().lower()}"
+    return hashlib.sha256(combined.encode("utf-8")).hexdigest()

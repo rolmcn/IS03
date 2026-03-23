@@ -2,34 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1b811d73-dc43-409c-b561-b049d05c74e5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/eigva_app/core/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eigva_app/core/security/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eigva_app/services/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eigva_app/services/account_service.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eigva_app/services/forgot_login_service.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eigva_app/services/login_service.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eigva_app/services/logout_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/eigva_app/schemas/payer_schemas.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/eigva_app/static/js/payer-form-dynamic.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eigva_app/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/core/security/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/core/security/auth.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/core/security/crypto.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/core/security/crypto.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/models/payer.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/models/payer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/eigva_app/models/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/models/user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/models/user_payer_association.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/eigva_app/routers/account.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/routers/account.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eigva_app/routers/forgot_login.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/routers/forgot_login.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eigva_app/routers/login.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/routers/login.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eigva_app/routers/logout.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/routers/logout.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eigva_app/routers/manual.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/routers/manual.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eigva_app/static/js/message-show.js" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/static/js/message-show.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eigva_app/utils/auth.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/eigva_app/utils/blind_index.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/eigva_app/utils/cleanup.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/utils/cleanup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eigva_app/utils/crypto.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/eigva_app/utils/logger.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/eigva_app/utils/login_id.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/eigva_app/utils/login_manager.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/eigva_app/utils/mail.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/eigva_app/utils/rate_limiter.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/eigva_app/utils/recaptcha.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/eigva_app/utils/session_helper.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/eigva_app/utils/token.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/schemas/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/schemas/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/schemas/auth_schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/schemas/auth_schemas.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/schemas/contact_schemas.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/services/account_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/services/account_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/services/login_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/services/login_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/static/css/account.css" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/static/css/account.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/static/css/base-dashboard.css" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/static/css/base-dashboard.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/static/js/clock.js" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/static/js/clock.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/templates/account.html" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/templates/account.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/templates/base-dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/templates/base-dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/app_errors.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/app_errors.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,6 +61,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.account.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",

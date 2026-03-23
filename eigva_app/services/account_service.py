@@ -11,8 +11,8 @@ async def get_user_messages(session: AsyncSession, user_id: int, limit: int = 50
             select(Message)
             .where(Message.user_id == user_id)
             .order_by(
-                Message.msg_read.asc(),          # unread pirmiau
-                Message.msg_created_at.desc()    # naujausi viršuje
+                Message.msg_read.asc(),
+                Message.msg_created_at.desc()
             )
             .limit(limit)
         )

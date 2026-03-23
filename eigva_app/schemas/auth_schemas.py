@@ -35,7 +35,7 @@ LOGIN_ID_REGEX = r"^\d{6}$"
 # ==================================================
 
 class EmailBase(BaseModel):
-    email: str = Field(...)
+    email: str = Field(...) # pakeisti į EmailStr
 
     @field_validator("email")
     @classmethod

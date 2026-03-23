@@ -2,7 +2,7 @@
 .main-account-auto-container {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 5px;
   padding: 120px 5%;
   min-height: calc(100vh - 100px);
   box-sizing: border-box;
@@ -61,7 +61,6 @@
 /* === PANELIAI === */
 .tab-panel { display: none; }
 
-/* Rodo tik aktyvų panelį */
 #tab1:checked ~ .tab-content #panel1,
 #tab2:checked ~ .tab-content #panel2,
 #tab3:checked ~ .tab-content #panel3,
@@ -165,51 +164,29 @@
   padding: 5px 10px;
 }
 
-.role-row {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-}
+/* FORMOS */
 
-.arrow-2 {
-  position: relative;
-  display: inline-block;
-  width: 40px;
-  height: 16px;
-}
-
-.arrow-2::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  width: 20px;
-  height: 1px;
-  background: #333;
-  transform: translateY(-50%);
-}
-
-.arrow-2::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  width: 8px;
-  height: 8px;
-  border-top: 1px solid #333;
-  border-right: 1px solid #333;
-  transform: translateY(-50%) rotate(45deg);
+.submit-button:disabled {
+  background-color: #cccccc;
+  color: #666666;
+  border-color: #cccccc;
+  cursor: not-allowed;
+  width: auto;
+  align-self: flex-start;
+  margin-top: 5px;
 }
 
 .form-field {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
+  flex-direction: row;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 10px;
 }
 
 .form-field label {
-  width: 90px;
+  width: 130px;
   margin-bottom: 0;
   font-size: 16px;
   font-weight: 400;
@@ -232,7 +209,40 @@
   border-color: #1a69b1;
 }
 
-.verified-on-symbol {
+.field-error {
+  flex-basis: 100%;
+  width: 100%;
+  color: #d32f2f;
+  font-size: 0.75rem;
+  margin-top: 0;
+  line-height: 1.1;
+}
+
+.status-attention {
+  flex-basis: 100%;
+  width: 100%;
+  color: #1a69b1 !important;
+}
+
+.status-error {
+  flex-basis: 100%;
+  width: 100%;
+  color: #d32f2f !important;
+}
+
+.status-success {
+  flex-basis: 100%;
+  width: 100%;
+  color: #388e3c !important;
+}
+
+.field-error:empty {
+  display: none;
+}
+
+.verified-on-symbol,
+.update-disabled-symbol,
+.release-alert-symbol {
   flex: none;
   width: 28px;
   height: 28px;
@@ -240,138 +250,94 @@
   align-items: center;
   justify-content: center;
   margin-left: 0px;
-  background-image: url("/static/img/verified_40dp_1A69B1_FILL0_wght500_GRAD0_opsz40.svg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 20px 20px;
 }
 
+.verified-on-symbol {
+  background-image: url("/static/img/verified_40dp_1A69B1_FILL0_wght500_GRAD0_opsz40.svg");
+}
+
+.update-disabled-symbol {
+  background-image: url("/static/img/update_disabled_40dp_1A69B1_FILL0_wght500_GRAD0_opsz40.svg");
+}
+
+.release-alert-symbol {
+  background-image: url("/static/img/release_alert_40dp_1A69B1_FILL0_wght500_GRAD0_opsz40.svg");
+}
+
+/* likusi CSS palikta be pakeitimų */
+
 .users-block {
   display: flex;
-  gap: 20px;
+  gap: 50px;
+}
+
+.payer-block {
+  display: flex;
+  flex-direction: column;
+}
+
+#payer-form {
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.payer-block hr {
+  margin-bottom: 20px;
 }
 
 .users-block-left,
-.users-block-right {
+.users-block-right,
+.payer-block-left,
+.payer-block-right {
   flex: 1;
   min-width: 0;
   box-sizing: border-box;
 }
 
-/* === MOKĖTOJAI KONTAINERIS === */
-.payers-block {
-    display: flex;
-    gap: 20px; /* tarpas tarp kairės ir dešinės pusės */
-    width: 100%;
-    height: calc(100vh - 200px); /* aukštis: visas ekranas minus header + tabs */
-    box-sizing: border-box;
+.address-block {
+  border-top: 1px solid #ccc;
+  padding: 10px;
 }
 
-/* Kairė pusė: Mokėtojų sąrašas */
-.payers-block-left {
-    flex: 0 0 40%; /* fiksuotas plotis ~40% */
-    min-width: 250px; /* minimalus plotis */
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
+.address-label {
+  margin-bottom: 0;
 }
 
-/* Dešinė pusė: Formos laukai */
-.payers-block-right {
-    flex: 1 1 60%; /* likęs plotis */
-    display: flex;
-    flex-direction: column;
-    gap: 10px; /* tarpas tarp mygtukų ir formos blokų */
-    box-sizing: border-box;
+.address-block .form-field label {
+  width: 120px;
 }
 
-/* === HEADER + HR LYGIAVIMAS === */
-.payers-block-headers {
-    display: flex;
-    justify-content: space-between; /* kairė / dešinė atskirta */
-    align-items: center; /* center pagal aukštį */
-    border-bottom: 2px solid #1a69b1; /* linija tarp header ir turinio */
-    padding-bottom: 4px; /* tarpas tarp teksto ir linijos */
-    margin-bottom: 8px;  /* tarpas iki sąrašo / formos */
+.required-field::after {
+  content: "*";
+  color: red;
+  margin-left: 2px;
 }
 
-/* Kairės stulpelių pavadinimai */
-.header-row {
-    display: grid;
-    grid-template-columns: 1fr auto auto; /* stulpelių plotis: pavadinimas, aktyvus, pasirinktas */
-    gap: 5px; /* tarpas tarp stulpelių */
-    font-weight: 700;
+.input-with-vat-prefix,
+.input-with-phone-prefix {
+  display: flex;
+  align-items: center;
 }
 
-/* Mokėtojų sąrašas scroll */
-.payers-block-left .payers-list {
-    flex: 1 1 auto; /* užima likusį aukštį */
-    overflow-y: auto; /* scroll, jei turinys per aukštas */
-    padding-right: 5px; /* tarpas scroll juostai */
-    margin-top: 4px; /* tarpas tarp header linijos ir sąrašo */
-    display: flex;
-    flex-direction: column;
-    gap: 5px; /* tarpas tarp eilučių */
+.input-with-vat-prefix .prefix,
+.input-with-phone-prefix .prefix {
+  padding: 0 8px;
+  background: #ccc;
+  height: 28px;
+  display: flex;
+  align-items: center;
 }
 
-/* Mokėtojų sąrašo eilutės */
-.payers-list-row {
-    display: grid;
-    grid-template-columns: 1fr auto auto; /* stulpeliai sutampa su header-row */
-    padding: 4px 8px; /* tarpas: viršus/apačia ir kairė/dešinė */
-    border-bottom: 1px solid #ccc;
+.input-with-vat-prefix .input-field {
+  width: 266px;
 }
 
-/* Sąrašo header eilutė */
-.payers-list-row.headers {
-    font-weight: 700;
-    border-bottom: 2px solid #1a69b1;
-}
-
-/* === DEŠINĖ PUSĖ - MYGTUKAI + FORMA === */
-
-/* Mygtukai viršuje - ne scrollinami */
-.payers-block-right .payers-actions {
-    flex: 0 0 auto; /* neauga vertikaliai */
-    display: flex;
-    gap: 10px; /* tarpas tarp mygtukų */
-}
-
-/* Formos laukai - scroll jei reikia */
-.payers-block-right .payer-form {
-    flex: 1 1 auto; /* užima likusį aukštį */
-    overflow-y: auto; /* scroll jei per aukšta forma */
-    display: flex;
-    flex-direction: column;
-    gap: 12px; /* tarpas tarp form-field eilučių */
-    padding-right: 5px; /* vieta scroll juostai */
-}
-
-/* Label + input horizontaliai, viena eilutė */
-.payers-block .payer-form .form-field {
-    display: flex;
-    align-items: center;
-    gap: 5px; /* tarpas tarp label ir input */
-}
-
-/* Label fiksuotas plotis, pilnas tekstas */
-.payers-block .payer-form .form-field label {
-    width: 200px; /* fiksuotas plotis */
-    flex-shrink: 0;
-    white-space: nowrap; /* viena eilutė */
-    overflow: visible;
-}
-
-/* Input fiksuotas plotis */
-.payers-block .payer-form .form-field .input-field {
-    width: 300px; /* fiksuotas plotis */
-    flex-shrink: 0;
-    flex-grow: 0;
-    box-sizing: border-box;
-}
-
-/* Checkbox inputai */
-.payers-block .payer-form .form-field input[type="checkbox"] {
-    width: auto;
-    margin-left: 0;
+.input-with-phone-prefix .input-field {
+  width: 249px;
 }
