@@ -6,21 +6,20 @@ from eigva_app.core.security.crypto import decrypt_data, encrypt_data
 import hashlib
 
 
-class Payer(Base):
-    __tablename__ = "payers"
+class Buyer(Base):
+    __tablename__ = "buyers"
 
     id = Column(Integer, primary_key=True, index=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
-
     status = Column(String(8), nullable=False, default="pending")  # pending, active, inactive
-    payer_type = Column(String(8), nullable=True)  # physical, legal
+    buyer_type = Column(String(8), nullable=True)  # physical, legal
     vat_status = Column(String(3), nullable=True)  # yes, no
-
     full_name_encrypted = Column(String(255), nullable=True)
     identification_code_encrypted = Column(String(255), nullable=True)
+    identification_code_hash = Column(String(64), nullable=True, unique=True)
     vat_code_encrypted = Column(String(255), nullable=True)
-
+    vat_code_hash = Column(String(64), nullable=True, unique=True)
     street_encrypted = Column(String(255), nullable=True)
     house_number_encrypted = Column(String(255), nullable=True)
     apartment_number_encrypted = Column(String(255), nullable=True)
@@ -28,17 +27,14 @@ class Payer(Base):
     settlement_encrypted = Column(String(255), nullable=True)
     municipality_encrypted = Column(String(255), nullable=True)
     country_encrypted = Column(String(255), nullable=True)
-
     mobile_phone_encrypted = Column(String(255), nullable=True)
     email_encrypted = Column(String(255), nullable=True)
-
-    vat_code_hash = Column(String(64), nullable=True, unique=True)
-    identification_code_hash = Column(String(64), nullable=True, unique=True)
     full_name_email_hash = Column(String(64), nullable=True, unique=True)
 
-    users = relationship("User", back_populates="payer", lazy="selectin")
+    users = relationship("User", back_populates="buyer", lazy="selectin")
+    invoices = relationship("Invoice", back_populates="buyer", lazy="selectin")
 
-    # -------------------- Encrypted field getters/setters --------------------
+    # Encrypted field getters/setters
     @property
     def full_name(self) -> str | None:
         return decrypt_data(self.full_name_encrypted) if self.full_name_encrypted else None
@@ -135,7 +131,7 @@ class Payer(Base):
     def email(self, value: str):
         self.email_encrypted = encrypt_data(value)
 
-    # -------------------- Hash methods --------------------
+    # Hash field
     @staticmethod
     def hash_vat_code(vat_code: str) -> str:
         return hashlib.sha256(vat_code.encode("utf-8")).hexdigest()

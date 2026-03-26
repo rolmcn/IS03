@@ -23,7 +23,14 @@
                     <img src="/static/img/person_40dp_F0F0F0_FILL0_wght500_GRAD0_opsz40.svg" alt="Naudotojo piktograma - naudotojo duomenys">
                 </div>
                 <div class="info-user">
-                    <p><strong>{{ current_user.first_name }} {{ current_user.last_name }}</strong></p>
+                    <p>
+                        <strong>
+                            {{ current_user.first_name }} {{ current_user.last_name }}
+                        </strong><br>
+                        {% if current_buyer.buyer_type == "legal" %}
+                            {{ current_buyer.full_name }}
+                        {% endif %}
+                    </p>
                 </div>
                 <div class="info-icon-2">
                     <img src="/static/img/business_center_40dp_F0F0F0_FILL0_wght500_GRAD0_opsz40.svg" alt="Portfelio piktograma - sistemos duomenys">
@@ -110,27 +117,27 @@
         email: {{ current_user.email | tojson }}
       };
 
-      window.currentPayer = {
-        payer_type: {{ current_payer.payer_type | tojson }},
-        full_name: {{ current_payer.full_name | tojson }},
-        identification_code: {{ current_payer.identification_code | tojson }},
-        vat_status: {{ current_payer.vat_status | tojson }},
-        vat_code: {{ current_payer.vat_code | tojson }},
-        street: {{ current_payer.street | tojson }},
-        house_number: {{ current_payer.house_number | tojson }},
-        apartment_number: {{ current_payer.apartment_number | tojson }},
-        postal_code: {{ current_payer.postal_code | tojson }},
-        settlement: {{ current_payer.settlement | tojson }},
-        municipality: {{ current_payer.municipality | tojson }},
-        country: {{ current_payer.country | tojson }},
-        mobile_phone: {{ current_payer.mobile_phone | tojson }},
-        email: {{ current_payer.email | tojson }}
+      window.currentbuyer = {
+        buyer_type: {{ current_buyer.buyer_type | tojson }},
+        full_name: {{ current_buyer.full_name | tojson }},
+        identification_code: {{ current_buyer.identification_code | tojson }},
+        vat_status: {{ current_buyer.vat_status | tojson }},
+        vat_code: {{ current_buyer.vat_code | tojson }},
+        street: {{ current_buyer.street | tojson }},
+        house_number: {{ current_buyer.house_number | tojson }},
+        apartment_number: {{ current_buyer.apartment_number | tojson }},
+        postal_code: {{ current_buyer.postal_code | tojson }},
+        settlement: {{ current_buyer.settlement | tojson }},
+        municipality: {{ current_buyer.municipality | tojson }},
+        country: {{ current_buyer.country | tojson }},
+        mobile_phone: {{ current_buyer.mobile_phone | tojson }},
+        email: {{ current_buyer.email | tojson }}
       };
 
       window.scenario = {{ scenario | tojson }};
       window.fieldErrors = {{ field_errors | tojson if field_errors else '{}' }};
     </script>
-    <script src="/static/js/payer-form-dynamic.js"></script>
+    <script src="/static/js/buyer-form-dynamic.js"></script>
 
 </body>
 </html>

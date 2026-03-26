@@ -2,11 +2,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ---------------- ELEMENTAI ----------------
 
-  const form = document.querySelector("#payer-form");
+  const form = document.querySelector("#buyer-form");
   const submitBtn = document.querySelector("#submit-button");
   const msgEl = document.querySelector("#status-message-text");
 
-  const payerType = document.querySelector("#payer_type");
+  const buyerType = document.querySelector("#buyer_type");
   const vatStatus = document.querySelector("#vat_status");
 
   const fullNameInput = document.querySelector("#full_name");
@@ -130,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ---------------- UI LOGIKA ----------------
 
   function applyVisibility() {
-    if (payerType.value === "legal") {
+    if (buyerType.value === "legal") {
       identificationInput.closest(".form-field").style.display = "";
     } else {
       identificationInput.closest(".form-field").style.display = "none";
@@ -146,7 +146,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function applyFullNameLogic() {
-    if (payerType.value === "physical") {
+    if (buyerType.value === "physical") {
 
       // 🔥 auto-fill tik vieną kartą
       if (!autoFilled) {
@@ -244,12 +244,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const countryVal = countryInput.value;
 
     form.querySelectorAll("input, select").forEach(el => {
-      if (el.id !== "payer_type" && el.id !== "country") {
+      if (el.id !== "buyer_type" && el.id !== "country") {
         el.value = "";
       }
     });
 
-    payerType.value = newType;
+    buyerType.value = newType;
     countryInput.value = countryVal;
 
     backendFieldErrors = {};
@@ -262,7 +262,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ---------------- EVENTS ----------------
 
-  payerType.addEventListener("change", e => {
+  buyerType.addEventListener("change", e => {
     resetForm(e.target.value);
   });
 

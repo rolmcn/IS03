@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import ValidationError
 
 from eigva_app.models.user import User
-from eigva_app.models.payer import Payer
+from eigva_app.models.buyer import Buyer
 from eigva_app.models.session import UserSession
 from eigva_app.models.message import Message, MessageEventType
 from eigva_app.schemas.auth_schemas import LoginData, RegistrationData
@@ -93,14 +93,14 @@ async def register_user(session: AsyncSession, first_name: str, last_name: str, 
     token_part, token_hash, expires_at = generate_confirmation_token()
 
     # Sukuriame mokėtoją
-    payer = Payer()
-    payer.country = "Lietuva"
-    session.add(payer)
-    await session.flush()  # gauname payer.id (įrašo pakeitimus į DB, bet dar nepadaro commit)
+    buyer = Buyer()
+    buyer.country = "Lietuva"
+    session.add(buyer)
+    await session.flush()  # gauname buyer.id (įrašo pakeitimus į DB, bet dar nepadaro commit)
 
     # Sukuriame naudotoją
     new_user = User(
-        payer_id=payer.id,
+        buyer_id=buyer.id,
         first_name_encrypted=encrypt_data(data.first_name),
         last_name_encrypted=encrypt_data(data.last_name),
         email_encrypted=encrypt_data(data.email),

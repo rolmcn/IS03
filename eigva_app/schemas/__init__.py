@@ -1,2 +1,2 @@
 from .auth_schemas import LoginData, RegistrationData, ForgotLoginData, PasswordBase, EmailBase
-from .payer_schemas import PayerSchema
+from .buyer_schemas import buyerSchema

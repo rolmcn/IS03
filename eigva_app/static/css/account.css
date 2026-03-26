@@ -274,12 +274,12 @@
   gap: 50px;
 }
 
-.payer-block {
+.buyer-block {
   display: flex;
   flex-direction: column;
 }
 
-#payer-form {
+#buyer-form {
   display: flex;
   flex-direction: row;
   gap: 50px;
@@ -287,14 +287,14 @@
   flex-wrap: wrap;
 }
 
-.payer-block hr {
+.buyer-block hr {
   margin-bottom: 20px;
 }
 
 .users-block-left,
 .users-block-right,
-.payer-block-left,
-.payer-block-right {
+.buyer-block-left,
+.buyer-block-right {
   flex: 1;
   min-width: 0;
   box-sizing: border-box;

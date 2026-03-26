@@ -145,10 +145,10 @@ class SettlementBase(BaseModel):
 
 
 # ==================================================
-# PILNA PAYER SCHEMA
+# PILNA buyer SCHEMA
 # ==================================================
 
-class PayerSchema(
+class buyerSchema(
     FullNameBase,
     IdentificationCodeBase,
     VatCodeBase,
@@ -160,7 +160,7 @@ class PayerSchema(
     PostalCodeBase,
     SettlementBase
 ):
-    payer_type: str = Field(...)
+    buyer_type: str = Field(...)
     vat_status: str = Field(...)
     municipality: str = Field(...)
     country: str | None = Field(default=None)
@@ -169,7 +169,7 @@ class PayerSchema(
     def adjust_fields_for_logic(self):
 
         # jei fizinis asmuo, įmonės kodas ignoruojamas
-        if self.payer_type == "physical":
+        if self.buyer_type == "physical":
             self.identification_code = None
 
         # jei ne PVM mokėtojas, PVM kodas ignoruojamas

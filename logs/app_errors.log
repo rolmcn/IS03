@@ -13,7 +13,7 @@ Traceback (most recent call last):
     return await executor(protocol)
            ^^^^^^^^^^^^^^^^^^^^^^^^
   File "asyncpg/protocol/protocol.pyx", line 205, in bind_execute
-asyncpg.exceptions.NotNullViolationError: null value in column "payer_id" of relation "users" violates not-null constraint
+asyncpg.exceptions.NotNullViolationError: null value in column "buyer_id" of relation "users" violates not-null constraint
 DETAIL:  Failing row contains (1, 2026-03-05 19:08:52.672126+02, 2026-03-05 19:08:52.672126+02, pending, t, iuJDcF6AGxgB0mklzuIbaQxv9Q/oo4rCW21akZMr4wduoUrn, OFvGshsLodljtJlKvAhrUKzbCF8ecCmnDLMzQq87wTN+g/xxs7E=, rqcyflK2xOPXeg6c9Tei8BxwzmGR0ifqBmpkDBlWJ1ooHGa3SATNU4Um7AMK, null, 6020eff09a438ec980c6a690c78f85babf2459aed585d6a28e426c2aeedd2c6f, null, null, $2b$12$1ZujI9LbN49ID1ZE2yLJNOK49Dg4.7IVqk0ESCwNJNqzzP68eETza, 5c231f5ae782e819d1f07ecc43b62be51553cc2b7269b5c97e97fbdad321005e, 2026-03-06 21:08:52.675248+02, null, null, null, null, null).
 
 The above exception was the direct cause of the following exception:
@@ -37,7 +37,7 @@ Traceback (most recent call last):
     self._adapt_connection._handle_exception(error)
   File "C:\Python\IS0300\.venv\Lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
     raise translated_error from error
-sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.IntegrityError: <class 'asyncpg.exceptions.NotNullViolationError'>: null value in column "payer_id" of relation "users" violates not-null constraint
+sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.IntegrityError: <class 'asyncpg.exceptions.NotNullViolationError'>: null value in column "buyer_id" of relation "users" violates not-null constraint
 DETAIL:  Failing row contains (1, 2026-03-05 19:08:52.672126+02, 2026-03-05 19:08:52.672126+02, pending, t, iuJDcF6AGxgB0mklzuIbaQxv9Q/oo4rCW21akZMr4wduoUrn, OFvGshsLodljtJlKvAhrUKzbCF8ecCmnDLMzQq87wTN+g/xxs7E=, rqcyflK2xOPXeg6c9Tei8BxwzmGR0ifqBmpkDBlWJ1ooHGa3SATNU4Um7AMK, null, 6020eff09a438ec980c6a690c78f85babf2459aed585d6a28e426c2aeedd2c6f, null, null, $2b$12$1ZujI9LbN49ID1ZE2yLJNOK49Dg4.7IVqk0ESCwNJNqzzP68eETza, 5c231f5ae782e819d1f07ecc43b62be51553cc2b7269b5c97e97fbdad321005e, 2026-03-06 21:08:52.675248+02, null, null, null, null, null).
 
 The above exception was the direct cause of the following exception:
@@ -116,9 +116,9 @@ Traceback (most recent call last):
     self._adapt_connection._handle_exception(error)
   File "C:\Python\IS0300\.venv\Lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
     raise translated_error from error
-sqlalchemy.exc.IntegrityError: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.NotNullViolationError'>: null value in column "payer_id" of relation "users" violates not-null constraint
+sqlalchemy.exc.IntegrityError: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.NotNullViolationError'>: null value in column "buyer_id" of relation "users" violates not-null constraint
 DETAIL:  Failing row contains (1, 2026-03-05 19:08:52.672126+02, 2026-03-05 19:08:52.672126+02, pending, t, iuJDcF6AGxgB0mklzuIbaQxv9Q/oo4rCW21akZMr4wduoUrn, OFvGshsLodljtJlKvAhrUKzbCF8ecCmnDLMzQq87wTN+g/xxs7E=, rqcyflK2xOPXeg6c9Tei8BxwzmGR0ifqBmpkDBlWJ1ooHGa3SATNU4Um7AMK, null, 6020eff09a438ec980c6a690c78f85babf2459aed585d6a28e426c2aeedd2c6f, null, null, $2b$12$1ZujI9LbN49ID1ZE2yLJNOK49Dg4.7IVqk0ESCwNJNqzzP68eETza, 5c231f5ae782e819d1f07ecc43b62be51553cc2b7269b5c97e97fbdad321005e, 2026-03-06 21:08:52.675248+02, null, null, null, null, null).
-[SQL: INSERT INTO users (status, super_user, first_name_encrypted, last_name_encrypted, email_encrypted, mobile_phone_encrypted, email_index, mobile_phone_index, login_index, email_verified_at, password_hash, reset_password_hash, confirmation_token_hash, confirmation_token_expires, reset_confirmation_token_hash, reset_confirmation_token_expires, payer_id) VALUES ($1::VARCHAR, $2::BOOLEAN, $3::VARCHAR, $4::VARCHAR, $5::VARCHAR, $6::VARCHAR, $7::VARCHAR, $8::VARCHAR, $9::VARCHAR, $10::TIMESTAMP WITH TIME ZONE, $11::VARCHAR, $12::VARCHAR, $13::VARCHAR, $14::TIMESTAMP WITH TIME ZONE, $15::VARCHAR, $16::TIMESTAMP WITH TIME ZONE, $17::INTEGER) RETURNING users.id, users.created_at, users.updated_at]
+[SQL: INSERT INTO users (status, super_user, first_name_encrypted, last_name_encrypted, email_encrypted, mobile_phone_encrypted, email_index, mobile_phone_index, login_index, email_verified_at, password_hash, reset_password_hash, confirmation_token_hash, confirmation_token_expires, reset_confirmation_token_hash, reset_confirmation_token_expires, buyer_id) VALUES ($1::VARCHAR, $2::BOOLEAN, $3::VARCHAR, $4::VARCHAR, $5::VARCHAR, $6::VARCHAR, $7::VARCHAR, $8::VARCHAR, $9::VARCHAR, $10::TIMESTAMP WITH TIME ZONE, $11::VARCHAR, $12::VARCHAR, $13::VARCHAR, $14::TIMESTAMP WITH TIME ZONE, $15::VARCHAR, $16::TIMESTAMP WITH TIME ZONE, $17::INTEGER) RETURNING users.id, users.created_at, users.updated_at]
 [parameters: ('pending', True, 'iuJDcF6AGxgB0mklzuIbaQxv9Q/oo4rCW21akZMr4wduoUrn', 'OFvGshsLodljtJlKvAhrUKzbCF8ecCmnDLMzQq87wTN+g/xxs7E=', 'rqcyflK2xOPXeg6c9Tei8BxwzmGR0ifqBmpkDBlWJ1ooHGa3SATNU4Um7AMK', None, '6020eff09a438ec980c6a690c78f85babf2459aed585d6a28e426c2aeedd2c6f', None, None, None, '$2b$12$1ZujI9LbN49ID1ZE2yLJNOK49Dg4.7IVqk0ESCwNJNqzzP68eETza', None, '5c231f5ae782e819d1f07ecc43b62be51553cc2b7269b5c97e97fbdad321005e', datetime.datetime(2026, 3, 6, 21, 8, 52, 675248), None, None, None)]
 (Background on this error at: https://sqlalche.me/e/20/gkpj)
 2026-03-05 21:10:09,250 - ERROR - app_logger - Failed to create new user
@@ -136,7 +136,7 @@ Traceback (most recent call last):
     return await executor(protocol)
            ^^^^^^^^^^^^^^^^^^^^^^^^
   File "asyncpg/protocol/protocol.pyx", line 205, in bind_execute
-asyncpg.exceptions.NotNullViolationError: null value in column "payer_id" of relation "users" violates not-null constraint
+asyncpg.exceptions.NotNullViolationError: null value in column "buyer_id" of relation "users" violates not-null constraint
 DETAIL:  Failing row contains (2, 2026-03-05 19:10:09.025497+02, 2026-03-05 19:10:09.025497+02, pending, t, dkVa4KaImdjW7n7Uc48bLrBtSJY5QFgpmumpEf9VyqR9m2C0, hQKTY2GwI1RarcskC4y1/tOlW2hzX909fcRdVJSvRo/znbkP73E=, 3KcjDuQC5TBmTpwgXKVGpzTAPHF4j1SrLl6IeLKFW+uAddTOvP9gL8jD2Yfh, null, 6020eff09a438ec980c6a690c78f85babf2459aed585d6a28e426c2aeedd2c6f, null, null, $2b$12$z.xFg8E1sN2F2GKN3rH.C.hIjzn5VR5MoLnBFEcAnX1jdOmnwo1e., 80bb16eda9eb6552c7d18bc7d6a31ed77f0756fbc168c645caa14f86912e009d, 2026-03-06 21:10:09.024271+02, null, null, null, null, null).
 
 The above exception was the direct cause of the following exception:
@@ -160,7 +160,7 @@ Traceback (most recent call last):
     self._adapt_connection._handle_exception(error)
   File "C:\Python\IS0300\.venv\Lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
     raise translated_error from error
-sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.IntegrityError: <class 'asyncpg.exceptions.NotNullViolationError'>: null value in column "payer_id" of relation "users" violates not-null constraint
+sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.IntegrityError: <class 'asyncpg.exceptions.NotNullViolationError'>: null value in column "buyer_id" of relation "users" violates not-null constraint
 DETAIL:  Failing row contains (2, 2026-03-05 19:10:09.025497+02, 2026-03-05 19:10:09.025497+02, pending, t, dkVa4KaImdjW7n7Uc48bLrBtSJY5QFgpmumpEf9VyqR9m2C0, hQKTY2GwI1RarcskC4y1/tOlW2hzX909fcRdVJSvRo/znbkP73E=, 3KcjDuQC5TBmTpwgXKVGpzTAPHF4j1SrLl6IeLKFW+uAddTOvP9gL8jD2Yfh, null, 6020eff09a438ec980c6a690c78f85babf2459aed585d6a28e426c2aeedd2c6f, null, null, $2b$12$z.xFg8E1sN2F2GKN3rH.C.hIjzn5VR5MoLnBFEcAnX1jdOmnwo1e., 80bb16eda9eb6552c7d18bc7d6a31ed77f0756fbc168c645caa14f86912e009d, 2026-03-06 21:10:09.024271+02, null, null, null, null, null).
 
 The above exception was the direct cause of the following exception:
@@ -239,8 +239,8 @@ Traceback (most recent call last):
     self._adapt_connection._handle_exception(error)
   File "C:\Python\IS0300\.venv\Lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 797, in _handle_exception
     raise translated_error from error
-sqlalchemy.exc.IntegrityError: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.NotNullViolationError'>: null value in column "payer_id" of relation "users" violates not-null constraint
+sqlalchemy.exc.IntegrityError: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.NotNullViolationError'>: null value in column "buyer_id" of relation "users" violates not-null constraint
 DETAIL:  Failing row contains (2, 2026-03-05 19:10:09.025497+02, 2026-03-05 19:10:09.025497+02, pending, t, dkVa4KaImdjW7n7Uc48bLrBtSJY5QFgpmumpEf9VyqR9m2C0, hQKTY2GwI1RarcskC4y1/tOlW2hzX909fcRdVJSvRo/znbkP73E=, 3KcjDuQC5TBmTpwgXKVGpzTAPHF4j1SrLl6IeLKFW+uAddTOvP9gL8jD2Yfh, null, 6020eff09a438ec980c6a690c78f85babf2459aed585d6a28e426c2aeedd2c6f, null, null, $2b$12$z.xFg8E1sN2F2GKN3rH.C.hIjzn5VR5MoLnBFEcAnX1jdOmnwo1e., 80bb16eda9eb6552c7d18bc7d6a31ed77f0756fbc168c645caa14f86912e009d, 2026-03-06 21:10:09.024271+02, null, null, null, null, null).
-[SQL: INSERT INTO users (status, super_user, first_name_encrypted, last_name_encrypted, email_encrypted, mobile_phone_encrypted, email_index, mobile_phone_index, login_index, email_verified_at, password_hash, reset_password_hash, confirmation_token_hash, confirmation_token_expires, reset_confirmation_token_hash, reset_confirmation_token_expires, payer_id) VALUES ($1::VARCHAR, $2::BOOLEAN, $3::VARCHAR, $4::VARCHAR, $5::VARCHAR, $6::VARCHAR, $7::VARCHAR, $8::VARCHAR, $9::VARCHAR, $10::TIMESTAMP WITH TIME ZONE, $11::VARCHAR, $12::VARCHAR, $13::VARCHAR, $14::TIMESTAMP WITH TIME ZONE, $15::VARCHAR, $16::TIMESTAMP WITH TIME ZONE, $17::INTEGER) RETURNING users.id, users.created_at, users.updated_at]
+[SQL: INSERT INTO users (status, super_user, first_name_encrypted, last_name_encrypted, email_encrypted, mobile_phone_encrypted, email_index, mobile_phone_index, login_index, email_verified_at, password_hash, reset_password_hash, confirmation_token_hash, confirmation_token_expires, reset_confirmation_token_hash, reset_confirmation_token_expires, buyer_id) VALUES ($1::VARCHAR, $2::BOOLEAN, $3::VARCHAR, $4::VARCHAR, $5::VARCHAR, $6::VARCHAR, $7::VARCHAR, $8::VARCHAR, $9::VARCHAR, $10::TIMESTAMP WITH TIME ZONE, $11::VARCHAR, $12::VARCHAR, $13::VARCHAR, $14::TIMESTAMP WITH TIME ZONE, $15::VARCHAR, $16::TIMESTAMP WITH TIME ZONE, $17::INTEGER) RETURNING users.id, users.created_at, users.updated_at]
 [parameters: ('pending', True, 'dkVa4KaImdjW7n7Uc48bLrBtSJY5QFgpmumpEf9VyqR9m2C0', 'hQKTY2GwI1RarcskC4y1/tOlW2hzX909fcRdVJSvRo/znbkP73E=', '3KcjDuQC5TBmTpwgXKVGpzTAPHF4j1SrLl6IeLKFW+uAddTOvP9gL8jD2Yfh', None, '6020eff09a438ec980c6a690c78f85babf2459aed585d6a28e426c2aeedd2c6f', None, None, None, '$2b$12$z.xFg8E1sN2F2GKN3rH.C.hIjzn5VR5MoLnBFEcAnX1jdOmnwo1e.', None, '80bb16eda9eb6552c7d18bc7d6a31ed77f0756fbc168c645caa14f86912e009d', datetime.datetime(2026, 3, 6, 21, 10, 9, 24271), None, None, None)]
 (Background on this error at: https://sqlalche.me/e/20/gkpj)

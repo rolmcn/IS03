@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sąskaita</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="static/css/invoice.css" rel="stylesheet">
+</head>
+<body>
+    <div class="invoice-container">
+        <!-- Viršus -->
+        <div class="invoice-title">
+            <div>
+                <h4>SĄSKAITA IŠANKSTINIAM APMOKĖJIMUI</h4>
+                <h5>Serija EP Nr. 2603240001</h5>
+            </div>
+        </div>
+        <div class="invoice-date">
+            <p>2026 m. kovo 24 d.</p>
+        </div>
+        <hr>
+        <!-- Kontaktų blokai -->
+        <div class="props-contacts-data">
+            <div class="left-block">
+                <p>
+                    PIRKĖJAS:<br>
+                    <strong>current_buyer.full_name</strong><br>
+                    Įmonės kodas current_buyer.identification_code<br>
+                    PVM mokėtojo kodas LTcurrent_buyer.vat_code<br>
+                    Tel. +370current_buyer.mobile_phone<br>
+                    El. paštas current_buyer.email
+                </p>
+            </div>
+            <div class="right-block">
+                <p>
+                    PARDAVĖJAS:<br>
+                    <strong>{{ contact.company_name }}</strong><br>
+                    {{ contact.address }}<br>
+                    Įmonės kodas {{ contact.company_code }}<br>
+                    PVM mokėtojo kodas {{ contact.vat_code }}<br>
+                    Tel. {{ contact.phone }}<br>
+                    El. paštas {{ contact.email }}<br>
+                    Atsiskaitomoji sąskaita:<br>
+                    {{ contact.bank_name }}, {{ contact.current_account }}
+                </p>
+            </div>
+        </div>
+
+        <!-- Lentelė su paslaugomis / sumomis -->
+        <div class="service-data">
+            <table>
+              <thead>
+                <tr>
+                  <th>Pavadinimas</th>
+                  <th>Matavimo<br>vienetas</th>
+                  <th>Kiekis</th>
+                  <th>Vieneto<br>kaina</th>
+                  <th>Suma</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="left-align">
+                      Informacinės sistemos EIGVA licencija, 2 mėn.<br>
+                      (galioja: 2026.03.25 10:00 - 2026.05.25 10:00)
+                  </td>
+                  <td>Vnt.</td>
+                  <td>2</td>
+                  <td>40.00</td>
+                  <td>80.00</td>
+                </tr>
+                <tr>
+                  <td class="left-align">
+                      Lėšos SMS siuntimo išlaidų kompensavimui
+                  </td>
+                  <td>--</td>
+                  <td>--</td>
+                  <td>--</td>
+                  <td>6.00</td>
+                </tr>
+                <tr><td colspan="5">&nbsp;</td></tr>
+                <tr>
+                  <td colspan="3"></td>
+                  <td class="no-border">Iš viso be PVM</td>
+                  <td class="no-border">86.00 EUR</td>
+                </tr>
+                <tr>
+                  <td colspan="3"></td>
+                  <td class="no-border">PVM (21%)</td>
+                  <td class="no-border">18.06 EUR</td>
+                </tr>
+                <tr>
+                  <td colspan="3"></td>
+                  <td class="no-border"><strong>Iš viso su PVM</strong></td>
+                  <td class="no-border"><strong>104.06 EUR</strong></td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="right-align">Iš viso su PVM suma žodžiais: šimtas keturi eurai, 06 ct</p>
+        </div>
+        <hr>
+        <p class="footer-note">🌱 Saugokime gamtą kartu - naudokime dokumentus skaitmeninėje formoje</p>
+    </div>
+</body>
+</html>

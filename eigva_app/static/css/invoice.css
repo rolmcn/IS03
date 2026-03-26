@@ -1,0 +1,126 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #222;
+    background-color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    line-height: 1.3;
+    color: #111;
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.25rem; }
+h6 { font-size: 1rem; }
+
+p {
+    margin: 1em 0;
+}
+
+ul, ol {
+    padding-left: 1.5em;
+    margin: 1em 0;
+}
+
+a {
+    color: #1a69b1;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+.invoice-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.invoice-title, .invoice-date {
+    text-align: center;
+}
+
+.invoice-title h4 {
+    margin-bottom: 0;
+}
+
+.invoice-title h5 {
+    margin-top: 0;
+}
+
+.props-contacts-data {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.left-block, .right-block {
+    width: 48%;
+}
+
+.service-data table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+}
+
+.service-data th {
+    border: 1px solid #ddd;
+    padding: 4px;
+    text-align: center;
+}
+
+.service-data td {
+    border: 1px solid #ddd;
+    padding: 0px 10px;
+    text-align: right;
+}
+
+.service-data td.left-align {
+    text-align: left;
+}
+
+.right-align {
+    text-align: right;
+}
+
+.service-data td[colspan] {
+    text-align: right;
+}
+
+.service-data td.no-border,
+.service-data td[colspan] {
+    border: none;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #ddd;
+}
+
+.invoice-title h5 {
+    font-weight: 200;
+}
+
+.footer-note {
+    margin-top: 200px;
+}
+
+/* PDF spausdinimui */
+@page {
+    size: A4;
+    margin: 20mm 10mm 20mm 30mm;
+}

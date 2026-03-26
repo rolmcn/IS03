@@ -59,7 +59,7 @@
 
     <!-- MOKĖTOJAS -->
     <div class="tab-panel" id="panel2">
-      <div class="payer-block">
+      <div class="buyer-block">
 
         <!-- VIENINGAS STATUS PRANEŠIMAS -->
         <div id="status-message" class="status-message">
@@ -67,24 +67,24 @@
         </div>
 
         <!-- SUBMIT MYGTUKAS -->
-        <button id="submit-button" class="submit-button" type="submit" form="payer-form" disabled>Išsaugoti</button>
+        <button id="submit-button" class="submit-button" type="submit" form="buyer-form" disabled>Išsaugoti</button>
 
         <!-- FORM -->
-        <form id="payer-form" method="POST" action="/account/save_payer">
-          <div class="payer-block-left">
+        <form id="buyer-form" method="POST" action="/account/save_buyer">
+          <div class="buyer-block-left">
             <h6>Rekvizitai</h6>
             <hr>
             <!-- Subjektas -->
             <div class="form-field">
-              <label for="payer_type" class="required-field">Subjektas</label>
-              <select id="payer_type" name="payer_type" class="input-field">
-                <option value="" disabled {% if not current_payer.payer_type %}selected{% endif %}></option>
-                <option value="legal" {% if current_payer.payer_type=="legal" %}selected{% endif %}>Juridinis asmuo</option>
-                <option value="physical" {% if current_payer.payer_type=="physical" %}selected{% endif %}>Fizinis asmuo</option>
+              <label for="buyer_type" class="required-field">Subjektas</label>
+              <select id="buyer_type" name="buyer_type" class="input-field">
+                <option value="" disabled {% if not current_buyer.buyer_type %}selected{% endif %}></option>
+                <option value="legal" {% if current_buyer.buyer_type=="legal" %}selected{% endif %}>Juridinis asmuo</option>
+                <option value="physical" {% if current_buyer.buyer_type=="physical" %}selected{% endif %}>Fizinis asmuo</option>
               </select>
               <span class="release-alert-symbol" aria-label="Nustatant subjekto tipą išvalomi formos laukai" title="Nustatant subjekto tipą išvalomi formos laukai"></span>
-              {% if field_errors and field_errors.payer_type %}
-                <span class="field-error">{{ field_errors.payer_type }}</span>
+              {% if field_errors and field_errors.buyer_type %}
+                <span class="field-error">{{ field_errors.buyer_type }}</span>
               {% endif %}
             </div>
 
@@ -92,7 +92,7 @@
             <div class="form-field">
               <label for="full_name" class="required-field">Pavadinimas</label>
               <input type="text" id="full_name" name="full_name" class="input-field"
-                     value="{{ current_payer.full_name or '' }}" readonly>
+                     value="{{ current_buyer.full_name or '' }}" readonly>
               <span class="update-disabled-symbol" aria-label="Keitimas negalimas" title="Keitimas negalimas"></span>
               {% if field_errors and field_errors.full_name %}
                 <span class="field-error">{{ field_errors.full_name }}</span>
@@ -103,7 +103,7 @@
             <div class="form-field">
               <label for="identification_code" class="required-field">Įmonės kodas</label>
               <input type="text" id="identification_code" name="identification_code" class="input-field" maxlength="9"
-                     value="{{ current_payer.identification_code or '' }}">
+                     value="{{ current_buyer.identification_code or '' }}">
               {% if field_errors and field_errors.identification_code %}
                 <span class="field-error">{{ field_errors.identification_code }}</span>
               {% endif %}
@@ -113,9 +113,9 @@
             <div class="form-field">
               <label for="vat_status" class="required-field">PVM mokėtojas</label>
               <select id="vat_status" name="vat_status" class="input-field">
-                <option value="" disabled {% if not current_payer.vat_status %}selected{% endif %}></option>
-                <option value="yes" {% if current_payer.vat_status=="yes" %}selected{% endif %}>Taip</option>
-                <option value="no" {% if current_payer.vat_status=="no" %}selected{% endif %}>Ne</option>
+                <option value="" disabled {% if not current_buyer.vat_status %}selected{% endif %}></option>
+                <option value="yes" {% if current_buyer.vat_status=="yes" %}selected{% endif %}>Taip</option>
+                <option value="no" {% if current_buyer.vat_status=="no" %}selected{% endif %}>Ne</option>
               </select>
               {% if field_errors and field_errors.vat_status %}
                 <span class="field-error">{{ field_errors.vat_status }}</span>
@@ -128,16 +128,16 @@
               <div class="input-with-vat-prefix">
                 <span class="prefix">LT</span>
                 <input type="text" id="vat_code" name="vat_code" class="input-field" maxlength="12"
-                       value="{{ current_payer.vat_code or '' }}">
+                       value="{{ current_buyer.vat_code or '' }}">
               </div>
               {% if field_errors and field_errors.vat_code %}
                 <span class="field-error">{{ field_errors.vat_code }}</span>
               {% endif %}
             </div>
 
-          </div> <!-- .payer-block-left -->
+          </div> <!-- .buyer-block-left -->
 
-          <div class="payer-block-right">
+          <div class="buyer-block-right">
             <h6>Kontaktai</h6>
             <hr>
 
@@ -147,7 +147,7 @@
               <div class="input-with-phone-prefix">
                 <span class="prefix">+370</span>
                 <input type="text" id="mobile_phone" name="mobile_phone" class="input-field" maxlength="8"
-                       value="{{ current_payer.mobile_phone or '' }}">
+                       value="{{ current_buyer.mobile_phone or '' }}">
               </div>
               {% if field_errors and field_errors.mobile_phone %}
                 <span class="field-error">{{ field_errors.mobile_phone }}</span>
@@ -158,7 +158,7 @@
             <div class="form-field">
               <label for="email" class="required-field">El. paštas</label>
               <input type="text" id="email" name="email" class="input-field"
-                     value="{{ current_payer.email or '' }}">
+                     value="{{ current_buyer.email or '' }}">
               {% if field_errors and field_errors.email %}
                 <span class="field-error">{{ field_errors.email }}</span>
               {% endif %}
@@ -169,35 +169,35 @@
             <div class="address-block">
               <div class="form-field">
                 <label for="street" class="required-field">Gatvė</label>
-                <input type="text" id="street" name="street" class="input-field" value="{{ current_payer.street or '' }}">
+                <input type="text" id="street" name="street" class="input-field" value="{{ current_buyer.street or '' }}">
                 {% if field_errors and field_errors.street %}
                   <span class="field-error">{{ field_errors.street }}</span>
                 {% endif %}
               </div>
               <div class="form-field">
                 <label for="house_number" class="required-field">Namo nr.</label>
-                <input type="text" id="house_number" name="house_number" class="input-field" maxlength="9" value="{{ current_payer.house_number or '' }}">
+                <input type="text" id="house_number" name="house_number" class="input-field" maxlength="9" value="{{ current_buyer.house_number or '' }}">
                 {% if field_errors and field_errors.house_number %}
                   <span class="field-error">{{ field_errors.house_number }}</span>
                 {% endif %}
               </div>
               <div class="form-field">
                 <label for="apartment_number">Buto nr.</label>
-                <input type="text" id="apartment_number" name="apartment_number" class="input-field" maxlength="3" value="{{ current_payer.apartment_number or '' }}">
+                <input type="text" id="apartment_number" name="apartment_number" class="input-field" maxlength="3" value="{{ current_buyer.apartment_number or '' }}">
                 {% if field_errors and field_errors.apartment_number %}
                   <span class="field-error">{{ field_errors.apartment_number }}</span>
                 {% endif %}
               </div>
               <div class="form-field">
                 <label for="postal_code" class="required-field">Pašto kodas</label>
-                <input type="text" id="postal_code" name="postal_code" class="input-field" maxlength="5" value="{{ current_payer.postal_code or '' }}">
+                <input type="text" id="postal_code" name="postal_code" class="input-field" maxlength="5" value="{{ current_buyer.postal_code or '' }}">
                 {% if field_errors and field_errors.postal_code %}
                   <span class="field-error">{{ field_errors.postal_code }}</span>
                 {% endif %}
               </div>
               <div class="form-field">
                 <label for="settlement" class="required-field">Gyvenvietė</label>
-                <input type="text" id="settlement" name="settlement" class="input-field" maxlength="25" value="{{ current_payer.settlement or '' }}">
+                <input type="text" id="settlement" name="settlement" class="input-field" maxlength="25" value="{{ current_buyer.settlement or '' }}">
                 {% if field_errors and field_errors.settlement %}
                   <span class="field-error">{{ field_errors.settlement }}</span>
                 {% endif %}
@@ -206,24 +206,72 @@
                 <label for="municipality" class="required-field">Savivaldybė</label>
                 <select id="municipality" name="municipality" class="input-field">
                   {% for value, label in MUNICIPALITIES %}
-                    <option value="{{ value }}" {% if current_payer.municipality==value %}selected{% endif %}>{{ label }}</option>
+                    <option value="{{ value }}" {% if current_buyer.municipality==value %}selected{% endif %}>{{ label }}</option>
                   {% endfor %}
                 </select>
               </div>
               <div class="form-field">
                 <label for="country">Šalis</label>
-                <input type="text" id="country" name="country" class="input-field" value="{{ current_payer.country or '' }}" disabled>
+                <input type="text" id="country" name="country" class="input-field" value="{{ current_buyer.country or '' }}" disabled>
                 <span class="update-disabled-symbol" aria-label="Keitimas negalimas" title="Keitimas negalimas"></span>
               </div>
             </div> <!-- .address-block -->
-          </div> <!-- .payer-block-right -->
+          </div> <!-- .buyer-block-right -->
 
         </form>
-      </div> <!-- .payer-block -->
+      </div> <!-- .buyer-block -->
     </div> <!-- #panel2 -->
 
     <!-- LICENCIJOS -->
-    <div class="tab-panel" id="panel3">Licencijos</div>
+    <div class="tab-panel" id="panel3">
+      <p>
+        Įsigytos licencijos [... vnt.]<br>
+        Įsigytų licencijų pabaigos terminas [... d.]<br>
+        SMS kreditas [... EUR] [... vnt.]
+      </p>
+      <hr>
+      <p>Užsakymas</p>
+      <div class="text-size-controller" role="group" aria-labelledby="text-size-label">
+            <p id="licenses-number-label">Licencijų kiekis, vnt.</p>
+            <button id="decrease1" aria-label="Sumažinti kiekį">&minus;</button>
+            <input type="number"
+                   id=""
+                   value="1"
+                   role="spinbutton"
+                   aria-label="Licencijų kiekis vienetais"
+                   aria-valuemin="1"
+                   aria-valuemax="200"
+                   aria-valuenow="1">
+            <button id="increase1" aria-label="Padidinti kiekį">&plus;</button>
+            <span id="fontSize-live1" class="visually-hidden" aria-live="polite"></span>
+        </div>
+        <div class="expiration-date" role="group" aria-labelledby="expiration-date-label">
+              <p id="expiration-date-label">Licencijų galiojimo trukmė, mėn.</p>
+              <button id="decrease2" aria-label="Sumažinti trukmę">&minus;</button>
+              <input type="number"
+                     id="fontSizeInput"
+                     value="1"
+                     role="spinbutton"
+                     aria-label="Licencijų galiojimo trukmė mėnesiais"
+                     aria-valuemin="1"
+                     aria-valuemax="12"
+                     aria-valuenow="1">
+              <button id="increase2" aria-label="Padidinti trukmę">&plus;</button>
+              <span id="fontSize-live2" class="visually-hidden" aria-live="polite"></span>
+          </div>
+          <p>
+            SMS [papildymas, užskaita, grąžinimas] [... EUR] [... vnt.]<br>
+            ------------------------------------<br>
+            Mokėtina suma [... EUR] (mokėjimas atliekamas per elektroninę bankininkystę arba užskaita)<br>
+
+            Sutinku su sąlygomis [   ]<br>
+
+            [Užsakyti]
+
+          </p>
+      <!-- TODO: pridedamas turinys vėliau -->
+    </div> <!-- #panel3 -->
+
 
     <!-- GRUPĖS -->
     <div class="tab-panel" id="panel4">Grupės</div>

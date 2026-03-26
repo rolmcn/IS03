@@ -9,12 +9,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
 from eigva_app.database import get_async_session
-from eigva_app.models import Payer, User
-from eigva_app.schemas.payer_schemas import PayerSchema
+from eigva_app.models import Buyer, User
+from eigva_app.schemas.buyer_schemas import buyerSchema
 from eigva_app.core.security.crypto import encrypt_data, hash_full_name_email, hash_identification_code, hash_vat_code
 from eigva_app.services.account_service import get_user_messages, mark_message_read
 from eigva_app.utils.choices_municipalities import MUNICIPALITIES
-from eigva_app.core.security.auth import get_current_user, get_current_payer
+from eigva_app.core.security.auth import get_current_user, get_current_buyer
 from eigva_app.config import templates
 
 logger = logging.getLogger(__name__)
@@ -24,7 +24,7 @@ router = APIRouter()
 # Depends tipai
 # ---------------------
 CurrentUser = Annotated[User, Depends(get_current_user)]
-CurrentPayer = Annotated[Payer, Depends(get_current_payer)]
+Currentbuyer = Annotated[Buyer, Depends(get_current_buyer)]
 SessionDep = Annotated[AsyncSession, Depends(get_async_session)]
 
 
@@ -33,7 +33,7 @@ SessionDep = Annotated[AsyncSession, Depends(get_async_session)]
 async def account_page(
     request: Request,
     current_user: CurrentUser,
-    current_payer: CurrentPayer,
+    current_buyer: Currentbuyer,
     session: SessionDep,
 ):
 
@@ -43,9 +43,9 @@ async def account_page(
     active_tab = request.query_params.get("active_tab")
 
     scenario = None
-    if current_payer.status == "pending":
+    if current_buyer.status == "pending":
         scenario = "pending"
-    elif current_payer.status == "active":
+    elif current_buyer.status == "active":
         scenario = "active"
 
     return templates.TemplateResponse(
@@ -60,21 +60,21 @@ async def account_page(
                 "super_user": current_user.super_user,
                 "email_verified_at": current_user.email_verified_at,
             },
-            "current_payer": {
-                "payer_type": current_payer.payer_type,
-                "full_name": current_payer.full_name,
-                "identification_code": current_payer.identification_code,
-                "vat_status": current_payer.vat_status,
-                "vat_code": current_payer.vat_code,
-                "street": current_payer.street,
-                "house_number": current_payer.house_number,
-                "apartment_number": current_payer.apartment_number,
-                "postal_code": current_payer.postal_code,
-                "settlement": current_payer.settlement,
-                "municipality": current_payer.municipality,
-                "country": current_payer.country,
-                "mobile_phone": current_payer.mobile_phone,
-                "email": current_payer.email,
+            "current_buyer": {
+                "buyer_type": current_buyer.buyer_type,
+                "full_name": current_buyer.full_name,
+                "identification_code": current_buyer.identification_code,
+                "vat_status": current_buyer.vat_status,
+                "vat_code": current_buyer.vat_code,
+                "street": current_buyer.street,
+                "house_number": current_buyer.house_number,
+                "apartment_number": current_buyer.apartment_number,
+                "postal_code": current_buyer.postal_code,
+                "settlement": current_buyer.settlement,
+                "municipality": current_buyer.municipality,
+                "country": current_buyer.country,
+                "mobile_phone": current_buyer.mobile_phone,
+                "email": current_buyer.email,
             },
             "active_page": "account",
             "environment": "auto",
@@ -106,12 +106,12 @@ async def mark_message_read_route(
     })
 
 
-# ---------------- SAVE PAYER ----------------
-@router.post("/account/save_payer")
-async def save_payer(
+# ---------------- SAVE buyer ----------------
+@router.post("/account/save_buyer")
+async def save_buyer(
     request: Request,
     session: SessionDep,
-    current_payer: CurrentPayer
+    current_buyer: Currentbuyer
 ):
     data = await request.form()
     form_data = dict(data)
@@ -121,7 +121,7 @@ async def save_payer(
     # 1. Pydantic validacija
     # -----------------------------
     try:
-        payer_schema = PayerSchema(**form_data)
+        buyer_schema = buyerSchema(**form_data)
     except ValidationError as e:
         for err in e.errors():
             loc = err.get("loc", [])
@@ -148,25 +148,25 @@ async def save_payer(
 
     scenario = "unique"
 
-    if payer_schema.payer_type == "physical":
+    if buyer_schema.buyer_type == "physical":
         full_name_email_hash_val = hash_full_name_email(
-            payer_schema.full_name, payer_schema.email
+            buyer_schema.full_name, buyer_schema.email
         )
         result = await session.execute(
-            select(Payer).where(
-                Payer.full_name_email_hash == full_name_email_hash_val,
-                            Payer.id != current_payer.id
+            select(Buyer).where(
+                Buyer.full_name_email_hash == full_name_email_hash_val,
+                            Buyer.id != current_buyer.id
             )
         )
         if result.scalars().first():
             duplicates["email"] = "Mokėtojas su tokiu el. pašto adresu jau egzistuoja"
 
-    if payer_schema.payer_type == "legal" and payer_schema.identification_code:
-        ident_hash_val = hash_identification_code(payer_schema.identification_code)
+    if buyer_schema.buyer_type == "legal" and buyer_schema.identification_code:
+        ident_hash_val = hash_identification_code(buyer_schema.identification_code)
         result = await session.execute(
-            select(Payer).where(
-                Payer.identification_code_hash == ident_hash_val,
-                Payer.id != current_payer.id
+            select(Buyer).where(
+                Buyer.identification_code_hash == ident_hash_val,
+                Buyer.id != current_buyer.id
             )
         )
         if result.scalars().first():
@@ -174,12 +174,12 @@ async def save_payer(
                 "Toks mokėtojas jau egzistuoja. Patikrinkite ar teisingai nurodytas įmonės kodas."
             )
 
-    if payer_schema.vat_status == "yes" and payer_schema.vat_code:
-        vat_hash_val = hash_vat_code(payer_schema.vat_code)
+    if buyer_schema.vat_status == "yes" and buyer_schema.vat_code:
+        vat_hash_val = hash_vat_code(buyer_schema.vat_code)
         result = await session.execute(
-            select(Payer).where(
-                Payer.vat_code_hash == vat_hash_val,
-                Payer.id != current_payer.id
+            select(Buyer).where(
+                Buyer.vat_code_hash == vat_hash_val,
+                Buyer.id != current_buyer.id
             )
         )
         if result.scalars().first():
@@ -197,20 +197,20 @@ async def save_payer(
     # -----------------------------
     # 3. Šifravimas
     # -----------------------------
-    payer_data = {
-        "payer_type": payer_schema.payer_type,
-        "vat_status": payer_schema.vat_status,
-        "municipality": payer_schema.municipality,
-        "full_name_encrypted": encrypt_data(payer_schema.full_name),
-        "identification_code_encrypted": encrypt_data(payer_schema.identification_code) if payer_schema.identification_code else None,
-        "vat_code_encrypted": encrypt_data(payer_schema.vat_code) if payer_schema.vat_code else None,
-        "street_encrypted": encrypt_data(payer_schema.street),
-        "house_number_encrypted": encrypt_data(payer_schema.house_number),
-        "apartment_number_encrypted": encrypt_data(payer_schema.apartment_number) if payer_schema.apartment_number else None,
-        "postal_code_encrypted": encrypt_data(payer_schema.postal_code),
-        "settlement_encrypted": encrypt_data(payer_schema.settlement),
-        "mobile_phone_encrypted": encrypt_data(payer_schema.mobile_phone) if payer_schema.mobile_phone else None,
-        "email_encrypted": encrypt_data(payer_schema.email),
+    buyer_data = {
+        "buyer_type": buyer_schema.buyer_type,
+        "vat_status": buyer_schema.vat_status,
+        "municipality": buyer_schema.municipality,
+        "full_name_encrypted": encrypt_data(buyer_schema.full_name),
+        "identification_code_encrypted": encrypt_data(buyer_schema.identification_code) if buyer_schema.identification_code else None,
+        "vat_code_encrypted": encrypt_data(buyer_schema.vat_code) if buyer_schema.vat_code else None,
+        "street_encrypted": encrypt_data(buyer_schema.street),
+        "house_number_encrypted": encrypt_data(buyer_schema.house_number),
+        "apartment_number_encrypted": encrypt_data(buyer_schema.apartment_number) if buyer_schema.apartment_number else None,
+        "postal_code_encrypted": encrypt_data(buyer_schema.postal_code),
+        "settlement_encrypted": encrypt_data(buyer_schema.settlement),
+        "mobile_phone_encrypted": encrypt_data(buyer_schema.mobile_phone) if buyer_schema.mobile_phone else None,
+        "email_encrypted": encrypt_data(buyer_schema.email),
         "full_name_email_hash": full_name_email_hash_val,
         "identification_code_hash": ident_hash_val,
         "vat_code_hash": vat_hash_val,
@@ -221,17 +221,17 @@ async def save_payer(
     # 4. Įrašymas į DB
     # -----------------------------
     try:
-        payer = current_payer
-        for key, value in payer_data.items():
+        buyer = current_buyer
+        for key, value in buyer_data.items():
             # Tikriname, ar objektas turi property su setteriu
-            prop = getattr(type(payer), key, None)
+            prop = getattr(type(buyer), key, None)
             if isinstance(prop, property) and prop.fset:
-                setattr(payer, key, value)  # property su setteriu
-            elif hasattr(payer, key):
-                setattr(payer, key, value)  # tiesiog column (_encrypted ar kiti)
+                setattr(buyer, key, value)  # property su setteriu
+            elif hasattr(buyer, key):
+                setattr(buyer, key, value)  # tiesiog column (_encrypted ar kiti)
             # jei nėra column ir nėra setterio – ignoruojame
         await session.commit()
-        await session.refresh(payer)
+        await session.refresh(buyer)
     except IntegrityError as e:
         await session.rollback()
         logger.error(f"DB integrity error: {e}")
@@ -239,7 +239,7 @@ async def save_payer(
         return JSONResponse({"scenario": scenario})
     except Exception as e:
         await session.rollback()
-        logger.exception(f"Unexpected error while saving payer: {e}")
+        logger.exception(f"Unexpected error while saving buyer: {e}")
         scenario = "server-error"
         return JSONResponse({"scenario": scenario})
 
@@ -249,19 +249,19 @@ async def save_payer(
     scenario = "success"
     return JSONResponse({
         "scenario": scenario,
-        "payer": {
-            "payer_type": payer.payer_type,
-            "full_name": payer.full_name,
-            "identification_code": payer.identification_code,
-            "vat_code": payer.vat_code,
-            "street": payer.street,
-            "house_number": payer.house_number,
-            "apartment_number": payer.apartment_number,
-            "postal_code": payer.postal_code,
-            "settlement": payer.settlement,
-            "municipality": payer.municipality,
-            "country": payer.country,
-            "mobile_phone": payer.mobile_phone,
-            "email": payer.email
+        "buyer": {
+            "buyer_type": buyer.buyer_type,
+            "full_name": buyer.full_name,
+            "identification_code": buyer.identification_code,
+            "vat_code": buyer.vat_code,
+            "street": buyer.street,
+            "house_number": buyer.house_number,
+            "apartment_number": buyer.apartment_number,
+            "postal_code": buyer.postal_code,
+            "settlement": buyer.settlement,
+            "municipality": buyer.municipality,
+            "country": buyer.country,
+            "mobile_phone": buyer.mobile_phone,
+            "email": buyer.email
         }
     })

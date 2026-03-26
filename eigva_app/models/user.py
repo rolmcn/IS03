@@ -10,37 +10,30 @@ class User(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
-
     status = Column(String(8), nullable=False, default="pending")  # active, pending, inactive
     super_user = Column(Boolean, nullable=False, default=False)
-
     first_name_encrypted = Column(String(255), nullable=False)
     last_name_encrypted = Column(String(255), nullable=False)
     email_encrypted = Column(String(255), nullable=False)
-    mobile_phone_encrypted = Column(String(255), nullable=True, default=None)
-
     email_index = Column(String(64), unique=True, index=True, nullable=False)
+    email_verified_at = Column(DateTime(timezone=True), nullable=True)
+    mobile_phone_encrypted = Column(String(255), nullable=True, default=None)
     mobile_phone_index = Column(String(64), unique=True, index=True, nullable=True, default=None)
     login_index = Column(String(64), unique=True, index=True, nullable=True)
-    email_verified_at = Column(DateTime(timezone=True), nullable=True)
-
     password_hash = Column(String(255), nullable=False)
     reset_password_hash = Column(String(255), nullable=True)
-
     confirmation_token_hash = Column(String(64), nullable=True)
-    confirmation_token_expires = Column(DateTime(timezone=True), nullable=True)
-
     reset_confirmation_token_hash = Column(String(64), nullable=True)
+    confirmation_token_expires = Column(DateTime(timezone=True), nullable=True)
     reset_confirmation_token_expires = Column(DateTime(timezone=True), nullable=True)
 
-    payer_id = Column(Integer, ForeignKey("payers.id"), nullable=True, index=True)
+    buyer_id = Column(Integer, ForeignKey("buyers.id"), nullable=True, index=True)
 
-    # Relations
     sessions = relationship("UserSession", back_populates="user", cascade="all, delete-orphan", lazy="selectin")
     messages = relationship("Message", back_populates="user", cascade="all, delete-orphan", lazy="selectin")
-    payer = relationship("Payer", back_populates="users", lazy="selectin")
+    buyer = relationship("Buyer", back_populates="users", lazy="selectin")
 
-    # Decrypt properties
+    # Encrypted field getters/setters
     @property
     def first_name(self) -> str:
         return decrypt_data(self.first_name_encrypted)

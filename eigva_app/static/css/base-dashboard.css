@@ -192,7 +192,7 @@ a:hover {
   flex-direction: column;
   gap: 4px;
   padding-right: 8px;
-  border-right: 2px solid #fff;
+  border-right: 0px solid #fff;
   line-height: 1.2;
   color: #000;
 }
@@ -231,7 +231,7 @@ a:hover {
   line-height: 1.2;
   color: #000;
   padding-right: 8px;
-  border-right: 2px solid #fff;
+  border-right: 0px solid #fff;
 }
 
 /* 3 stulpelis – ikonėlė */

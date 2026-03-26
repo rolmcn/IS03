@@ -14,6 +14,7 @@ from eigva_app.routers import (
     account,
     forgot_login,
     manual,
+    invoice,
 )
 
 from eigva_app.core.rate_limiting.rate_limiter import check_post_limit
@@ -90,6 +91,7 @@ app.include_router(customers.router)
 app.include_router(account.router)
 app.include_router(forgot_login.router)
 app.include_router(manual.router)
+app.include_router(invoice.router)
 
 # =========================================================
 # Global POST rate limiter

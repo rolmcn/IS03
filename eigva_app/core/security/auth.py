@@ -8,7 +8,7 @@ from sqlalchemy.orm import selectinload
 from eigva_app.database import get_async_session
 from eigva_app.models.session import UserSession
 from eigva_app.models.user import User
-from eigva_app.models.payer import Payer
+from eigva_app.models.buyer import Buyer
 
 
 async def get_current_user(
@@ -67,20 +67,20 @@ async def cleanup_expired_sessions(session: AsyncSession) -> None:
     )
     await session.commit()
 
-async def get_current_payer(
+async def get_current_buyer(
     current_user: User = Depends(get_current_user),
     session: AsyncSession = Depends(get_async_session)
-) -> Payer:
-    # Užkrauname payer async būdu
+) -> Buyer:
+    # Užkrauname buyer async būdu
     result = await session.execute(
-        select(User).options(selectinload(User.payer)).where(User.id == current_user.id)
+        select(User).options(selectinload(User.buyer)).where(User.id == current_user.id)
     )
     user = result.scalar_one_or_none()
 
-    if not user or not user.payer:
+    if not user or not user.buyer:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="User has no payer assigned",
+            detail="User has no buyer assigned",
         )
 
-    return user.payer
+    return user.buyer
