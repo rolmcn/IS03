@@ -33,6 +33,7 @@ class Buyer(Base):
 
     users = relationship("User", back_populates="buyer", lazy="selectin")
     invoices = relationship("Invoice", back_populates="buyer", lazy="selectin")
+    sms_transactions = relationship("SmsTransaction", back_populates="buyer", lazy="selectin")
 
     # Encrypted field getters/setters
     @property

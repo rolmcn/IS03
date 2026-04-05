@@ -2,28 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1b811d73-dc43-409c-b561-b049d05c74e5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/eigva_app/models/invoice.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eigva_app/models/invoice_item.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eigva_app/routers/invoice.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eigva_app/static/css/invoice.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eigva_app/templates/invoice.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/eigva_app/models/sms_transaction.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/eigva_app/schemas/order_schemas.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/eigva_app/services/sms_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/eigva_app/static/js/license-input-control.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/eigva_app/static/js/license-sms-detail.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/eigva_app/static/js/order-form-dynamic.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/eigva_app/static/js/x----order-form-validation.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/eigva_app/static/js/x----pricing-calculator.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eigva_app/core/security/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/core/security/auth.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eigva_app/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/eigva_app/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/models/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eigva_app/models/payer.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/models/buyer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eigva_app/models/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/models/user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/models/buyer.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/models/buyer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/models/invoice.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/models/invoice.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigva_app/models/invoice_item.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/models/invoice_item.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/eigva_app/routers/account.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/routers/account.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eigva_app/schemas/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/schemas/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eigva_app/schemas/payer_schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/schemas/buyer_schemas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eigva_app/services/login_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/services/login_service.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/eigva_app/static/css/account.css" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/static/css/account.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eigva_app/static/css/base-dashboard.css" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/static/css/base-dashboard.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eigva_app/static/js/field-hidden.js" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/static/js/field-hidden.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eigva_app/static/js/payer-form-dynamic.js" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/static/js/buyer-form-dynamic.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/eigva_app/templates/account.html" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/templates/account.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/eigva_app/templates/base-dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/eigva_app/templates/base-dashboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logs/app_errors.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/app_errors.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

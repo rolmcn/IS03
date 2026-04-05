@@ -19,6 +19,8 @@ class InvoiceItem(Base):
     quantity = Column(Integer, nullable=False)
     unit_price_eur = Column(Numeric(12,2), nullable=False)
     amount_eur = Column(Numeric(12,2), nullable=False)
+    operation_type = Column(String(20), nullable=True)
+    refund_bank_account = Column(String(50), nullable=True)
 
     invoice_id = Column(Integer, ForeignKey("invoices.id"), nullable=False)
     invoice = relationship("Invoice", back_populates="items", lazy="selectin")

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, Numeric, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, Numeric, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from eigva_app.database import Base
@@ -18,6 +18,9 @@ class Invoice(Base):
     number = Column(Integer, nullable=False)
     full_number = Column(String(12), nullable=False, unique=True)  # EI2603250001
     date = Column(DateTime(timezone=True), nullable=False)
+    payment_status = Column(String(20), default="pending") # pending, paid
+    terms_agreed = Column(Boolean, default=False)
+    terms_agreed_at = Column(DateTime(timezone=True), nullable=True)
 
     _total_without_vat_eur = Column("total_without_vat_eur", Numeric(12, 2), nullable=False)
     _vat_rate_pct = Column("vat_rate_pct", Numeric(5, 2), nullable=False)
@@ -52,6 +55,7 @@ class Invoice(Base):
 
     buyer = relationship("Buyer", back_populates="invoices", lazy="selectin")
     items = relationship("InvoiceItem", back_populates="invoice", lazy="selectin")
+    sms_transactions = relationship("SmsTransaction", back_populates="invoice", lazy="selectin")
 
     # Decimal rounding helper
     @staticmethod

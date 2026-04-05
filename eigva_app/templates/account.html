@@ -1,7 +1,7 @@
 {% extends "base-dashboard.html" %}
 
 {% block styles %}
-<link href="/static/css/account.css" rel="stylesheet">
+<link href="/static/css/account.css" rel="stylesheet" xmlns="http://www.w3.org/1999/html">
 {% endblock %}
 
 {% block header %}{% endblock %}
@@ -15,16 +15,14 @@
   <input type="radio" name="tab-control" id="tab3">
   <input type="radio" name="tab-control" id="tab4">
   <input type="radio" name="tab-control" id="tab5">
-  <input type="radio" name="tab-control" id="tab6">
 
   <!-- TAB LABELS -->
   <ul class="tab-labels">
     <li><label for="tab1">Pranešimai</label></li>
-    <li><label for="tab2">Mokėtojas</label></li>
-    <li><label for="tab3">Licencijos</label></li>
-    <li><label for="tab4">Grupės</label></li>
-    <li><label for="tab5">Naudotojai</label></li>
-    <li><label for="tab6">Nustatymai</label></li>
+    <li><label for="tab2">Pirkėjas</label></li>
+    <li><label for="tab3">Licencijos / SMS lėšos</label></li>
+    <li><label for="tab4">Naudotojai</label></li>
+    <li><label for="tab5">Nustatymai</label></li>
   </ul>
 
   <!-- TAB CONTENT -->
@@ -57,23 +55,19 @@
       </div>
     </div>
 
-    <!-- MOKĖTOJAS -->
+    <!-- PIRKĖJAS -->
     <div class="tab-panel" id="panel2">
       <div class="buyer-block">
-
-        <!-- VIENINGAS STATUS PRANEŠIMAS -->
         <div id="status-message" class="status-message">
           <p id="status-message-text"></p>
         </div>
-
-        <!-- SUBMIT MYGTUKAS -->
         <button id="submit-button" class="submit-button" type="submit" form="buyer-form" disabled>Išsaugoti</button>
+        <div class="section-divider">
+          <span>Rekvizitai ir kontaktai</span>
+        </div>
 
-        <!-- FORM -->
         <form id="buyer-form" method="POST" action="/account/save_buyer">
           <div class="buyer-block-left">
-            <h6>Rekvizitai</h6>
-            <hr>
             <!-- Subjektas -->
             <div class="form-field">
               <label for="buyer_type" class="required-field">Subjektas</label>
@@ -138,9 +132,6 @@
           </div> <!-- .buyer-block-left -->
 
           <div class="buyer-block-right">
-            <h6>Kontaktai</h6>
-            <hr>
-
             <!-- Mobile -->
             <div class="form-field">
               <label for="mobile_phone">Mob. tel.</label>
@@ -224,103 +215,274 @@
 
     <!-- LICENCIJOS -->
     <div class="tab-panel" id="panel3">
-      <p>
-        Įsigytos licencijos [... vnt.]<br>
-        Įsigytų licencijų pabaigos terminas [... d.]<br>
-        SMS kreditas [... EUR] [... vnt.]
-      </p>
-      <hr>
-      <p>Užsakymas</p>
-      <div class="text-size-controller" role="group" aria-labelledby="text-size-label">
-            <p id="licenses-number-label">Licencijų kiekis, vnt.</p>
-            <button id="decrease1" aria-label="Sumažinti kiekį">&minus;</button>
-            <input type="number"
-                   id=""
-                   value="1"
-                   role="spinbutton"
-                   aria-label="Licencijų kiekis vienetais"
-                   aria-valuemin="1"
-                   aria-valuemax="200"
-                   aria-valuenow="1">
-            <button id="increase1" aria-label="Padidinti kiekį">&plus;</button>
-            <span id="fontSize-live1" class="visually-hidden" aria-live="polite"></span>
+      <div class="licenses-block">
+        <div class="licenses-block-left">
+            <div class="section-divider">
+              <span>Suvestinės, istorija</span>
+            </div>
+            <!-- LICENCIJŲ BLOKAS -->
+            <div class="balance-updated-row">
+              <p>Atnaujinta: 2026-03-27 14:32</p>
+              <span class="balance-refresh-symbol" title="Atnaujinti duomenis"></span>
+            </div>
+            <div class="balance-section">
+
+              <!-- SANTRAUKA (clickable) -->
+              <div class="balance-summary" data-toggle="licenses">
+                <div class="balance-summary-header">
+                  <span class="balance-summary-title">Aktyvios licencijos (3)</span>
+                  <span class="balance-summary-toggle">▼</span>
+                </div>
+
+                <div class="balance-summary-lines">
+                  <div class="balance-line">
+                    <span>2 vnt. | galioja iki 2026.04.30</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- IŠSKLEISTAS TURINYS -->
+              <div class="balance-details" id="licenses-details">
+                <div class="balance-details-header">
+                  <span class="balance-summary-title">Licencijos</span>
+                  <span class="balance-details-toggle">▲</span>
+                </div>
+
+                <table class="balance-table">
+                  <thead>
+                    <tr>
+                      <th>Būsena</th>
+                      <th>Kiekis, vnt.</th>
+                      <th>Trukmė, mėn.</th>
+                      <th>Galiojimo laikotarpis</th>
+                      <th>Sąskaita</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Neaktyvus</td>
+                      <td>1</td>
+                      <td>1</td>
+                      <td>2026.03.01 – 2026.03.31</td>
+                      <td><a href="#">Atsisiųsti</a></td>
+                    </tr>
+                    <tr>
+                      <td>Aktyvus</td>
+                      <td>2</td>
+                      <td>2</td>
+                      <td>2026.02.05 – 2026.04.30</td>
+                      <td><a href="#">Atsisiųsti</a></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+
+            <!-- SMS BLOKAS -->
+            <div class="balance-section">
+
+              <!-- SANTRAUKA -->
+              <div class="balance-summary" data-toggle="sms">
+                <div class="balance-summary-header">
+                  <div class="balance-summary-left">
+                    <span class="balance-summary-title">SMS lėšos (2026.03)</span>
+                    <span class="autostop-symbol" title="Sustabdytas SMS siuntimas"></span>
+                  </div>
+                  <span class="balance-summary-toggle">▼</span>
+                </div>
+
+                <div class="balance-summary-lines">
+                  <div class="balance-line">
+                    <span>Likutis: 61.00 EUR (~1016 vnt. SMS)</span>
+                  </div>
+                  <div class="balance-line">
+                    <span>Panaudota: 12.00 EUR (200 vnt. SMS)</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- IŠSKLEISTAS TURINYS -->
+              <div class="balance-details" id="sms-details">
+                <div class="balance-details-header">
+                  <span class="balance-summary-title">Panaudotos SMS lėšos</span>
+                  <span class="balance-details-toggle">▲</span>
+                </div>
+
+                <table class="balance-table">
+                  <thead>
+                    <tr>
+                      <th>Mėnuo</th>
+                      <th>Suma, EUR</th>
+                      <th>Kiekis, vnt.</th>
+                      <th>Sąskaita</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>2026.02</td>
+                      <td>24.00</td>
+                      <td>400</td>
+                      <td><a href="#">Atsisiųsti</a></td>
+                    </tr>
+                    <tr>
+                      <td>2026.01</td>
+                      <td>18.00</td>
+                      <td>300</td>
+                      <td><a href="#">Atsisiųsti</a></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
         </div>
-        <div class="expiration-date" role="group" aria-labelledby="expiration-date-label">
-              <p id="expiration-date-label">Licencijų galiojimo trukmė, mėn.</p>
-              <button id="decrease2" aria-label="Sumažinti trukmę">&minus;</button>
-              <input type="number"
-                     id="fontSizeInput"
-                     value="1"
-                     role="spinbutton"
-                     aria-label="Licencijų galiojimo trukmė mėnesiais"
-                     aria-valuemin="1"
-                     aria-valuemax="12"
-                     aria-valuenow="1">
-              <button id="increase2" aria-label="Padidinti trukmę">&plus;</button>
-              <span id="fontSize-live2" class="visually-hidden" aria-live="polite"></span>
-          </div>
-          <p>
-            SMS [papildymas, užskaita, grąžinimas] [... EUR] [... vnt.]<br>
-            ------------------------------------<br>
-            Mokėtina suma [... EUR] (mokėjimas atliekamas per elektroninę bankininkystę arba užskaita)<br>
 
-            Sutinku su sąlygomis [   ]<br>
+        <div class="licenses-block-right">
+          <form id="order-form" method="POST" action="/account/orders">
+            <div class="section-divider">
+              <span>Licencijų pirkimas / SMS lėšų valdymas</span>
+            </div>
 
-            [Užsakyti]
+            <p><strong>Perkamų licencijų:</strong></p>
 
-          </p>
-      <!-- TODO: pridedamas turinys vėliau -->
-    </div> <!-- #panel3 -->
+            <!-- Licencijų kiekis -->
+            <div class="control-group" role="group" aria-labelledby="licenses-number-label">
+              <label id="licenses-number-label" for="licenses-quantity">
+                <span class="diamond"></span>
+                Kiekis, vnt.
+              </label>
+              <button type="button" id="decrease-licenses" aria-label="Sumažinti licencijų kiekį">−</button>
+              <input
+                type="number"
+                id="licenses-quantity"
+                name="licenses_quantity"
+                value="0"
+                min="0"
+                max="100"
+                step="1"
+                aria-label="Licencijų kiekis vienetais"
+              >
+              <button type="button" id="increase-licenses" aria-label="Padidinti licencijų kiekį">+</button>
+              <span class="update-disabled-symbol is-hidden" aria-label="Keitimas negalimas" title="Keitimas negalimas"></span>
+            </div>
 
+            <!-- Galiojimo trukmė -->
+            <div class="control-group" role="group" aria-labelledby="expiration-date-label">
+              <label id="expiration-date-label" for="licenses-duration">
+                <span class="diamond"></span>
+                Galiojimo trukmė, mėn.
+              </label>
+              <button type="button" id="decrease-months" aria-label="Sumažinti galiojimo trukmę">−</button>
+              <input
+                type="number"
+                id="licenses-duration"
+                name="licenses_duration"
+                value="0"
+                min="0"
+                max="12"
+                step="1"
+                aria-label="Licencijų galiojimo trukmė mėnesiais"
+              >
+              <button type="button" id="increase-months" aria-label="Padidinti galiojimo trukmę">+</button>
+              <span class="update-disabled-symbol is-hidden" aria-label="Keitimas negalimas" title="Keitimas negalimas"></span>
+            </div>
 
-    <!-- GRUPĖS -->
-    <div class="tab-panel" id="panel4">Grupės</div>
+            <p><strong>SMS lėšų:</strong></p>
 
-    <!-- NAUDOTOJAI -->
-    <div class="tab-panel" id="panel5">
-      <div class="users-block">
-        <div class="users-block-left">
-          <h6>Jūsų duomenys</h6>
-          <hr>
-          <p class="role-row">
-              Jūsų rolė
-              <span class="arrow-2"></span>
-              {% if current_user.super_user %}SUPER NAUDOTOJAS (SN){% else %}NAUDOTOJAS (N){% endif %}
-          </p>
-          <br>
-          <form method="POST" action="">
-              <div class="form-field">
-                  <label for="user_first_name">Vardas</label>
-                  <input type="text" id="user_first_name" name="first_name" class="input-field" value="{{ current_user.first_name }}">
+            <!-- SMS operacija -->
+            <div class="form-field">
+              <label for="financial_operation_type">
+                <span class="diamond"></span>
+                Operacija
+              </label>
+              <select id="financial_operation_type" name="financial_operation_type" class="input-field">
+                <option value="" {% if not current_buyer.financial_operation_type %}selected{% endif %}></option>
+                <option value="add" {% if current_buyer.financial_operation_type=="add" %}selected{% endif %}>Papildymas</option>
+                <option value="credit" {% if current_buyer.financial_operation_type=="credit" %}selected{% endif %}>Užskaita</option>
+                <option value="return" {% if current_buyer.financial_operation_type=="return" %}selected{% endif %}>Grąžinimas</option>
+              </select>
+            </div>
+
+            <div class="form-field is-hidden refund-bank-account-prefix">
+              <label for="refund_bank_account">Banko sąskaitos nr.</label>
+              <div class="iban-wrapper">
+                <span class="prefix">LT</span>
+                <input
+                  type="text"
+                  id="refund_bank_account"
+                  name="refund_bank_account"
+                  class="input-field"
+                  maxlength="18"
+                  value="{{ current_buyer.refund_bank_account or '' }}"
+                >
               </div>
-              <div class="form-field">
-                  <label for="user_last_name">Pavardė</label>
-                  <input type="text" id="user_last_name" name="last_name" class="input-field" value="{{ current_user.last_name }}">
-              </div>
-              <div class="form-field">
-                  <label for="user_mobile_phone">Mob. tel.</label>
-                  <input type="text" id="user_mobile_phone" name="mobile_phone" class="input-field" value="{{ current_user.mobile_phone }}">
-              </div>
-              <div class="form-field">
-                  <label for="user_email">El. paštas</label>
-                  <input type="text" id="user_email" name="email" class="input-field" value="{{ current_user.email }}">
-                  {% if current_user.email_verified_at %}<span class="verified-on-symbol" aria-label="Patvirtinta sistemoje" title="Patvirtinta sistemoje" translate="no"></span>{% endif %}
-              </div>
+            </div>
+
+            <div class="form-field">
+              <label for="financial_amount">
+                <span class="diamond"></span>
+                Suma, EUR
+              </label>
+              <input
+                type="text"
+                inputmode="decimal"
+                id="financial_amount"
+                name="financial_amount"
+                class="input-field"
+                maxlength="7"
+                value="{{ current_buyer.financial_amount or '' }}"
+              >
+              <div id="financial-amount-error" style="color:red; font-size:12px; margin-top:4px;"></div>
+            </div>
+
+            <br>
+
+            <!-- Suvestinė -->
+            <div class="order-summary" id="order-summary" hidden>
+              Licencijos: 0.00 EUR su PVM (0.00 EUR su PVM/vnt. per mėn.)<br>
+              SMS lėšos: 0.00 EUR (Papildymas)<br>
+              Mokėjimas per elektroninę bankininkystę<br>
+              <strong>Mokama suma: 0.00 EUR</strong>
+            </div>
+
+            <br>
+
+            <!-- Sutikimas -->
+            <div class="consent">
+              <label>
+                <input type="checkbox" id="terms-agree" name="terms_agree">
+                Susipažinau ir sutinku su
+                <a href="#">sąlygomis</a>
+              </label>
+            </div>
+
+            <div id="order-message" class="status-message"></div>
+
+            <button id="order-submit-button" class="submit-button" type="submit" disabled>
+              Užsakyti
+            </button>
           </form>
         </div>
-        <div class="users-block-right">
-            <h6>Naudotojų sąrašas</h6>
-            <hr>
-            <!-- TODO: pridedamas turinys vėliau -->
-        </div>
       </div>
+
+
+        <!-- NAUDOTOJAI -->
+    <div class="tab-panel" id="panel4">
+      Naudotojai
+      <!-- TODO: pridedamas turinys vėliau -->
     </div>
 
     <!-- NUSTATYMAI -->
-    <div class="tab-panel" id="panel6">Nustatymai</div>
+    <div class="tab-panel" id="panel5">
+      Nustatymai
+      <!-- TODO: pridedamas turinys vėliau -->
+    </div>
+
 
   </div>
 </div>
 {% endblock %}
 
 {% block footer %}{% endblock %}
+</div>

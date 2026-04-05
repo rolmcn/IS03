@@ -1,6 +1,7 @@
 from fastapi_mail import ConnectionConfig
 from pydantic_settings import BaseSettings
 from fastapi.templating import Jinja2Templates
+from decimal import Decimal
 
 class Settings(BaseSettings):
     MAIL_USERNAME: str
@@ -53,3 +54,11 @@ CONTACT_INFO = {
 }
 
 BASE_URL = "http://127.0.0.1:8001" # <-- pakeisti į https://eigva.lt
+
+SMS_PRICE_PER_SMS = Decimal("0.06") # <-- pakeisti į realią su PVM
+
+LICENSE_PRICING = {
+    "base_price": 20,
+    "min_price": 10,
+    "step": 1
+}

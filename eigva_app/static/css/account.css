@@ -1,3 +1,7 @@
+/* #b00020;  raudona klaidai */
+/* #006400; žalia sėkmei */
+/* #c2410c; oranžinė focus */
+
 /* === PAGRINDINIS KONTEINERIS === */
 .main-account-auto-container {
   display: flex;
@@ -48,8 +52,7 @@
 #tab2:checked ~ .tab-labels label[for="tab2"],
 #tab3:checked ~ .tab-labels label[for="tab3"],
 #tab4:checked ~ .tab-labels label[for="tab4"],
-#tab5:checked ~ .tab-labels label[for="tab5"],
-#tab6:checked ~ .tab-labels label[for="tab6"] {
+#tab5:checked ~ .tab-labels label[for="tab5"] {
   background: #1a69b1;
   color: #ffffff;
   border-bottom: 1px solid #ffffff;
@@ -65,8 +68,7 @@
 #tab2:checked ~ .tab-content #panel2,
 #tab3:checked ~ .tab-content #panel3,
 #tab4:checked ~ .tab-content #panel4,
-#tab5:checked ~ .tab-content #panel5,
-#tab6:checked ~ .tab-content #panel6 {
+#tab5:checked ~ .tab-content #panel5 {
   display: block;
 }
 
@@ -130,9 +132,8 @@
 }
 
 .message-card.open .message-title {
-  font-size: 1.5rem;
-  font-weight: 400;
-  color: #1a69b1;
+  font-size: 1.25rem;
+  font-weight: 500;
 }
 
 .message-date {
@@ -221,7 +222,7 @@
 .status-attention {
   flex-basis: 100%;
   width: 100%;
-  color: #1a69b1 !important;
+  color: #c2410c !important;
 }
 
 .status-error {
@@ -242,7 +243,9 @@
 
 .verified-on-symbol,
 .update-disabled-symbol,
-.release-alert-symbol {
+.release-alert-symbol,
+.balance-refresh-symbol,
+.autostop-symbol {
   flex: none;
   width: 28px;
   height: 28px;
@@ -267,11 +270,45 @@
   background-image: url("/static/img/release_alert_40dp_1A69B1_FILL0_wght500_GRAD0_opsz40.svg");
 }
 
+.balance-refresh-symbol {
+  background-image: url("/static/img/refresh_40dp_1A69B1_FILL0_wght500_GRAD0_opsz40.svg");
+}
+
+.autostop-symbol {
+  background-image: url("/static/img/autostop_40dp_B00020_FILL0_wght500_GRAD0_opsz40.svg");
+}
+
+@keyframes pulse-glow {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(176, 0, 32, 0.6);
+  }
+  70% {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 8px rgba(176, 0, 32, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(176, 0, 32, 0);
+  }
+}
+
+.autostop-symbol {
+  animation: pulse-glow 1.5s infinite;
+  border-radius: 50%; /* kad glow būtų apvalus */
+}
+
 /* likusi CSS palikta be pakeitimų */
 
 .users-block {
   display: flex;
-  gap: 50px;
+  gap: 70px;
+}
+
+.licenses-block {
+  display: flex;
+  flex-direction: row;
+  gap: 70px;
 }
 
 .buyer-block {
@@ -282,19 +319,17 @@
 #buyer-form {
   display: flex;
   flex-direction: row;
-  gap: 50px;
+  gap: 70px;
   align-items: flex-start;
   flex-wrap: wrap;
-}
-
-.buyer-block hr {
-  margin-bottom: 20px;
 }
 
 .users-block-left,
 .users-block-right,
 .buyer-block-left,
-.buyer-block-right {
+.buyer-block-right,
+.licenses-block-left,
+.licenses-block-right {
   flex: 1;
   min-width: 0;
   box-sizing: border-box;
@@ -302,7 +337,7 @@
 
 .address-block {
   border-top: 1px solid #ccc;
-  padding: 10px;
+  padding: 0px;
 }
 
 .address-label {
@@ -310,19 +345,29 @@
 }
 
 .address-block .form-field label {
-  width: 120px;
+  width: 130px;
 }
 
 .required-field::after {
   content: "*";
-  color: red;
+  color: #b00020;
   margin-left: 2px;
+}
+
+.is-hidden {
+  display: none;
 }
 
 .input-with-vat-prefix,
 .input-with-phone-prefix {
   display: flex;
   align-items: center;
+}
+
+.iban-wrapper {
+  display: flex;
+  align-items: stretch;
+  height: 28px;
 }
 
 .input-with-vat-prefix .prefix,
@@ -334,10 +379,426 @@
   align-items: center;
 }
 
+.iban-wrapper .prefix {
+  padding: 0 8px;
+  background: #ccc;
+  display: flex;
+  align-items: center;
+}
+
+.iban-wrapper .input-field {
+  width: 200px;
+}
+
+
 .input-with-vat-prefix .input-field {
   width: 266px;
 }
 
 .input-with-phone-prefix .input-field {
   width: 249px;
+}
+
+.section-divider {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.section-divider::before {
+  content: none;
+}
+
+.section-divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #ccc;
+}
+
+.section-divider span {
+  padding-right: 10px;
+  margin-bottom: 10px;
+  color: #333;
+  white-space: nowrap;
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+hr {
+  border: none;
+  height: 1px;
+  background-color: #ccc;
+  margin: 5px 0;
+  padding: 0;
+}
+
+/* KONTEINERIS */
+.balance-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* ANTRAŠTĖ */
+.balance-header {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.balance-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.balance-updated {
+  font-size: 16px;
+  color: #555;
+}
+
+/* SEKCIJA */
+.balance-section {
+  border-top: 1px solid #ccc;
+  padding-top: 5px;
+}
+
+/* SANTRAUKA */
+.balance-summary {
+  cursor: pointer;
+  padding: 10px;
+}
+
+.balance-summary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.balance-summary-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.balance-summary-title {
+  font-weight: 700;
+}
+
+.balance-summary-toggle {
+  font-size: 16px;
+}
+
+/* SANTRAUKOS EILUTĖS */
+.balance-summary-lines {
+  margin-top: 5px;
+}
+
+.balance-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  padding: 2px 0;
+}
+
+/* DETAILS (pagal nutylėjimą paslėpta) */
+.balance-details {
+  display: none;
+  margin-top: 8px;
+  cursor: pointer;
+  padding: 10px
+}
+
+/* AKTYVI būsena (JS pridės .open) */
+.balance-section.open .balance-details {
+  display: block;
+}
+
+.balance-section.open .balance-summary {
+  display: none;
+}
+
+.balance-section.open .balance-summary-toggle::after {
+  content: "▲";
+}
+
+/* DETAILS HEADER */
+.balance-details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+/* LENTELĖ */
+.balance-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.balance-table th,
+.balance-table td {
+  border: 1px solid #ccc;
+  padding: 5px;
+  text-align: center;
+  vertical-align: top;
+  font-size: 16px;
+}
+
+.balance-table th {
+  font-weight: 400;
+}
+
+#licenses-details thead th:nth-child(5) {
+  width: 18%;
+}
+
+#licenses-details thead th:nth-child(1),
+#licenses-details thead th:nth-child(2),
+#licenses-details thead th:nth-child(3) {
+  width: 18%;
+}
+
+#licenses-details thead th:nth-child(5) {
+  width: 15%;
+}
+
+#sms-details .balance-table th,
+#sms-details .balance-table td {
+  width: 25%;
+}
+
+/* LINKAI */
+.balance-table a {
+  text-decoration: none;
+}
+
+.balance-table a:hover {
+  text-decoration: underline;
+}
+
+/* BALANCE BLOKAI kaip kortelės */
+.balance-section {
+  border: 1px solid #dcdcdc;
+  padding: 5px 10px;
+  box-sizing: border-box;
+  background-color: transparent;
+  transition:
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+/* tarpas tarp blokų */
+.balance-section + .balance-section {
+  margin-top: 30px;
+}
+
+/* hover kaip message-card */
+.balance-section:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.balance-updated-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: -10px;
+}
+
+/* =========================
+   BASE CONTROL ROW SYSTEM
+   ========================= */
+
+.control-group,
+.expiration-date {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* =========================
+   LABEL (kairė pusė)
+   ========================= */
+
+.control-group p,
+.control-group label,
+.expiration-date p {
+  width: 200px;
+  margin: 0 0 10px 0;
+  flex-shrink: 0;
+}
+
+/* =========================
+   INPUT (centrinis skaičius)
+   ========================= */
+
+.control-group input,
+.expiration-date input {
+  width: 60px;
+  height: 24px;
+  text-align: center;
+  padding: 0;
+  margin: 0 0 10px 0;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  color: #333;
+  flex-shrink: 0;
+}
+
+.control-group input:focus,
+.expiration-date input:focus {
+  outline: none;
+  border: 1px solid #1a69b1;
+  border-radius: 0px;
+}
+
+.control-group input {
+  width: 60px;
+  height: 24px;
+  text-align: center;
+  line-height: 24px;
+  padding: 0;
+  margin: 0 0 10px 0;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  appearance: textfield;
+}
+
+/* remove arrows */
+.control-group input::-webkit-outer-spin-button,
+.control-group input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.control-group input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* =========================
+   BUTTONS (+ / −)
+   ========================= */
+
+.control-group button,
+.expiration-date button {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0 0 10px 0;
+  border: 1px solid #ccc;
+  background-color: #1a69b1;
+  color: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* =========================
+   BUTTON HOVER (optional)
+   ========================= */
+
+.control-group button:hover,
+.expiration-date button:hover {
+  opacity: 0.85;
+}
+
+/* =========================
+   DISABLED STATE
+   ========================= */
+
+.control-group button:disabled,
+.expiration-date button:disabled {
+  background-color: #ccc;
+  color: #000;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.control-group input:disabled,
+.expiration-date input:disabled {
+  color: #ccc;
+}
+
+/* =========================
+   GLOBAL SAFETY ALIGNMENT FIX
+   ========================= */
+
+.control-group *,
+.expiration-date * {
+  box-sizing: border-box;
+}
+
+
+label[for="financial_operation_type"],
+label[for="financial_amount"] {
+  width: 200px;
+  margin: 0 0 2px 0;
+}
+
+label[for="refund_bank_account"] {
+  width: 180px;
+  margin: 0 0 2px 0;
+  padding-left: 20px;
+}
+
+#financial_operation_type {
+  width: 120px;
+  margin: 0 0 2px 0;
+}
+
+#financial_amount {
+  width: 120px;
+  margin: 0 0 2px 0;
+}
+
+#refund_bank_account {
+  margin: 0 0 2px 0;
+}
+
+/* Universalus diamond kvadratukas */
+.diamond {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border: 2px solid #1a69b1;
+  background: none;
+  transform: rotate(45deg);
+  margin-right: 6px;
+  vertical-align: middle;
+  box-sizing: border-box;
+}
+
+label .diamond {
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+p .diamond {
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+.consent input {
+  height: 16px;
+  width: 16px;
+  position: relative;
+  top: 3px;
+}
+
+.order-summary {
+  border: 1px solid #fff;
+  background-color: #eaf2fb;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.status-message {
+  margin: 10px 0 10px 0;
+  color: #c2410c;
 }

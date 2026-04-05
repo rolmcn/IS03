@@ -98,17 +98,6 @@
         {% block footer %}{% endblock %}
     </footer>
 
-    <script src="/static/js/clock.js"></script>
-    <script src="/static/js/flash-message.js"></script>
-    <script src="/static/js/hide-spinner.js"></script>
-    <script src="/static/js/manual.js"></script>
-    <script src="/static/js/message-show.js"></script>
-    <script src="/static/js/page-auto-close.js"></script>
-    <script src="/static/js/page-auto-redirect.js"></script>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <script src="/static/js/reset-recaptcha.js"></script>
-    <script src="/static/js/token-confirm.js"></script>
-
     <script>
       window.currentUser = {
         first_name: {{ current_user.first_name | tojson }},
@@ -136,7 +125,22 @@
 
       window.scenario = {{ scenario | tojson }};
       window.fieldErrors = {{ field_errors | tojson if field_errors else '{}' }};
+      window.sms_balance_eur = {{ sms_balance_eur | tojson }};
+      window.vat_rate_pct = {{ vat_rate_pct | tojson }};
     </script>
+    <script src="/static/js/clock.js"></script>
+    <script src="/static/js/flash-message.js"></script>
+    <script src="/static/js/hide-spinner.js"></script>
+    <script src="/static/js/manual.js"></script>
+    <script src="/static/js/message-show.js"></script>
+    <script src="/static/js/license-sms-detail.js"></script>
+    <script src="/static/js/license-input-control.js"></script>
+    <script src="/static/js/order-form-dynamic.js"></script>
+    <script src="/static/js/page-auto-close.js"></script>
+    <script src="/static/js/page-auto-redirect.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="/static/js/reset-recaptcha.js"></script>
+    <script src="/static/js/token-confirm.js"></script>
     <script src="/static/js/buyer-form-dynamic.js"></script>
 
 </body>

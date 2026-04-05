@@ -15,7 +15,7 @@ from eigva_app.core.security.crypto import encrypt_data, hash_full_name_email, h
 from eigva_app.services.account_service import get_user_messages, mark_message_read
 from eigva_app.utils.choices_municipalities import MUNICIPALITIES
 from eigva_app.core.security.auth import get_current_user, get_current_buyer
-from eigva_app.config import templates
+from eigva_app.config import templates, LICENSE_PRICING
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -84,9 +84,18 @@ async def account_page(
             "active_tab": active_tab,
 
             "MUNICIPALITIES": MUNICIPALITIES,
-            "scenario": scenario
+            "scenario": scenario,
+
+            "sms_balance_eur": 100,
+            "vat_rate_pct": 21
         },
     )
+
+@router.get("/api/pricing-config")
+async def pricing_config():
+    return {
+        **LICENSE_PRICING
+    }
 
 # ---------------- MARK MESSAGE READ ----------------
 @router.post("/account/mark_read/{msg_id}")
@@ -265,3 +274,9 @@ async def save_buyer(
             "email": buyer.email
         }
     })
+
+@router.post("/account/orders")
+async def save_orders(request: Request):
+    data = await request.form()
+    form_data = dict(data)
+    return form_data
